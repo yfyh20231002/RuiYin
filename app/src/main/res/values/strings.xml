@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RuiYin</string>
+    <string name="doujin">斗金</string>
+    <string name="kefudianhua">客服电话</string>
+    <string name="call_phone">022-95185</string>
+    <string name="cancle">取消</string>
+    <string name="call">拨打</string>
+
+
+    <string name="websocketAddress">ws://zb.006006.cn/websocket.do</string>
+
+
+</resources>

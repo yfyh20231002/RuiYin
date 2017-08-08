@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="select">#4f98f6</color>
+    <color name="unselect">#171818</color>
+    <color name="tabtext">#1b1b1b</color>
+</resources>

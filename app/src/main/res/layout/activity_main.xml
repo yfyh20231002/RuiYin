@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.shichang393.ruiyin.widget.activity.MainActivity">
+
+    <include layout="@layout/actionbar"></include>
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></FrameLayout>
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ivIconHome"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/homeblock"/>
+
+            <TextView
+                android:id="@+id/tvTextHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivIconHome"
+                android:layout_centerHorizontal="true"
+                android:text="首页"
+                android:textColor="@color/unselecttextcolor"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/markcenter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ivIconMarkCenter"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/markcenter"/>
+
+            <TextView
+                android:id="@+id/tvTextMarkCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivIconMarkCenter"
+                android:layout_centerHorizontal="true"
+                android:text="行情"
+                android:textColor="@color/unselecttextcolor"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/live"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ivIconLive"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/live"/>
+
+            <TextView
+                android:id="@+id/tvTextLive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivIconLive"
+                android:layout_centerHorizontal="true"
+                android:text="直播"
+                android:textColor="@color/unselecttextcolor"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/trading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ivIconTrading"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/trading"/>
+
+            <TextView
+                android:id="@+id/tvTextTrading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivIconTrading"
+                android:layout_centerHorizontal="true"
+                android:text="交易"
+                android:textColor="@color/unselecttextcolor"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/my"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/ivIconMy"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/my"/>
+
+            <TextView
+                android:id="@+id/tvTextMy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivIconMy"
+                android:layout_centerHorizontal="true"
+                android:text="我的"
+                android:textColor="@color/unselecttextcolor"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\cus_tab_financenews_unselected.xml",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\cus_tab_financenews_unselected.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\cus_tab_financenews_selected.xml",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\cus_tab_financenews_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\cus_tab_financenews_indicator.xml",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\cus_tab_financenews_indicator.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\ViewPagerIndicator\\src\\main\\res\\drawable-mdpi\\vpi__tab_selected_focused_holo.9.png"
+    }
+]
