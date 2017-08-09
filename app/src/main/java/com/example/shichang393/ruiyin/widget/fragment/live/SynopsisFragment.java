@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.SynopsisPresenter;
-import com.example.shichang393.ruiyin.utils.ConstanceValue;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.SynopsisView;
 
@@ -54,7 +53,7 @@ public class SynopsisFragment extends BaseFragment implements SynopsisView{
             return;
         }
         presenter=new SynopsisPresenter(this);
-        String id = SharedPreferencesMgr.getZhiboshiid("zhiboshiid", ConstanceValue.DefaultLiveId);
+        String id = SharedPreferencesMgr.getZhiboshiid();
         presenter.postData(id);
     }
 

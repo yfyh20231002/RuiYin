@@ -74,7 +74,7 @@ public class LiveFragment extends Fragment implements LiveView {
             @Override
             public void onItemClick(View view, int positon) {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
-                SharedPreferencesMgr.setZhiboshiid("zhiboshiid",zhiboshiid);
+                SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
                 StudioActivity.startIntent(getActivity());
             }
         });

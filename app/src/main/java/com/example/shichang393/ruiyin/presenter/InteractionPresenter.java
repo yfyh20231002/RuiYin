@@ -23,8 +23,8 @@ public class InteractionPresenter implements OnInteractionListener {
         model.chat(userId,liveId,permission,type,chatPage,chatCount);
     }
 
-    public void postSendMessage(String userId,  String liveId,String userIcon,String userName,int userMark,int permission, int leibie,String chatContent){
-        model.sendMessage(userId,liveId,userIcon,userName,userMark,permission,leibie,chatContent);
+    public void postSendMessage(String userId,  String liveId,String userIcon,String userName,int userMark,int permission, int leibie,String tyonghuid,String tyonghunicheng,String chatContent,String tyonghutouxiang,String relation ){
+        model.sendMessage(userId,liveId,userIcon,userName,userMark,permission,leibie,tyonghuid,tyonghunicheng,chatContent,tyonghutouxiang,relation);
     }
     @Override
     public void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat) {

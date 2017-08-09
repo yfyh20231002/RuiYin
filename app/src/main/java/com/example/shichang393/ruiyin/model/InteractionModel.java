@@ -64,10 +64,10 @@ public class InteractionModel {
     }
 
 
-    public final void sendMessage(String userId,  String liveId,String userIcon,String userName,int userMark,int permission, int leibie,String chatContent  ){
-        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
+    public final void sendMessage(String userId,  String liveId,String userIcon,String userName,int userMark,int permission, int leibie,String tyonghuid,String tyonghunicheng,String chatContent,String tyonghutouxiang,String relation  ){
+        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.bannerurl);
         LiveService liveService = retrofit.create(LiveService.class);
-        Call<ResponseBody> responseBodyCall = liveService.postSendMessage(new SendMessageBean("message",userId,CommonUtil.getUUID(),liveId,userIcon,userName,userMark,permission,leibie,"","",chatContent,1 == permission ? 0 : 1,"1"));
+        Call<ResponseBody> responseBodyCall = liveService.postSendMessage(new SendMessageBean("message",userId,CommonUtil.getUUID(),liveId,userIcon,userName,userMark,permission,leibie,tyonghuid,tyonghunicheng,chatContent,1 == permission ? 0 : 1,"1",tyonghutouxiang,relation));
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

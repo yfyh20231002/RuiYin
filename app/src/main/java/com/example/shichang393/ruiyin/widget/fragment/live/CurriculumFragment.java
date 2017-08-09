@@ -14,7 +14,6 @@ import com.example.shichang393.ruiyin.Bean.CurriculumBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.CurriculumPresenter;
-import com.example.shichang393.ruiyin.utils.ConstanceValue;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.CurriculumView;
 import com.example.shichang393.ruiyin.widget.adapter.live.CurriculumAdapter;
@@ -29,7 +28,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 课程表
  */
-public class CurriculumFragment extends BaseFragment implements CurriculumView{
+public class CurriculumFragment extends BaseFragment implements CurriculumView {
 
 
     @InjectView(R.id.tablayout)
@@ -39,17 +38,18 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView{
 
     CurriculumPresenter presenter;
     CurriculumAdapter adapter;
-    int  selectid;
+    int selectid;
 
-    String[] names={"星期一","星期二","星期三","星期四","星期五",};
+    String[] names = {"星期一", "星期二", "星期三", "星期四", "星期五",};
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
     View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (view==null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.fragment_curriculum, container, false);
             isPrepared = true;
             ButterKnife.inject(this, view);
@@ -63,26 +63,27 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView{
         }
         return view;
     }
+
     @Override
     protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
+        if (!isPrepared || !isVisible) {
             return;
         }
-        presenter=new CurriculumPresenter(this);
-        String id = SharedPreferencesMgr.getZhiboshiid("zhiboshiid", ConstanceValue.DefaultLiveId);
+        presenter = new CurriculumPresenter(this);
+        String id = SharedPreferencesMgr.getZhiboshiid();
         presenter.postData(id);
 
     }
 
     private void initab() {
         for (int i = 0; i < names.length; i++) {
-            tablayout.addTab(tablayout.newTab().setText(names[i]),i);
+            tablayout.addTab(tablayout.newTab().setText(names[i]), i);
         }
         tablayout.getTabAt(0).select();
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                selectid=tab.getPosition();
+                selectid = tab.getPosition();
                 adapter.setSelectid(selectid);
             }
 
@@ -93,15 +94,17 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView{
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                selectid=tab.getPosition();
+                selectid = tab.getPosition();
                 adapter.setSelectid(selectid);
             }
         });
     }
+
     private void initRecyclerview() {
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerview.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST));
+        recyclerview.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -110,9 +113,9 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView{
 
     @Override
     public void success(List<CurriculumBean.PaibanBean> list, List<CurriculumBean.YhtxBean> yhtx) {
-        if (adapter==null){
-            adapter=new CurriculumAdapter(list,yhtx);
-        }else {
+        if (adapter == null) {
+            adapter = new CurriculumAdapter(list, yhtx);
+        } else {
             adapter.notifyDataSetChanged();
         }
         adapter.setSelectid(0);
@@ -121,7 +124,7 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView{
 
     @Override
     public void failed(String msg) {
-        ToastUtils.showToast(getActivity(),msg);
+        ToastUtils.showToast(getActivity(), msg);
     }
 
 

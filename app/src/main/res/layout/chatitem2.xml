@@ -4,8 +4,8 @@
               android:layout_height="match_parent"
               android:background="#efeef4"
               android:orientation="vertical">
-
     <LinearLayout
+        android:id="@+id/mine_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -23,12 +23,13 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:id="@+id/framelayout"
+                android:id="@+id/mine_framelayout"
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/touxing"
+                    android:id="@+id/mine_touxing"
                     android:layout_width="40dp"
                     android:layout_height="40dp"/>
 
@@ -40,17 +41,138 @@
             </FrameLayout>
 
             <LinearLayout
-                android:id="@+id/linearlayout"
+                android:id="@+id/mine_linearlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@id/mine_framelayout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/mine_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9d9999"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/mine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#4f98f6"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="回复"
+                    android:textColor="#9d9999"
+                    android:textSize="14sp"/>
+
+
+            </LinearLayout>
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:id="@+id/mine_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/mine_linearlayout"
+                android:layout_below="@id/mine_linearlayout"
+                android:layout_marginTop="8dp"/>
+            <View
+                android:id="@+id/mine_line"
+                android:layout_alignRight="@id/mine_content"
+                android:layout_below="@id/mine_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="13dp"
+                android:background="@color/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mine_touxiang"
+                android:layout_alignRight="@id/mine_line"
+                android:layout_below="@id/mine_line"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <TextView
+                android:id="@+id/mine_name2"
+                android:textSize="14sp"
+                android:textColor="@color/tabtext"
+                android:layout_toLeftOf="@id/mine_touxiang"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="2dp"
+                android:layout_alignTop="@id/mine_touxiang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <!--<TextView
+                android:id="@+id/time2"
+                android:textSize="11sp"
+                android:textColor="#9d9999"
+                android:layout_toRightOf="@id/name2"
+                android:layout_alignTop="@id/name2"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>-->
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:id="@+id/mine_content2"
+                android:textSize="14sp"
+                android:textColor="#777777"
+                android:layout_alignRight="@id/mine_name2"
+                android:layout_below="@id/mine_name2"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/other_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/interactionshape"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="13dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/other_framelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/other_touxing"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:src="@mipmap/czjy_ls"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/other_linearlayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="2dp"
-                android:layout_toRightOf="@id/framelayout"
+                android:layout_toRightOf="@id/other_framelayout"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/other_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#4f98f6"
@@ -64,7 +186,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/time"
+                    android:id="@+id/other_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -72,36 +194,36 @@
                     android:textSize="11sp"/>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/content"
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:id="@+id/other_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/linearlayout"
-                android:layout_below="@id/linearlayout"
+                android:layout_alignLeft="@id/other_linearlayout"
+                android:layout_below="@id/other_linearlayout"
                 android:layout_marginTop="8dp"/>
             <View
-                android:id="@+id/line"
-                android:layout_alignLeft="@id/content"
-                android:layout_below="@id/content"
+                android:id="@+id/other_line"
+                android:layout_alignLeft="@id/other_content"
+                android:layout_below="@id/other_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="13dp"
                 android:background="@color/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/touxiang"
-                android:layout_alignLeft="@id/content"
-                android:layout_below="@id/line"
+                android:id="@+id/other_touxiang"
+                android:layout_alignLeft="@id/other_content"
+                android:layout_below="@id/other_line"
                 android:layout_width="40dp"
                 android:layout_height="40dp"/>
             <TextView
-                android:id="@+id/name2"
+                android:id="@+id/other_name2"
                 android:textSize="14sp"
                 android:textColor="@color/tabtext"
-                android:layout_toRightOf="@id/touxiang"
+                android:layout_toRightOf="@id/other_touxiang"
                 android:layout_marginLeft="13dp"
                 android:layout_marginTop="2dp"
-                android:layout_alignTop="@id/touxiang"
+                android:layout_alignTop="@id/other_touxiang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <!--<TextView
@@ -113,12 +235,12 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>-->
-            <TextView
-                android:id="@+id/content2"
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:id="@+id/other_content2"
                 android:textSize="14sp"
                 android:textColor="#777777"
-                android:layout_alignLeft="@id/name2"
-                android:layout_below="@id/name2"
+                android:layout_alignLeft="@id/other_name2"
+                android:layout_below="@id/other_name2"
                 android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

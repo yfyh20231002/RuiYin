@@ -13,6 +13,7 @@ import com.example.shichang393.ruiyin.Bean.StrategyBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.utils.CommonUtil;
 import com.example.shichang393.ruiyin.utils.ConstanceValue;
+import com.example.shichang393.ruiyin.widget.view.AlignTextView;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.ViewHo
         @InjectView(R.id.time)
         TextView time;
         @InjectView(R.id.content)
-        TextView content;
+        AlignTextView content;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this,itemView);

@@ -1,27 +1,25 @@
 package com.example.shichang393.ruiyin.Bean;
 
-/**
- * Created by Mr.zhang on 2017/8/2.
- */
 
 public class SendMessageBean {
-    String type;
-    String fyonghuid;
-    String messageid;
-    String tozhiboshiid;
-    String fyonghutouxiang;
-    String fyonghunicheng;
-    int fyonghubiaozhu;
-    int fzhanghaoleixing;
-    int xiaoxileibie;
-    String tyonghuid;
-    String tyonghunicheng;
-    String shuohuaneirong;
-    int yishenhe;
-    String fasongpingtai;
+    private String type;
+    private String fyonghuid;
+    private String messageid;
+    private String tozhiboshiid;
+    private String fyonghutouxiang;
+    private String fyonghunicheng;
+    private  int fyonghubiaozhu;
+    private int fzhanghaoleixing;
+    private int xiaoxileibie;
+    private String tyonghuid;
+    private String tyonghunicheng;
+    private String shuohuaneirong;
+    private int yishenhe;
+    private String fasongpingtai;
+    private String relation;
+    private String tyonghutouxiang;
 
-
-    public SendMessageBean(String type, String fyonghuid, String messageid, String tozhiboshiid, String fyonghutouxiang, String fyonghunicheng, int fyonghubiaozhu, int fzhanghaoleixing, int xiaoxileibie, String tyonghuid, String tyonghunicheng, String shuohuaneirong, int yishenhe, String fasongpingtai) {
+    public SendMessageBean(String type, String fyonghuid, String messageid, String tozhiboshiid, String fyonghutouxiang, String fyonghunicheng, int fyonghubiaozhu, int fzhanghaoleixing, int xiaoxileibie, String tyonghuid, String tyonghunicheng, String shuohuaneirong, int yishenhe, String fasongpingtai,String tyonghutouxiang,String relation) {
         this.type = type;
         this.fyonghuid = fyonghuid;
         this.messageid = messageid;
@@ -36,6 +34,16 @@ public class SendMessageBean {
         this.shuohuaneirong = shuohuaneirong;
         this.yishenhe = yishenhe;
         this.fasongpingtai = fasongpingtai;
+        this.tyonghutouxiang=tyonghutouxiang;
+        this.relation=relation;
+    }
+
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 
     public String getType() {

@@ -2,9 +2,16 @@ package com.example.shichang393.ruiyin.widget.fragment.live;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Selection;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,9 +28,9 @@ import com.example.shichang393.ruiyin.Bean.ChatPBean;
 import com.example.shichang393.ruiyin.Bean.ReceiveBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.listener.OnChatRefreshListener;
+import com.example.shichang393.ruiyin.listener.OnLiveRoomChatTalkListener;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.InteractionPresenter;
-import com.example.shichang393.ruiyin.utils.ConstanceValue;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.InteractionView;
 import com.example.shichang393.ruiyin.widget.adapter.live.InteractionAdapter;
@@ -47,7 +55,7 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  * 互动
  */
-public class InteractionFragment extends BaseFragment implements InteractionView ,OnChatRefreshListener{
+public class InteractionFragment extends BaseFragment implements InteractionView ,OnChatRefreshListener,OnLiveRoomChatTalkListener{
 
 
     @InjectView(R.id.listview)
@@ -80,7 +88,12 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     int count=10;
     SweetAlertDialog sweetAlertDialog; // 弹窗
     Activity activity;
-
+    private SpannableStringBuilder replyBuilder;  // 回复字体样式组
+    private String otherId = ""; // 他人id
+    private String otherName = ""; // 他人姓名
+    private int leibie=0;
+    String tyonghutouxiang="";
+    String relation="";
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -111,8 +124,8 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             // 设置键盘按键监听
             content.setOnEditorActionListener(editorActionListener);
             initDialog();
-            liveid = SharedPreferencesMgr.getZhiboshiid("zhiboshiid", ConstanceValue.DefaultLiveId);
-            userid = SharedPreferencesMgr.getuserid("userid", ConstanceValue.DefaultUserId);
+            liveid = SharedPreferencesMgr.getZhiboshiid();
+            userid = SharedPreferencesMgr.getuserid();
             int leixing = SharedPreferencesMgr.getZhanghaoleixing();
             accountType = String.valueOf(leixing);
             startConnectSv(userid, liveid, accountType);
@@ -155,7 +168,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             list.clear();
             list.addAll(chat);
             if (adapter == null) {
-                adapter = new InteractionAdapter(list, activity);
+                adapter = new InteractionAdapter(list, activity,this);
                 listview.setAdapter(adapter);
                 listview.setSelection(listview.getBottom());
                 listview.setOnRefreshListener(this);
@@ -194,7 +207,10 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         String userIcon = SharedPreferencesMgr.getUserIcon();
         String userName = SharedPreferencesMgr.getUsername();
         int userMark = SharedPreferencesMgr.getUserMark();
-        presenter.postSendMessage(userid, liveid, userIcon, userName, userMark, 1, 0, chatContent);
+        presenter.postSendMessage(userid, liveid, userIcon, userName, userMark, 1, leibie,otherId,otherName, chatContent,tyonghutouxiang,relation);
+        leibie=0;
+        tyonghutouxiang="";
+        relation="";
     }
 
 
@@ -332,4 +348,53 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             webSocketClient = null;
         }
     }
+    /**
+     * 回复
+     * this method will change inputHint like : 对 xxx 说
+     *
+     * @param userName 用户姓名
+     * @param userId   用户Id
+     */
+    @Override
+    public void onClickTalkTo(String msgId, String userName, String userId, String userIcon, String shuohuaneirong, int action) {
+// 设置输入框提示内容
+        // 回复的样式
+        if (null == replyBuilder) {
+            replyBuilder = new SpannableStringBuilder();
+        } else {
+            replyBuilder.clear();
+        }
+        String reply = "对 ";
+
+        SpannableString replySpannable = new SpannableString(userName);
+        int replyLen = userName.length();
+        ForegroundColorSpan autoChatColSpan = new ForegroundColorSpan(Color.parseColor("#FF8000"));
+        replySpannable.setSpan(autoChatColSpan, 0, replyLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        replyBuilder.append(reply).append(replySpannable).append(" 说");
+        content.setHint(replyBuilder);
+        tyonghutouxiang=userIcon;
+        relation=shuohuaneirong;
+        alertKeyBoard(userName, userId);
+    }
+    /**
+     * 弹出键盘
+     */
+    private void alertKeyBoard(String userName, String userId) {
+        leibie=1;
+        otherId = userId;
+        otherName = userName;
+        // 设置焦点
+        Selection.setSelection(content.getText(), content.getText().length());
+        // 弹出键盘
+        content.setFocusable(true);
+        content.setFocusableInTouchMode(true);
+        content.requestFocus();
+        InputMethodManager inputManager =
+                (InputMethodManager) content.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(content, 0);
+    }
+
+
 }

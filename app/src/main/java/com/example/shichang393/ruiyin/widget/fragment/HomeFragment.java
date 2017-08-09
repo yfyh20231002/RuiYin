@@ -280,11 +280,11 @@ public class HomeFragment extends Fragment {
                 onBaseTabListener.showMy();
                 break;
             case "天涯海阁":
-                SharedPreferencesMgr.setZhiboshiid("zhiboshiid","FE7C1D82811A4E7DB4BA84D77E141F0A");
+                SharedPreferencesMgr.setZhiboshiid("FE7C1D82811A4E7DB4BA84D77E141F0A");
                 StudioActivity.startIntent(getActivity());
                 break;
             case "谈股论金":
-                SharedPreferencesMgr.setZhiboshiid("zhiboshiid","DB9F8E38D4624A3997F2AAD34AEFCD0D");
+                SharedPreferencesMgr.setZhiboshiid("DB9F8E38D4624A3997F2AAD34AEFCD0D");
                 StudioActivity.startIntent(getActivity());
                 break;
             case "狙击非农":

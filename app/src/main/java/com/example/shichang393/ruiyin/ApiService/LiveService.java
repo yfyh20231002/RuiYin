@@ -48,7 +48,7 @@ public interface LiveService {
     /**
      * 发送消息
      */
-//    @POST("appsv/live/sendtext.do")
-    @POST("live/sendtext.do")
+    @POST("appsv/live/sendtext.do")
+//    @POST("live/sendtext.do")
     Call<ResponseBody> postSendMessage(@Body SendMessageBean sendMessageBean);
 }

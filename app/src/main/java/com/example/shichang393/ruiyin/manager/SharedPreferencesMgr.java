@@ -10,7 +10,7 @@ import com.example.shichang393.ruiyin.utils.ConstanceValue;
  */
 
 public class SharedPreferencesMgr {
-    private static Context context;
+    private Context context;
     private static SharedPreferences sPrefs ;
 
     private SharedPreferencesMgr(Context context, String fileName)
@@ -45,34 +45,32 @@ public class SharedPreferencesMgr {
 
     /**
      * 保存直播室id
-     * @param key
      * @param value
      */
-    public static void  setZhiboshiid(String key,String value){
+    public static void  setZhiboshiid(String value){
         if(sPrefs ==null)
             return ;
-         sPrefs.edit().putString(key,value).commit();
+         sPrefs.edit().putString("zhiboshiid",value).commit();
     }
-    public static String  getZhiboshiid(String key,String defaultvalue){
+    public static String  getZhiboshiid(){
         if(sPrefs ==null)
-            return defaultvalue;
-      return   sPrefs.getString(key,defaultvalue);
+            return ConstanceValue.DefaultLiveId;
+      return   sPrefs.getString("zhiboshiid",ConstanceValue.DefaultLiveId);
     }
 
     /**
      * 保存用户ID
-     * @param key
      * @param value
      */
-    public static void  setuserid(String key,String value){
+    public static void  setuserid(String value){
         if(sPrefs ==null)
             return ;
-        sPrefs.edit().putString(key,value).commit();
+        sPrefs.edit().putString("userId",value).commit();
     }
-    public static String  getuserid(String key,String defaultvalue){
+    public static String  getuserid(){
         if(sPrefs ==null)
-            return defaultvalue;
-        return   sPrefs.getString(key,defaultvalue);
+            return ConstanceValue.DefaultUserId;
+        return   sPrefs.getString("userId",ConstanceValue.DefaultUserId);
     }
 
 

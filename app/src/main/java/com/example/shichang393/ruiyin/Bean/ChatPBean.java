@@ -151,13 +151,6 @@ public class ChatPBean {
                 this.relation = relation;
             }
 
-
-
-
-
-
-
-
             public String getMessageid() {
                 return messageid;
             }
@@ -334,7 +327,7 @@ public class ChatPBean {
                 this.fyonghubiaozhu = fyonghubiaozhu;
             }
 
-            public Object getTyonghuid() {
+            public String getTyonghuid() {
                 return tyonghuid;
             }
 

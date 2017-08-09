@@ -13,7 +13,6 @@ import com.example.shichang393.ruiyin.Bean.StrategyBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.StrategyPresenter;
-import com.example.shichang393.ruiyin.utils.ConstanceValue;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.StrategyView;
 import com.example.shichang393.ruiyin.widget.adapter.live.StrategyAdapter;
@@ -62,7 +61,7 @@ public class StrategyFragment extends BaseFragment implements StrategyView {
             return;
         }
         presenter = new StrategyPresenter(this);
-        String id = SharedPreferencesMgr.getZhiboshiid("zhiboshiid", ConstanceValue.DefaultLiveId);
+        String id = SharedPreferencesMgr.getZhiboshiid();
         presenter.postData(id);
     }
 

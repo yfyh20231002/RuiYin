@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.shichang393.ruiyin.Bean.SuggestionBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.utils.ConstanceValue;
+import com.example.shichang393.ruiyin.widget.view.AlignTextView;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Vi
         @InjectView(R.id.sgt_time)
         TextView sgtTime;
         @InjectView(R.id.suggestion)
-        TextView suggestion;
+        AlignTextView suggestion;
         @InjectView(R.id.touxing)
         ImageView touxing;
 
