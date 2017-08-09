@@ -60,16 +60,16 @@
         "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_cs_group_ok_text_selector.xml"
     },
     {
-        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_menu_background_selector.xml",
-        "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_menu_background_selector.xml"
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_btn_send.xml",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_btn_send.xml"
     },
     {
         "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_ed_public_service_search_selector.xml",
         "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_ed_public_service_search_selector.xml"
     },
     {
-        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_btn_send.xml",
-        "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_btn_send.xml"
+        "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_menu_background_selector.xml",
+        "source": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\src\\main\\res\\drawable\\rc_menu_background_selector.xml"
     },
     {
         "merged": "C:\\Users\\user\\Desktop\\RuiYin\\IMKit\\build\\intermediates\\res\\merged\\release\\drawable\\rc_cs_group_dialog_cancel_selector.xml",
