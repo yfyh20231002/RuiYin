@@ -70,7 +70,7 @@ public class SharedPreferencesMgr {
     public static String  getuserid(){
         if(sPrefs ==null)
             return ConstanceValue.DefaultUserId;
-        return   sPrefs.getString("userId",ConstanceValue.DefaultUserId);
+        return   sPrefs.getString("userId","");
     }
 
 
@@ -79,7 +79,7 @@ public class SharedPreferencesMgr {
      *
      * @return
      */
-    public void saveUserIcon(String userIcon) {
+    public static  void saveUserIcon(String userIcon) {
         if(sPrefs ==null)
             return ;
         SharedPreferences.Editor editor = sPrefs.edit();
@@ -93,7 +93,7 @@ public class SharedPreferencesMgr {
      * @return
      */
     public static String getUserIcon() {
-        return sPrefs.getString("USERICON", ConstanceValue.DefaultUserIcon);
+        return sPrefs.getString("USERICON","");
     }
 
 
@@ -102,7 +102,7 @@ public class SharedPreferencesMgr {
      *
      * @return
      */
-    public void saveUserMark(int mark) {
+    public static void saveUserMark(int mark) {
         if(sPrefs ==null)
             return ;
         SharedPreferences.Editor editor = sPrefs.edit();
@@ -124,7 +124,7 @@ public class SharedPreferencesMgr {
      *
      * @param username
      */
-    public void saveUsername(String username) {
+    public static void saveUsername(String username) {
         if(sPrefs ==null)
             return ;
         SharedPreferences.Editor editor = sPrefs.edit();
@@ -138,7 +138,7 @@ public class SharedPreferencesMgr {
      * @return
      */
     public static String getUsername() {
-        return sPrefs.getString("USERNAME", ConstanceValue.DefaultUserName);
+        return sPrefs.getString("USERNAME", "");
     }
 
     /**
@@ -157,6 +157,75 @@ public class SharedPreferencesMgr {
      *
      */
     public static int getZhanghaoleixing(){
-        return sPrefs.getInt("leixing", 1);
+        return sPrefs.getInt("leixing", 0);
+    }
+
+
+
+    /**
+     * 保存用户是否激活状态
+     *
+     * @return
+     */
+    public static void saveUserActivation(int activation) {
+        if(sPrefs ==null)
+            return ;
+        SharedPreferences.Editor editor = sPrefs.edit();
+        editor.putInt("ACTIVATION", activation);
+        editor.commit();
+    }
+
+    /**
+     * 获取用户是否激活状态
+     *
+     * @return
+     */
+    public static int getUserActivation() {
+        return sPrefs.getInt("ACTIVATION",0);
+    }
+
+
+    /**
+     * 在SharedPreferences中存储的登录的用户账号
+     *
+     * @param zhanghao
+     */
+    public static void saveZhanghao(String zhanghao) {
+        if(sPrefs ==null)
+            return ;
+        SharedPreferences.Editor editor = sPrefs.edit();
+        editor.putString("zhanghao", zhanghao);
+        editor.commit();
+    }
+
+    /**
+     * 获取SharedPreferences中登陆的用户账号
+     *
+     * @return
+     */
+    public static String getZhanghao() {
+        return sPrefs.getString("zhanghao", "");
+    }
+
+    /**
+     * 在SharedPreferences中存储的登录的用户密码
+     *
+     * @param mima
+     */
+    public static void saveMima(String mima) {
+        if(sPrefs ==null)
+            return ;
+        SharedPreferences.Editor editor = sPrefs.edit();
+        editor.putString("mima", mima);
+        editor.commit();
+    }
+
+    /**
+     * 获取SharedPreferences中登陆的用户密码
+     *
+     * @return
+     */
+    public static String getMima() {
+        return sPrefs.getString("mima", "");
     }
 }

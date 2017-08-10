@@ -82,12 +82,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MyFragment myFragment;
     long firstime = 0;
     TokenPresenter presenter;
-
+    boolean isChange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolBarTitle("斗金");
         ButterKnife.inject(this);
+        isChange=getIntent().getBooleanExtra("change",false);
         setDefaultFragment();
         setViewListener();
         initRongIM();
@@ -96,15 +97,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     public void setDefaultFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (homeFragment == null) {
-            homeFragment = new HomeFragment();
-            transaction.add(R.id.fl_content, homeFragment);
-        } else {
-            transaction.show(homeFragment);
+        if (isChange){
+            if (myFragment == null) {
+                myFragment = new MyFragment();
+                transaction.add(R.id.fl_content, myFragment);
+            } else {
+                transaction.show(myFragment);
+            }
+            transaction.commitAllowingStateLoss();
+            //默认选中我的
+            setSelectIcon(ivIconMy, tvTextMy);
+        }else {
+            if (homeFragment == null) {
+                homeFragment = new HomeFragment();
+                transaction.add(R.id.fl_content, homeFragment);
+            } else {
+                transaction.show(homeFragment);
+            }
+            transaction.commitAllowingStateLoss();
+            //默认选中首页
+            setSelectIcon(ivIconHome, tvTextHome);
         }
-        transaction.commitAllowingStateLoss();
-        //默认选中首页
-        setSelectIcon(ivIconHome, tvTextHome);
     }
 
     private void setViewListener() {

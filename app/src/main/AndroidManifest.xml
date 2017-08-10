@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.shichang393.ruiyin">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -74,6 +75,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".widget.activity.live.StudioActivity">
+        </activity>
+        <activity android:name=".widget.activity.mine.LoginActivity">
+        </activity>
+        <activity android:name=".widget.activity.load.LoadActivity">
+        </activity>
+        <activity android:name=".widget.activity.mine.RegisterActivity">
         </activity>
     </application>
 

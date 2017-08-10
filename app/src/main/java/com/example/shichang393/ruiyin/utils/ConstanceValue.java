@@ -10,16 +10,16 @@ public interface ConstanceValue {
     String TITLE_SELECTED = "explore_title_selected";
     String TITLE_UNSELECTED = "explore_title_unselected";
     String SP_IS_FIRST_LOGIN = "isFirstLogin";
-//    FE7C1D82811A4E7DB4BA84D77E141F0A
+    //    FE7C1D82811A4E7DB4BA84D77E141F0A
 //    DB9F8E38D4624A3997F2AAD34AEFCD0D
-    String DefaultLiveId="FE7C1D82811A4E7DB4BA84D77E141F0A";
+    String DefaultLiveId = "FE7C1D82811A4E7DB4BA84D77E141F0A";
 
-    String DefaultUserId="8AB54D148A4A4238B6E99792096791C8";
-    String DefaultUserIcon="templates/wdcs/image/icon/0002.jpg";
-    String DefaultUserName="liuzhoglin";
-    int DefaultUserMark=0;
+    String DefaultUserId = "8AB54D148A4A4238B6E99792096791C8";
+    String DefaultUserIcon = "templates/wdcs/image/icon/0002.jpg";
+    String DefaultUserName = "liuzhoglin";
+    int DefaultUserMark = 0;
     int CALL_PHONE = 1;
-    int UPDATA_UI=0;
+    int UPDATA_UI = 0;
     /**
      * 财经日历接口
      */
@@ -47,9 +47,9 @@ public interface ConstanceValue {
      * <p>
      * 直播室列表（post）
      * http://zb.006006.cn:10001/appsv/liveRoomListView/getNoVipLiveRooms.do
-     *
+     * <p>
      * liveRoomListView/gotoLiveRoom.do
-     *
+     * <p>
      * liveRoomView/filterChatHistory.do
      */
     String bannerurl = "http://zb.006006.cn:10001";
@@ -67,16 +67,16 @@ public interface ConstanceValue {
      * 融云客服功能获取token
      * http://api.cn.ronghub.com/user/getToken.json
      */
-    String tokenBase="http://api.cn.ronghub.com";
+    String tokenBase = "http://api.cn.ronghub.com";
 
-    String rongyun_appkey="3argexb63d7te";
-    String rongyun_appsecret="xccKHRdGfN2LZ";
+    String rongyun_appkey = "3argexb63d7te";
+    String rongyun_appsecret = "xccKHRdGfN2LZ";
 
 
     /**
      * 操作建议中分析师头像的前缀地址
      */
-    String baseImage="http://zb.006006.cn";
-
-    String testurl="http://192.168.1.22:8080/";
+    String baseImage = "http://zb.006006.cn";
+    //    String testurl="http://192.168.1.22:8080/";
+    String testurl = "http://zb.006006.cn:10001/appsv/";
 }
