@@ -2,6 +2,8 @@ package com.example.shichang393.ruiyin.widget.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -74,16 +76,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @InjectView(R.id.infomation)
     ImageView infomation;
 
-    private View lastSelectedIcon;
-    private View lastSelectedText;
     private HomeFragment homeFragment;
     private LiveFragment liveFragment;
     private MarkCenterFragment markCenterFragment;
     private TradingFragment tradingFragment;
     private MyFragment myFragment;
-    long firstime = 0;
     TokenPresenter presenter;
-    boolean isChange;
+    boolean isChange=false;
+    // 标识是否退出
+    private boolean isExit = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,27 +98,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     public void setDefaultFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (isChange){
-            if (myFragment == null) {
-                myFragment = new MyFragment();
-                transaction.add(R.id.fl_content, myFragment);
-            } else {
-                transaction.show(myFragment);
-            }
-            transaction.commitAllowingStateLoss();
-            //默认选中我的
-            setSelectIcon(ivIconMy, tvTextMy);
+            showMy();
         }else {
-            if (homeFragment == null) {
-                homeFragment = new HomeFragment();
-                transaction.add(R.id.fl_content, homeFragment);
-            } else {
-                transaction.show(homeFragment);
-            }
-            transaction.commitAllowingStateLoss();
-            //默认选中首页
-            setSelectIcon(ivIconHome, tvTextHome);
+           showHome();
         }
     }
 
@@ -188,17 +172,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    public void setColor(View v) {
-        if (lastSelectedIcon != null) lastSelectedIcon.setSelected(false);
-        if (lastSelectedText != null) lastSelectedText.setSelected(false);
-        TextView tv = (TextView) lastSelectedText;
-        tv.setTextColor(getResources().getColor(R.color.unselecttextcolor));
-
-        RelativeLayout rl = (RelativeLayout) v;
-        ImageView icon = (ImageView) rl.getChildAt(0);
-        TextView text = (TextView) rl.getChildAt(1);
-        setSelectIcon(icon, text);
-    }
 
     //隐藏所有Fragment
     public void hideAllFragment(FragmentTransaction transaction) {
@@ -238,13 +211,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             myFragment = (MyFragment) fragment;
         }
     }
-    private void setSelectIcon(ImageView iv, TextView tv) {
-        iv.setSelected(true);
-        tv.setSelected(true);
-        tv.setTextColor(getResources().getColor(R.color.selecttextcolor));
-        lastSelectedIcon = iv;
-        lastSelectedText = tv;
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -277,30 +243,60 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    /**
+     * 监听返回键
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 返回
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            long secondtime = System.currentTimeMillis();
-            if (secondtime - firstime > 2000) {
-                ToastUtils.showToast(MainActivity.this, "再按一次退出程序！");
-                firstime = secondtime;
-                return true;
-            } else {
-                // 关闭已经打开过的aty
-                // TODO
-                // 返回桌面
-                Intent home = new Intent(Intent.ACTION_MAIN);
-                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                home.addCategory(Intent.CATEGORY_HOME);
-                startActivity(home);
-            }
+            exit();
+            return true;
+            // 菜单
+        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return false;
+            // home键
+        } else if (keyCode == KeyEvent.KEYCODE_HOME) {
+            //由于Home键为系统键，此处不能捕获，需要重写onAttachedToWindow()
+            return false;
         }
-        return super.onKeyUp(keyCode, event);
+        return super.onKeyDown(keyCode, event);
+    }
+
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
+
+    /**
+     * 退出动作
+     */
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            ToastUtils.showToast(MainActivity.this,"再按一次退出程序");
+            // 利用handler延迟发送更改状态信息
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            // 关闭已经打开过的aty
+            // TODO
+            // 返回桌面
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
+        }
     }
 
     @Override
     public void showHome() {
-        setColor(home);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (homeFragment == null) {
@@ -311,11 +307,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(true);
+        tvTextHome.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconLive.setSelected(false);
+        tvTextLive.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+
     }
 
     @Override
     public void showMarketCenter() {
-        setColor(markcenter);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (markCenterFragment == null) {
@@ -326,11 +332,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(false);
+        tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconLive.setSelected(false);
+        tvTextLive.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMarkCenter.setSelected(true);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
     }
 
     @Override
     public void showLiveRoom() {
-        setColor(live);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (liveFragment == null) {
@@ -341,11 +356,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(false);
+        tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconLive.setSelected(true);
+        tvTextLive.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
     }
 
     @Override
     public void showTrading() {
-        setColor(trading);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (tradingFragment == null) {
@@ -356,11 +380,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(false);
+        tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconLive.setSelected(false);
+        tvTextLive.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(true);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
     }
 
     @Override
     public void showMy() {
-        setColor(my);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (myFragment == null) {
@@ -371,6 +404,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(false);
+        tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconLive.setSelected(false);
+        tvTextLive.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(true);
+        tvTextMy.setTextColor(getResources().getColor(R.color.selecttextcolor));
     }
 
     @OnClick({R.id.call, R.id.infomation})

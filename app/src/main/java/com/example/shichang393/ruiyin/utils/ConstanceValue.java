@@ -75,8 +75,11 @@ public interface ConstanceValue {
 
     /**
      * 操作建议中分析师头像的前缀地址
+     * 更换头像的前缀
      */
     String baseImage = "http://zb.006006.cn";
     //    String testurl="http://192.168.1.22:8080/";
     String testurl = "http://zb.006006.cn:10001/appsv/";
+
+
 }
