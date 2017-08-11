@@ -151,12 +151,12 @@ public class MyFragment extends Fragment {
             case R.id.btn_my_tixing:
                 break;
             case R.id.checkbtn_set_on:
-                checkbtnSetOn.setVisibility(View.VISIBLE);
-                checkbtnSetOff.setVisibility(View.GONE);
-                break;
-            case R.id.checkbtn_set_off:
                 checkbtnSetOn.setVisibility(View.GONE);
                 checkbtnSetOff.setVisibility(View.VISIBLE);
+                break;
+            case R.id.checkbtn_set_off:
+                checkbtnSetOn.setVisibility(View.VISIBLE);
+                checkbtnSetOff.setVisibility(View.GONE);
                 break;
             case R.id.btn_my_haoping:
                 break;
