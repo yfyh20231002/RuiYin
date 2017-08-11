@@ -2,6 +2,7 @@ package com.example.shichang393.ruiyin.widget.fragment;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.utils.ConstanceValue;
 import com.example.shichang393.ruiyin.widget.activity.home.KaiHuActivity;
 import com.example.shichang393.ruiyin.widget.activity.live.StudioActivity;
+import com.example.shichang393.ruiyin.widget.activity.mine.LoginActivity;
 import com.example.shichang393.ruiyin.widget.fragment.home.AlertsFragment;
 import com.example.shichang393.ruiyin.widget.fragment.home.CCTVFragment;
 import com.example.shichang393.ruiyin.widget.fragment.home.CalendarFragment;
@@ -82,7 +84,7 @@ public class HomeFragment extends Fragment {
     RemindFragment remind;
     //操作建议
     SuggestionsFragment suggestion;
-
+    Context mContext;
 
     public interface OnBaseTabListener {
 
@@ -96,6 +98,12 @@ public class HomeFragment extends Fragment {
 
         void showMy();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     public void onAttach(Activity activity) {
@@ -281,11 +289,19 @@ public class HomeFragment extends Fragment {
                 break;
             case "天涯海阁":
                 SharedPreferencesMgr.setZhiboshiid("FE7C1D82811A4E7DB4BA84D77E141F0A");
-                StudioActivity.startIntent(getActivity());
+                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
+                    LoginActivity.startIntent(mContext);
+                }else {
+                    StudioActivity.startIntent(mContext);
+                }
                 break;
             case "谈股论金":
                 SharedPreferencesMgr.setZhiboshiid("DB9F8E38D4624A3997F2AAD34AEFCD0D");
-                StudioActivity.startIntent(getActivity());
+                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
+                    LoginActivity.startIntent(mContext);
+                }else {
+                    StudioActivity.startIntent(mContext);
+                }
                 break;
             case "狙击非农":
                 showFeiNong();
