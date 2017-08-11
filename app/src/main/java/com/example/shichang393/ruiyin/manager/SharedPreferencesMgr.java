@@ -208,6 +208,19 @@ public class SharedPreferencesMgr {
     }
 
     /**
+     * 删除全部
+     */
+    public static void clearAll() {
+        SharedPreferences.Editor editor = sPrefs.edit();
+        editor.remove("userId");
+        editor.remove("zhanghao");
+        editor.remove("USERICON");
+        editor.remove("USERNAME");
+        editor.remove(ConstanceValue.TITLE_SELECTED);
+        editor.remove(ConstanceValue.TITLE_UNSELECTED);
+        editor.commit();
+    }
+    /**
      * 在SharedPreferences中存储的登录的用户密码
      *
      * @param mima

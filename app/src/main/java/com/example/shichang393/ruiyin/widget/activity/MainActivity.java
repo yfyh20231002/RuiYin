@@ -1,5 +1,6 @@
 package com.example.shichang393.ruiyin.widget.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -217,7 +218,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             transaction.hide(myFragment);
         }
     }
-
+    /**
+     * aty与fra发生关联时调用。防止frg重叠
+     *
+     * @param fragment
+     */
+    @Override
+    public void onAttachFragment(android.support.v4.app.Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (null == homeFragment && fragment instanceof HomeFragment) {
+            homeFragment = (HomeFragment) fragment;
+        } else if (null == markCenterFragment && fragment instanceof MarkCenterFragment) {
+            markCenterFragment = (MarkCenterFragment) fragment;
+        } else if (null == liveFragment && fragment instanceof LiveFragment) {
+            liveFragment = (LiveFragment) fragment;
+        } else if (null == tradingFragment && fragment instanceof TradingFragment) {
+            tradingFragment = (TradingFragment) fragment;
+        } else if (null == myFragment && fragment instanceof MyFragment) {
+            myFragment = (MyFragment) fragment;
+        }
+    }
     private void setSelectIcon(ImageView iv, TextView tv) {
         iv.setSelected(true);
         tv.setSelected(true);
@@ -266,7 +286,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 firstime = secondtime;
                 return true;
             } else {
-                System.exit(0);
+                // 关闭已经打开过的aty
+                // TODO
+                // 返回桌面
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
             }
         }
         return super.onKeyUp(keyCode, event);

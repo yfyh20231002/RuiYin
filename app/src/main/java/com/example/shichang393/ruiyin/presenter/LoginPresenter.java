@@ -20,9 +20,17 @@ public class LoginPresenter implements OnLoginListener{
     public void login(){
         mineModel.login(loginView.zhanghao(),loginView.mima());
     }
+    public void visitorLogin(){
+        mineModel.visitorLogin(loginView.zhanghao(),loginView.mima());
+    }
     @Override
     public void loginsuccess(LoginBean.DataBean dataBean) {
         loginView.loginsuccess(dataBean);
+    }
+
+    @Override
+    public void visitorloginsuccess(LoginBean.DataBean dataBean) {
+        loginView.visitorloginsuccess(dataBean);
     }
 
     @Override

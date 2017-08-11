@@ -10,6 +10,7 @@ public interface LoginView {
     String zhanghao();
     String mima();
     void loginsuccess(LoginBean.DataBean dataBean);
+    void  visitorloginsuccess(LoginBean.DataBean dataBean);
     void loginfailed(String msg);
     void showProgress();
 }

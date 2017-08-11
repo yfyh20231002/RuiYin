@@ -78,9 +78,13 @@
         </activity>
         <activity android:name=".widget.activity.mine.LoginActivity">
         </activity>
-        <activity android:name=".widget.activity.load.LoadActivity">
-        </activity>
         <activity android:name=".widget.activity.mine.RegisterActivity">
+        </activity>
+        <activity
+            android:name=".widget.activity.mine.ForgotpwdDialog"
+            android:theme="@style/customDialog">
+        </activity>
+        <activity android:name=".widget.activity.mine.UpNickNameActivity">
         </activity>
     </application>
 

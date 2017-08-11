@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.shichang393.ruiyin.Bean.LoginBean;
 import com.example.shichang393.ruiyin.R;
+import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.LoginPresenter;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.mine.LoginView;
@@ -89,8 +90,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void loginsuccess(LoginBean.DataBean dataBean) {
+
         int code = dataBean.getBusinesscode();
-        if (103==code){
+//        103实盘用户  109游客  106 重置密码成功
+        if (103==code||100 == code || 106 == code){
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             sweetAlertDialog.setTitleText("登录成功");
             sweetAlertDialog.showConfirmButton(false);
@@ -102,9 +105,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                     intent.putExtra("change",true);
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             });
-        } else if (104 == code) {
+        } else  if(109==code){
+            loginPresenter.visitorLogin();
+        }else if (104 == code) {
             dismissProgress();
             ToastUtils.showToast(LoginActivity.this, "密码错误");
         } else if (102 == code) {
@@ -113,6 +119,57 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
     }
 
+    @Override
+    public void visitorloginsuccess(LoginBean.DataBean dataBean) {
+        int businesscode = dataBean.getBusinesscode();
+        if (103==businesscode||100 == businesscode || 106 == businesscode) {
+            LoginBean.DataBean.UsersBean usersBean = dataBean.getUsers();
+            if (usersBean != null) {
+                SharedPreferencesMgr.setuserid(usersBean.getYonghuid());
+                SharedPreferencesMgr.saveUserIcon(usersBean.getYonghutouxiang());
+                SharedPreferencesMgr.saveUserMark(usersBean.getYonghubiaozhu());
+                int zhanghaoleixing = usersBean.getZhanghaoleixing();
+                SharedPreferencesMgr.setZhanghaoleixing(zhanghaoleixing);
+                String username = isGeneral(zhanghaoleixing) ? usersBean.getYonghunicheng() : usersBean.getYonghuxingming();
+                SharedPreferencesMgr.saveUsername(username);
+                SharedPreferencesMgr.saveUserActivation(usersBean.getShifoushijihuoyonghu());
+                SharedPreferencesMgr.saveZhanghao(loginEditNumber.getText().toString().trim());
+                SharedPreferencesMgr.saveMima(loginEditPassword.getText().toString().trim());
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                sweetAlertDialog.setTitleText("登录成功");
+                sweetAlertDialog.showConfirmButton(false);
+                sweetAlertDialog.setDialogCloseListener(new SweetAlertDialog.DialogCloseListener() {
+                    @Override
+                    public void dialogClose() {
+                        dismissProgress();
+                        Intent intent=new Intent();
+                        intent.putExtra("change",true);
+                        intent.setClass(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        }else if (104==businesscode){
+            dismissProgress();
+            ToastUtils.showToast(LoginActivity.this, "密码错误");
+        }else if (102 == businesscode) {
+            dismissProgress();
+            loginTextTishi.setVisibility(View.VISIBLE);
+        }
+    }
+    /**
+     * 是否是普通用户
+     *
+     * @param permission 用户权限
+     * @return
+     */
+    private boolean isGeneral(int permission) {
+        if (2 == permission || 3 == permission || 4 == permission || 5 == permission || 6 == permission) {
+            return false;
+        }
+        return true;
+    }
     @Override
     public void loginfailed(String msg) {
         dismissProgress();

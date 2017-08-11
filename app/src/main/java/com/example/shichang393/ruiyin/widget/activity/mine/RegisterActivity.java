@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.shichang393.ruiyin.R;
+import com.example.shichang393.ruiyin.presenter.mine.SMSPresenter;
+import com.example.shichang393.ruiyin.utils.ToastUtils;
+import com.example.shichang393.ruiyin.view.mine.SMSView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,7 +25,7 @@ import butterknife.OnClick;
 /**
  * 注册和重置密码用一个activity
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends Activity implements SMSView {
 
     @InjectView(R.id.zhuce_back)
     ImageView zhuceBack;
@@ -45,6 +48,9 @@ public class RegisterActivity extends Activity {
     @InjectView(R.id.register_linearlayout)
     LinearLayout registerLinearlayout;
     private int param;
+    private String sendMsg; // 已经发送的短信验证码
+    private SMSPresenter smsPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,18 +61,19 @@ public class RegisterActivity extends Activity {
     }
 
     private void init() {
-        param=getIntent().getIntExtra("param",1);
-        if (0==param){
+        param = getIntent().getIntExtra("param", 1);
+        if (0 == param) {
             registerLinearlayout.setBackgroundColor(Color.WHITE);
             resetRelativelayout.setVisibility(View.VISIBLE);
             btnZhuceExit.setVisibility(View.GONE);
             btnZhuceSure.setText("确定");
-        }else {
+        } else {
             registerLinearlayout.setBackgroundResource(R.mipmap.login_bg);
             resetRelativelayout.setVisibility(View.GONE);
             btnZhuceExit.setVisibility(View.VISIBLE);
             btnZhuceSure.setText("注册");
         }
+        smsPresenter = new SMSPresenter(this);
     }
 
     @OnClick(R.id.zhuce_back)
@@ -81,15 +88,77 @@ public class RegisterActivity extends Activity {
 
     @OnClick(R.id.btn_zhuce_yzm)
     public void onBtnZhuceYzmClicked() {
+
+        btnZhuceYzm.setClickable(false);
+        smsPresenter.sendValidateCode();
+
     }
 
     @OnClick(R.id.btn_zhuce_sure)
     public void onBtnZhuceSureClicked() {
+        if (0 == param) {
+            smsPresenter.checkValidate();
+        }else if (1==param){
+            smsPresenter.zhuce();
+        }
     }
-    public static void startIntent(Context mContext,int param){
-        Intent intent=new Intent();
-        intent.putExtra("param",param);
-        intent.setClass(mContext,RegisterActivity.class);
+
+
+    public static void startIntent(Context mContext, int param) {
+        Intent intent = new Intent();
+        intent.putExtra("param", param);
+        intent.setClass(mContext, RegisterActivity.class);
         mContext.startActivity(intent);
+    }
+
+    @Override
+    public String getUserphone() {
+        return zhuceEditNumber.getText().toString();
+    }
+
+    @Override
+    public String getValidateCode() {
+        return zhuceEditYanzheng.getText().toString();
+    }
+
+    @Override
+    public String getSendValidateCode() {
+        return sendMsg;
+    }
+
+    @Override
+    public String getPassword() {
+        return zhuceEditPassword.getText().toString();
+    }
+
+    @Override
+    public void checkValidateSuccess(String sendMsg) {
+        this.sendMsg = sendMsg;
+    }
+
+    @Override
+    public void failed(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showToast(RegisterActivity.this, msg);
+            }
+        });
+    }
+
+    @Override
+    public void buttonChange(Boolean clickAble, String showText) {
+        btnZhuceYzm.setClickable(clickAble);
+        btnZhuceYzm.setText(showText);
+    }
+
+    @Override
+    public void resetSuccess() {
+        ForgotpwdDialog.startIntent(RegisterActivity.this, param);
+    }
+
+    @Override
+    public void registerSuccess() {
+        ForgotpwdDialog.startIntent(RegisterActivity.this, param);
     }
 }

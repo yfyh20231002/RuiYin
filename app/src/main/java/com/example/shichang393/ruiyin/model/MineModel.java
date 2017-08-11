@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.example.shichang393.ruiyin.ApiService.MineService;
 import com.example.shichang393.ruiyin.Bean.LoginBean;
 import com.example.shichang393.ruiyin.Bean.LoginPostBean;
+import com.example.shichang393.ruiyin.Bean.mine.AfteRegisterPostBean;
 import com.example.shichang393.ruiyin.listener.OnLoginListener;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.utils.CommonUtil;
@@ -43,7 +44,7 @@ public class MineModel {
             return;
         }
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
-        MineService mineService = retrofit.create(MineService.class);
+        final MineService mineService = retrofit.create(MineService.class);
         final Call<LoginBean> login = mineService.login(new LoginPostBean(zhanghao, mima));
         login.enqueue(new Callback<LoginBean>() {
             @Override
@@ -81,6 +82,28 @@ public class MineModel {
             }
         });
 
+    }
+
+    public void visitorLogin(final String zhanghao, final String mima) {
+        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
+        final MineService mineService = retrofit.create(MineService.class);
+        Call<LoginBean> loginNew = mineService.guestLoginNew(new AfteRegisterPostBean(zhanghao, mima, "1"));
+        loginNew.enqueue(new Callback<LoginBean>() {
+            @Override
+            public void onResponse(Call<LoginBean> call, Response<LoginBean> response) {
+                LoginBean body = response.body();
+                if (body!=null){
+                    onLoginListener.visitorloginsuccess(body.getData());
+                }else {
+                    onLoginListener.loginfailed("无数据");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginBean> call, Throwable t) {
+                onLoginListener.loginfailed("数据解析失败");
+            }
+        });
     }
 
     /**

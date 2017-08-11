@@ -2,7 +2,8 @@ package com.example.shichang393.ruiyin.widget.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,10 @@ import com.bumptech.glide.Glide;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.utils.ConstanceValue;
+import com.example.shichang393.ruiyin.widget.activity.MainActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.LoginActivity;
+import com.example.shichang393.ruiyin.widget.activity.mine.RegisterActivity;
+import com.example.shichang393.ruiyin.widget.activity.mine.UpNickNameActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -111,18 +115,34 @@ public class MyFragment extends Fragment {
 
     @OnClick({R.id.bt_login, R.id.btn_my_nicheng, R.id.btn_my_touxiang, R.id.btn_my_mima, R.id.btn_my_zhanghao, R.id.btn_my_tixing, R.id.checkbtn_set_on, R.id.checkbtn_set_off, R.id.btn_my_haoping, R.id.btn_my_share, R.id.btn_my_aboutus})
     public void onViewClicked(View view) {
+        String getuserid = SharedPreferencesMgr.getuserid();
         switch (view.getId()) {
             case R.id.bt_login:
                 LoginActivity.startIntent(mContext);
                 break;
 //            更改昵称
             case R.id.btn_my_nicheng:
+                if (TextUtils.isEmpty(getuserid)){
+                    LoginActivity.startIntent(mContext);
+                }else {
+                    UpNickNameActivity.startIntent(mContext);
+                }
                 break;
 //            修改头像
             case R.id.btn_my_touxiang:
+                if (TextUtils.isEmpty(getuserid)){
+                    LoginActivity.startIntent(mContext);
+                }else {
+                    RegisterActivity.startIntent(mContext, 0);
+                }
                 break;
 //            修改密码
             case R.id.btn_my_mima:
+                if (TextUtils.isEmpty(getuserid)){
+                    LoginActivity.startIntent(mContext);
+                }else {
+                    RegisterActivity.startIntent(mContext, 0);
+                }
                 break;
 //            退出账号
             case R.id.btn_my_zhanghao:
@@ -150,11 +170,14 @@ public class MyFragment extends Fragment {
     private void exit() {
 
         View view=LayoutInflater.from(mContext).inflate(R.layout.popup_bottom,null);
-        final PopupWindow popupWindow=new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final PopupWindow popupWindow=new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //实例化一个ColorDrawable颜色为半透明
+//        0xb0000000
+        ColorDrawable dw = new ColorDrawable(0xa0000000);
+        popupWindow.setBackgroundDrawable(dw);
         //显示PopupWindow
         View rootview = LayoutInflater.from(mContext).inflate(R.layout.fragment_my, null);
         popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
@@ -163,7 +186,17 @@ public class MyFragment extends Fragment {
         queding.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SharedPreferencesMgr.clearAll();
+                Intent intent=new Intent();
+                intent.putExtra("change",true);
+                intent.setClass(mContext, MainActivity.class);
+                startActivity(intent);
+                activity.finish();
+//                // 重启应用
+//                Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                popupWindow.dismiss();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
