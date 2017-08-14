@@ -32,4 +32,23 @@
     <color name="gray_btn_bg_pressed_color">#b6b6b6</color>
     <color name="button_text_color">#FFFFFF</color>
     <color name="float_transparent">#00000000</color>
+
+
+
+
+    <!--行情-->
+    <color name="ma5">#823E66</color>
+    <color name="ma10">#B99C7A</color>
+    <color name="ma20">#3C7193</color>
+    <color name="black">#000000</color>
+
+    <color name="minute_grayLine">#2D3945</color>
+    <color name="minute_zhoutv">#858D93</color>
+    <color name="marker_bg">#1C232E</color>
+    <color name="text_grey_light">#A7ADBC</color>
+    <color name="linear_btn">#3f414c</color>
+    <color name="button_text">#ffffff</color>
+    <color name="text_green">#51FFB9</color>
+    <color name="home_page_bg">#1E1E26</color>
+    <color name="common_divider">#303341</color>
 </resources>

@@ -6,7 +6,7 @@
     <string name="cancle">取消</string>
     <string name="call">拨打</string>
 
-
+    <string name="socket_address">123.56.190.3</string>
     <string name="websocketAddress">ws://zb.006006.cn/websocket.do</string>
 
 

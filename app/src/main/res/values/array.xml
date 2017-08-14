@@ -54,4 +54,14 @@
         <item>咖啡</item>
         <item>现货铜</item>
     </string-array>
+
+
+    <string-array name="leixingArray">
+        <item>涨跌</item>
+        <item>涨跌幅</item>
+        <item>开盘</item>
+        <item>昨收</item>
+        <item>最高价</item>
+        <item>最低价</item>
+    </string-array>
 </resources>
