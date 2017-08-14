@@ -3,12 +3,10 @@ package com.example.shichang393.ruiyin.widget.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +14,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shichang393.ruiyin.R;
@@ -28,6 +26,8 @@ import com.example.shichang393.ruiyin.widget.activity.MainActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.LoginActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.RegisterActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.UpNickNameActivity;
+import com.example.shichang393.ruiyin.widget.view.HintDialog;
+import com.example.shichang393.ruiyin.widget.view.PhotoDialog;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -73,6 +73,8 @@ public class MyFragment extends Fragment {
     private Context     mContext;
     private Activity activity;
     private String Iconurl,name;
+    private PhotoDialog photoDialog = new PhotoDialog(); // 拍照 选择相册
+    private HintDialog hintDialog = new HintDialog(); // 提示框
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -133,7 +135,7 @@ public class MyFragment extends Fragment {
                 if (TextUtils.isEmpty(getuserid)){
                     LoginActivity.startIntent(mContext);
                 }else {
-                    RegisterActivity.startIntent(mContext, 0);
+                    changeHeadImage();
                 }
                 break;
 //            修改密码
@@ -167,25 +169,37 @@ public class MyFragment extends Fragment {
         }
     }
 
-    private void exit() {
-
-        View view=LayoutInflater.from(mContext).inflate(R.layout.popup_bottom,null);
-        final PopupWindow popupWindow=new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setFocusable(true);
-        //实例化一个ColorDrawable颜色为半透明
-//        0xb0000000
-        ColorDrawable dw = new ColorDrawable(0xa0000000);
-        popupWindow.setBackgroundDrawable(dw);
-        //显示PopupWindow
-        View rootview = LayoutInflater.from(mContext).inflate(R.layout.fragment_my, null);
-        popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
-        Button queding= (Button) view.findViewById(R.id.btn_sure);
-        Button cancel= (Button) view.findViewById(R.id.btn_cancel);
-        queding.setOnClickListener(new View.OnClickListener() {
+    private void changeHeadImage() {
+        // 拍照 选取相册
+        photoDialog.setOnCameraClickListener(new PhotoDialog.PhotoCameraCallback() {
             @Override
-            public void onClick(View v) {
+            public void onClick() {
+                photoDialog.dismiss();
+                Toast.makeText(mContext, "点击拍照", Toast.LENGTH_SHORT).show();
+            }
+        });
+        photoDialog.setOnChoosePhotoClickListener(new PhotoDialog.ChoosePhotoCallback() {
+            @Override
+            public void onClick() {
+                photoDialog.dismiss();
+                Toast.makeText(mContext, "点击选取相册", Toast.LENGTH_SHORT).show();
+            }
+        });
+        photoDialog.setOnCancleClickListener(new PhotoDialog.PhoneCancelCallback() {
+            @Override
+            public void onClick() {
+                photoDialog.dismiss();
+                Toast.makeText(mContext, "点击取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+        photoDialog.show(activity.getFragmentManager(), "");
+    }
+
+    private void exit() {
+        hintDialog.setContent("确定要离开吗？");
+        hintDialog.setOnConfirmClickListener(new HintDialog.HintConfirmCallback() {
+            @Override
+            public void onClick() {
                 SharedPreferencesMgr.clearAll();
                 Intent intent=new Intent();
                 intent.putExtra("change",true);
@@ -197,13 +211,15 @@ public class MyFragment extends Fragment {
 //                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                popupWindow.dismiss();
+                hintDialog.dismiss();
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
+        hintDialog.setOnCancelClickListener(new HintDialog.HintCancelCallback() {
             @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
+            public void onClick() {
+                hintDialog.dismiss();
             }
         });
+        hintDialog.show(activity.getFragmentManager(), "hintDialog");
     }
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical|center_horizontal"
+              android:orientation="vertical"
+              android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_base_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_take_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_photo_dialog_top"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="拍照"
+            android:textSize="18sp"
+            android:textColor="#007aff"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"/>
+
+        <TextView
+            android:id="@+id/tv_choose_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_dialog_hint"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:text="选取相册"
+            android:textColor="#007aff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_base_bg">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_photo_dialog_bottom"
+            android:clickable="true"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:text="取消"
+            android:textColor="#007aff"/>
+    </LinearLayout>
+</LinearLayout>
