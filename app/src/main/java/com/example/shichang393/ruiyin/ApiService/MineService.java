@@ -8,6 +8,7 @@ import com.example.shichang393.ruiyin.Bean.mine.NickNameBean;
 import com.example.shichang393.ruiyin.Bean.mine.NickNamePostBean;
 import com.example.shichang393.ruiyin.Bean.mine.UseRegisterPostBean;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -37,7 +38,14 @@ public interface MineService {
     @POST("loginView/updateCustomInfo.do")
     Call<NickNameBean> updateCustomInfo(@Body NickNamePostBean nickNamePostBean);
 
-    //    修改头像接口
+
+    /**
+     * 修改头像接口
+     * http://zb.006006.cn/WoDeCaiShen/updateHeadImgByUserIdForApp.do
+     * @return
+     */
     @POST("WoDeCaiShen/updateHeadImgByUserIdForApp.do")
-    Call<LoginBean> updateHeadImg(@Body AfteRegisterPostBean afteRegisterPostBean);
+    Call<NickNameBean> updateHeadImg(@Body RequestBody num);
+
+
 }
