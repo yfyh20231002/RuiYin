@@ -1,1 +1,1 @@
-include ':app', ':android-pdf', ':ViewPagerIndicator', ':IMLib', ':IMKit'
+include ':app', ':android-pdf', ':ViewPagerIndicator', ':IMLib', ':IMKit', ':MPChartLib'
