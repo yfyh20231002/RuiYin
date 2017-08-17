@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface OnInteractionListener {
     void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat);
+    void onSendSuccess();
     void onChatFailed(String msg);
 }

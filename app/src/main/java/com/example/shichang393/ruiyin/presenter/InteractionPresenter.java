@@ -32,7 +32,21 @@ public class InteractionPresenter implements OnInteractionListener {
     }
 
     @Override
+    public void onSendSuccess() {
+        view.onSendSuccess();
+    }
+
+    @Override
     public void onChatFailed(String msg) {
         view.onChatFailed(msg);
+    }
+
+    public void saveCheck(String msgId) {
+
+        model.saveCheck(msgId,view.getUserId());
+    }
+
+    public void deleteMessage(ChatPBean.DataBean.ChatBean chatBean) {
+        model.deleteMessage(chatBean);
     }
 }

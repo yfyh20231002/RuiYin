@@ -1,7 +1,7 @@
 package com.example.shichang393.ruiyin.Bean;
 
 
-public class SendMessageBean {
+public class SendMessagePostBean {
     private String type;
     private String fyonghuid;
     private String messageid;
@@ -19,7 +19,7 @@ public class SendMessageBean {
     private String relation;
     private String tyonghutouxiang;
 
-    public SendMessageBean(String type, String fyonghuid, String messageid, String tozhiboshiid, String fyonghutouxiang, String fyonghunicheng, int fyonghubiaozhu, int fzhanghaoleixing, int xiaoxileibie, String tyonghuid, String tyonghunicheng, String shuohuaneirong, int yishenhe, String fasongpingtai,String tyonghutouxiang,String relation) {
+    public SendMessagePostBean(String type, String fyonghuid, String messageid, String tozhiboshiid, String fyonghutouxiang, String fyonghunicheng, int fyonghubiaozhu, int fzhanghaoleixing, int xiaoxileibie, String tyonghuid, String tyonghunicheng, String shuohuaneirong, int yishenhe, String fasongpingtai, String tyonghutouxiang, String relation) {
         this.type = type;
         this.fyonghuid = fyonghuid;
         this.messageid = messageid;

@@ -32,7 +32,7 @@
     <color name="gray_btn_bg_pressed_color">#b6b6b6</color>
     <color name="button_text_color">#FFFFFF</color>
     <color name="float_transparent">#00000000</color>
-
+    <color name="grey">#ededed</color>
 
 
 

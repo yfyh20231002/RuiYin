@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--得到焦点-->
+    <item android:state_focused="true">
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="5dp"></corners>
+            <solid android:color="#666666"></solid>
+
+        </shape>
+    </item>
+    <!--按下-->
+    <item android:state_pressed="true">
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="5dp"></corners>
+            <solid android:color="#666666"></solid>
+
+        </shape>
+    </item>
+    <!--初始化-->
+    <item>
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="3dp"></corners>
+            <solid android:color="#999999"></solid>
+
+        </shape>
+    </item>
+</selector>

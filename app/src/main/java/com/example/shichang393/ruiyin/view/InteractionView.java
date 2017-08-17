@@ -9,6 +9,8 @@ import java.util.List;
  */
 
 public interface InteractionView {
+    String getUserId();
     void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat);
+    void onSendSuccess();
     void onChatFailed(String msg);
 }

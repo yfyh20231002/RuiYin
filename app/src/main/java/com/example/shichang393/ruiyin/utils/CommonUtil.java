@@ -1,9 +1,11 @@
 package com.example.shichang393.ruiyin.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.text.TextUtils;
 
 import java.security.MessageDigest;
@@ -218,5 +220,16 @@ public class CommonUtil {
         }
         String afterShuffle = sb.toString();
         return afterShuffle.substring(5, 9);
+    }
+
+    /**
+     * 获取应用高度
+     * @param activity
+     * @return
+     */
+    public static int getAppHeight(Activity activity){
+        Rect outRect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+        return outRect.height() ;
     }
 }

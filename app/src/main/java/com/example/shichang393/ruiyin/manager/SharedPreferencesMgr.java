@@ -241,4 +241,28 @@ public class SharedPreferencesMgr {
     public static String getMima() {
         return sPrefs.getString("mima", "");
     }
+
+
+
+    /**
+     * 保存用户发送消息之后返回的messgeid
+     *
+     * @return
+     */
+    public static  void saveMessageid(String messageid) {
+        if(sPrefs ==null)
+            return ;
+        SharedPreferences.Editor editor = sPrefs.edit();
+        editor.putString("messageid", messageid);
+        editor.commit();
+    }
+
+    /**
+     * 获取用户发送消息之后返回的messgeid
+     *
+     * @return
+     */
+    public static String getMessageid() {
+        return sPrefs.getString("messageid","");
+    }
 }

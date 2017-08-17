@@ -121,7 +121,7 @@ public class ChatPBean {
             private Object shuohuarentoperson;
             private long shuohuashijian;
             private int yishanchu;
-            private Object yihuifu;
+            private String yihuifu;
             private int yizhiding;
             private Object contenttype;
             private Object action;
@@ -223,11 +223,11 @@ public class ChatPBean {
                 this.yishanchu = yishanchu;
             }
 
-            public Object getYihuifu() {
+            public String getYihuifu() {
                 return yihuifu;
             }
 
-            public void setYihuifu(Object yihuifu) {
+            public void setYihuifu(String yihuifu) {
                 this.yihuifu = yihuifu;
             }
 

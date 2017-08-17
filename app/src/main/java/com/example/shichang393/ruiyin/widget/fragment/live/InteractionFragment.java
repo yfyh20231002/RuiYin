@@ -3,6 +3,7 @@ package com.example.shichang393.ruiyin.widget.fragment.live;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,28 +17,40 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.shichang393.ruiyin.ApiService.LiveService;
 import com.example.shichang393.ruiyin.Bean.ChatPBean;
 import com.example.shichang393.ruiyin.Bean.ReceiveBean;
+import com.example.shichang393.ruiyin.Bean.live.InsertCaoZuoPostBean;
 import com.example.shichang393.ruiyin.R;
+import com.example.shichang393.ruiyin.event.OnAdviseEvent;
+import com.example.shichang393.ruiyin.event.OnCheckEvent;
 import com.example.shichang393.ruiyin.listener.OnChatRefreshListener;
 import com.example.shichang393.ruiyin.listener.OnLiveRoomChatTalkListener;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.presenter.InteractionPresenter;
+import com.example.shichang393.ruiyin.utils.CommonUtil;
 import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.view.InteractionView;
+import com.example.shichang393.ruiyin.widget.activity.live.ChatMenuDialog;
 import com.example.shichang393.ruiyin.widget.adapter.live.InteractionAdapter;
 import com.example.shichang393.ruiyin.widget.view.ChatListView;
+import com.example.shichang393.ruiyin.widget.view.StrategyDialog;
 import com.example.shichang393.ruiyin.widget.view.sweetdialog.SweetAlertDialog;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
@@ -50,29 +63,42 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
  * 互动
  */
-public class InteractionFragment extends BaseFragment implements InteractionView ,OnChatRefreshListener,OnLiveRoomChatTalkListener{
+public class InteractionFragment extends BaseFragment implements InteractionView, OnChatRefreshListener, OnLiveRoomChatTalkListener,OnLayoutChangeListener,AdapterView.OnItemLongClickListener{
 
 
     @InjectView(R.id.listview)
     ChatListView listview;
-    InteractionPresenter presenter;
-    InteractionAdapter adapter;
     @InjectView(R.id.content)
     EditText content;
     @InjectView(R.id.send)
     Button send;
+    @InjectView(R.id.tv_speech)
+    TextView tvSpeech;
+    @InjectView(R.id.tv_strategy)
+    TextView tvStrategy;
+    @InjectView(R.id.aniu_layout)
+    LinearLayout aniuLayout;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
+
+    private int listViewHeight=0;
 
     // 直播室id
     String liveid;
     // 用户id
     String userid;
+    // 用户头像
+    String usericon;
     // 账号类型
     private String accountType;
 
@@ -82,22 +108,50 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     private WebSocketClient webSocketClient;
     // 状态监听
 //    private ChatListener chatListener;
-    List<ChatPBean.DataBean.ChatBean> list = new ArrayList<>();
+    private InteractionPresenter presenter;
+    private InteractionAdapter adapter;
+    private  List<ChatPBean.DataBean.ChatBean> list = new ArrayList<>();
     View view;
-    int  page=1;
-    int count=10;
+    int page = 1;
+    int count = 10;
     SweetAlertDialog sweetAlertDialog; // 弹窗
     Activity activity;
     private SpannableStringBuilder replyBuilder;  // 回复字体样式组
     private String otherId = ""; // 他人id
     private String otherName = ""; // 他人姓名
-    private int leibie=0;
-    String tyonghutouxiang="";
-    String relation="";
+    private int leibie = 0;
+    String tyonghutouxiang = "";
+    String relation = "";
+//    用户类型
+    int leixing;
+//    建仓品种，建仓价格，建仓方向，目标点位，止损点位，加仓价格
+    private String pinzhong;
+    private String price;
+    private String direction;
+    private String mubiao;
+    private String zhisun;
+    private String jiacang="";
+    private String baodan;
+
+
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity=activity;
+        this.activity = activity;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -113,6 +167,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         if (parent != null) {
             parent.removeView(view);
         }
+        ButterKnife.inject(this, view);
         return view;
     }
 
@@ -126,14 +181,27 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             initDialog();
             liveid = SharedPreferencesMgr.getZhiboshiid();
             userid = SharedPreferencesMgr.getuserid();
-            int leixing = SharedPreferencesMgr.getZhanghaoleixing();
+            usericon=SharedPreferencesMgr.getUserIcon();
+            leixing = SharedPreferencesMgr.getZhanghaoleixing();
+            if (isFenxishi(leixing)){
+                aniuLayout.setVisibility(View.VISIBLE);
+            }else {
+                aniuLayout.setVisibility(View.GONE);
+            }
             accountType = String.valueOf(leixing);
             startConnectSv(userid, liveid, accountType);
             presenter = new InteractionPresenter(this);
-            presenter.postChatData(userid, liveid, 1, 0, page, count);
+            presenter.postChatData(userid, liveid, leixing, leibie, page, count);
             dismissDialog();
-            isPrepared=false;
+            isPrepared = false;
         }
+    }
+//判断是否是分析师，是的话就显示发布策略按钮，否则不显示
+    private boolean isFenxishi(int permission){
+        if (2==permission||3==permission||4==permission||5==permission|6==permission) {
+            return true;
+        }
+        return false;
     }
 
     private void initDialog() {
@@ -157,32 +225,63 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             return true;
         }
     };
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);
     }
 
     @Override
+    public String getUserId() {
+        return SharedPreferencesMgr.getuserid();
+    }
+
+    @Override
     public void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat) {
-            list.clear();
-            list.addAll(chat);
-            if (adapter == null) {
-                adapter = new InteractionAdapter(list, activity,this);
-                listview.setAdapter(adapter);
-                listview.setSelection(listview.getBottom());
-                listview.setOnRefreshListener(this);
-            } else {
-                adapter.notifyDataSetChanged();
-            }
+        list.clear();
+        list.addAll(chat);
+        if (adapter == null) {
+            adapter = new InteractionAdapter(list, activity, this);
+            listview.setAdapter(adapter);
+            listViewHeight=listview.getHeight();
+            listview.setSelection(listview.getBottom());
+            listview.setOnRefreshListener(this);
+            listview.addOnLayoutChangeListener(this);
+            listview.setOnItemLongClickListener(this);
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public void onSendSuccess() {
+            Retrofit retrofit = CommonUtil.retrofit("http://192.168.1.22:8080/");
+            LiveService liveService = retrofit.create(LiveService.class);
+            String messageid=SharedPreferencesMgr.getMessageid();
+            Call<ResponseBody> responseBodyCall = liveService.postInsertCaozuo(new InsertCaoZuoPostBean(pinzhong, price, direction, mubiao, zhisun, userid, baodan, messageid, "", usericon));
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
 
     }
 
 
     @Override
     public void onChatFailed(String msg) {
-        if (list.size()==0){
-            ToastUtils.showToast(activity,msg);
+        if (list.size() == 0) {
+            ToastUtils.showToast(activity, msg);
         }
     }
 
@@ -207,10 +306,10 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         String userIcon = SharedPreferencesMgr.getUserIcon();
         String userName = SharedPreferencesMgr.getUsername();
         int userMark = SharedPreferencesMgr.getUserMark();
-        presenter.postSendMessage(userid, liveid, userIcon, userName, userMark, 1, leibie,otherId,otherName, chatContent,tyonghutouxiang,relation);
-        leibie=0;
-        tyonghutouxiang="";
-        relation="";
+        presenter.postSendMessage(userid, liveid, userIcon, userName, userMark, 1, leibie, otherId, otherName, chatContent, tyonghutouxiang, relation);
+        leibie = 0;
+        tyonghutouxiang = "";
+        relation = "";
     }
 
 
@@ -289,8 +388,9 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             Log.e(TAG, "websocket connect error.");
         }
     }
+
     void showErrorDialog(String msg) {
-        if (sweetAlertDialog != null&& sweetAlertDialog.isShowing()) {
+        if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
             sweetAlertDialog.setTitleText("进入直播室失败");
             sweetAlertDialog.setContentText(msg);
@@ -303,9 +403,10 @@ public class InteractionFragment extends BaseFragment implements InteractionView
                 }
             });
         } else {
-            ToastUtils.showToast(activity,msg);
+            ToastUtils.showToast(activity, msg);
         }
     }
+
     private void showGetOut() {
         if (!activity.isFinishing()) {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
@@ -328,7 +429,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     @Override
     public void loadMoreChat() {
         listview.showProgress();
-        count+=10;
+        count += 10;
         presenter.postChatData(userid, liveid, 1, 0, page, count);
         listview.refreshComplete();
         adapter.notifyDataSetChanged();
@@ -348,6 +449,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             webSocketClient = null;
         }
     }
+
     /**
      * 回复
      * this method will change inputHint like : 对 xxx 说
@@ -374,15 +476,16 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 
         replyBuilder.append(reply).append(replySpannable).append(" 说");
         content.setHint(replyBuilder);
-        tyonghutouxiang=userIcon;
-        relation=shuohuaneirong;
+        tyonghutouxiang = userIcon;
+        relation = shuohuaneirong;
         alertKeyBoard(userName, userId);
     }
+
     /**
      * 弹出键盘
      */
     private void alertKeyBoard(String userName, String userId) {
-        leibie=1;
+        leibie = 1;
         otherId = userId;
         otherName = userName;
         // 设置焦点
@@ -394,6 +497,131 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         InputMethodManager inputManager =
                 (InputMethodManager) content.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(content, 0);
+    }
+
+    @Override
+    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+        if (listViewHeight == (bottom - top)) {
+            // 键盘收起时
+            leibie = 0;
+            content.setHint("");
+        } else if (listViewHeight > (bottom - top)) {
+            listview.scrollToBottomAlways();
+        }
+
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        position = position - 1;
+        // 自己是普通用户或者对方是分析师 不弹出菜单
+        if (isGeneral(SharedPreferencesMgr.getZhanghaoleixing())
+                || (!isGeneral(list.get(position).getFzhanghaoleixing()) && !TextUtils.equals(list.get(position).getFyonghuid(),SharedPreferencesMgr.getuserid()))) {
+            return false;
+        }
+        String messageid = list.get(position).getMessageid();
+        Intent intent = new Intent(mContext, ChatMenuDialog.class);
+        intent.putExtra("messageType", list.get(position).getXiaoxileibie());
+        intent.putExtra("userName", list.get(position).getFyonghunicheng());
+        intent.putExtra("userId", list.get(position).getFyonghuid());
+        intent.putExtra("usericon",list.get(position).getFyonghutouxiang());
+        intent.putExtra("chatContent", list.get(position).getShuohuaneirong());
+        intent.putExtra("chatSticky", list.get(position).getYishenhe());
+        intent.putExtra("chatReply", TextUtils.isEmpty(list.get(position).getYihuifu()) ? "0" : list.get(position).getYihuifu());
+        intent.putExtra("msgId", messageid);
+        intent.putExtra("position", position);
+        startActivity(intent);
+        return true;
+    }
+
+    /**
+     * 是否是普通用户
+     *
+     * @param permission 用户权限
+     * @return
+     */
+    private boolean isGeneral(int permission) {
+        if (2 == permission || 3 == permission || 4 == permission || 5 == permission || 6 == permission) {
+            return false;
+        }
+        return true;
+    }
+    @Subscribe
+    public void onMessageEvent(OnAdviseEvent onAdviseEvent){
+        pinzhong=onAdviseEvent.getTypes();
+        price=onAdviseEvent.getJianCang();
+        direction=onAdviseEvent.getRound();
+        mubiao=onAdviseEvent.getMuBiao();
+        zhisun=onAdviseEvent.getZhiSun();
+        jiacang=onAdviseEvent.getJianCangUpdate();
+        baodan=onAdviseEvent.getBaodan();
+        StringBuffer stringBuffer = new StringBuffer();
+        if (1 == onAdviseEvent.getSendType()) {
+            stringBuffer.append(onAdviseEvent.getTypes());
+            stringBuffer.append("操作建议：");
+            stringBuffer.append("可于");
+            stringBuffer.append(onAdviseEvent.getJianCang());
+            stringBuffer.append("价格附近");
+            stringBuffer.append(onAdviseEvent.getRound());
+            stringBuffer.append("，盈利目标点为");
+            stringBuffer.append(onAdviseEvent.getMuBiao());
+            stringBuffer.append("，建议将止损价格设置为");
+            stringBuffer.append(onAdviseEvent.getZhiSun());
+            stringBuffer.append("。本操作建议为分析师个人意见，仅供参考。");
+            leibie=2;
+        } else {
+            stringBuffer.append(onAdviseEvent.getTypes());
+            stringBuffer.append("跟踪建议：");
+            stringBuffer.append("可于");
+            stringBuffer.append(onAdviseEvent.getJianCang());
+            stringBuffer.append("价格附近");
+            stringBuffer.append(onAdviseEvent.getRound());
+            stringBuffer.append("，加仓价格为");
+            stringBuffer.append(onAdviseEvent.getJianCangUpdate());
+            stringBuffer.append("，盈利目标点为");
+            stringBuffer.append(onAdviseEvent.getMuBiao());
+            stringBuffer.append("，建议将止损价格设置为");
+            stringBuffer.append(onAdviseEvent.getZhiSun());
+            stringBuffer.append("。本操作建议为分析师个人意见，仅供参考。");
+            leibie=4;
+        }
+        sendDefaultMessage(stringBuffer.toString());
+    }
+
+
+    @Subscribe
+    public void onEventBackgroundThread(OnCheckEvent onCheckEvent) {
+        // 审核
+        if (onCheckEvent.getClick() == 0) {
+            presenter.saveCheck(onCheckEvent.getMessageId());
+        }
+        // 回复
+        else if (onCheckEvent.getClick() == 1) {
+            onClickTalkTo(onCheckEvent.getMessageId(), onCheckEvent.getUserName(), onCheckEvent.getUserId(),onCheckEvent.getUserIcon(),onCheckEvent.getChatContent(), 2);
+        }
+        // 删除
+        else if (onCheckEvent.getClick() == 2) {
+            ChatPBean.DataBean.ChatBean chatBean = list.get(onCheckEvent.getPosition());
+            presenter.deleteMessage(chatBean);
+            presenter.postChatData(userid, liveid, leixing, leibie, page, count);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    @OnClick({R.id.tv_speech, R.id.tv_strategy})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+//            正常发言按钮
+            case R.id.tv_speech:
+                break;
+//            发布策略按钮
+            case R.id.tv_strategy:
+                StrategyDialog dialog=new StrategyDialog();
+                dialog.show(getChildFragmentManager(),"");
+                break;
+        }
     }
 
 

@@ -50,6 +50,8 @@
         </activity>
         <activity android:name=".widget.activity.home.KaiHuWebview">
         </activity>
+       <activity android:name=".widget.activity.live.ChatMenuDialog"
+                 android:theme="@style/BottomDialog"></activity>
         <activity android:name=".markcenter.k_line.K_line"></activity>
         <provider
             android:name="android.support.v4.content.FileProvider"

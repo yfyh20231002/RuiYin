@@ -64,4 +64,10 @@
         <item>最高价</item>
         <item>最低价</item>
     </string-array>
+
+    <string-array name="advise_round">
+        <item>做多</item>
+        <item>做空</item>
+        <item>震荡</item>
+    </string-array>
 </resources>

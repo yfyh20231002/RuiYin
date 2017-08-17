@@ -47,4 +47,5 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.35'
     compile project(':MPChartLib')
     compile 'com.bigkoo:svprogresshud:1.0.6'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
