@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.shichang393.ruiyin.widget.activity.home.NewsActivity">
+    tools:context=".widget.activity.home.NewsActivity">
     <include layout="@layout/actionbar"></include>
     <ProgressBar
         android:id="@+id/progressBar"

@@ -34,8 +34,8 @@
         android:layout_height="1dp"
         android:background="@color/line"/>
 
-    <com.example.shichang393.ruiyin.widget.view.NoScrollViewPager
+    <com.unitesoft.huanrong.widget.view.NoScrollViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.example.shichang393.ruiyin.widget.view.NoScrollViewPager>
+        android:layout_height="match_parent"></com.unitesoft.huanrong.widget.view.NoScrollViewPager>
 </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.shichang393.ruiyin.widget.activity.mine.MianZeActivity">
+    tools:context=".widget.activity.mine.MianZeActivity">
 
     <include layout="@layout/actionbar"/>
 
@@ -20,14 +20,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="1.鲸鱼贵金属为首旭财经专注打造，任何用户在使用鲸鱼贵金属时均应认可本声明，用户使用鲸鱼贵金属则视为本声明的全面内容进行全部接受。"
                 app:align="left"/>
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -35,7 +35,7 @@
                 app:align="left"/>
 
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -43,7 +43,7 @@
                 app:align="left"/>
 
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -51,7 +51,7 @@
                 app:align="left"/>
 
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -59,7 +59,7 @@
                 app:align="left"/>
 
 
-            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

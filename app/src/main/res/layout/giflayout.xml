@@ -12,7 +12,7 @@
     android:gravity="center_vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <com.example.shichang393.ruiyin.widget.view.GifView
+    <com.unitesoft.huanrong.widget.view.GifView
         app:gif="@raw/load"
         android:layout_width="40dp"
         android:layout_height="40dp"/>

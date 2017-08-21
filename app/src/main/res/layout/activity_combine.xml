@@ -313,9 +313,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         />
-    <com.example.shichang393.ruiyin.markcenter.test.MyLineChart
+    <com.unitesoft.huanrong.markcenter.test.MyLineChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lineChart"
-        android:visibility="gone"></com.example.shichang393.ruiyin.markcenter.test.MyLineChart>
+        android:visibility="gone"></com.unitesoft.huanrong.markcenter.test.MyLineChart>
 </LinearLayout>

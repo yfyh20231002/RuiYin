@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shichang393.ruiyin.widget.activity.home.PlayCCTVActivity">
+    tools:context=".widget.activity.home.PlayCCTVActivity">
 <ListView
     android:id="@+id/listview"
     android:layout_width="match_parent"

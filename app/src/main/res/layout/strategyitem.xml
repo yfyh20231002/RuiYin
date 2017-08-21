@@ -67,7 +67,7 @@
             android:background="@color/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <com.example.shichang393.ruiyin.widget.view.AlignTextView
+        <com.unitesoft.huanrong.widget.view.AlignTextView
             android:id="@+id/content"
             android:textSize="14sp"
             android:textColor="@color/tabtext"
