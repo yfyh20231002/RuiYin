@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.shichang393.ruiyin.widget.activity.mine.MianZeActivity">
+
+    <include layout="@layout/actionbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="1.鲸鱼贵金属为首旭财经专注打造，任何用户在使用鲸鱼贵金属时均应认可本声明，用户使用鲸鱼贵金属则视为本声明的全面内容进行全部接受。"
+                app:align="left"/>
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="2.您已经了解并同意鲸鱼贵金属可能因公司、其他合作方或相关电信部门的互联网软硬件设备故障或失灵、或人为操作疏忽为全部或部分中断、遗漏、误导或造成资料传输或储存上的错误、或遭第三方侵入系统篡改或伪造变造资料等，鲸鱼贵金属不承担任何违约赔偿或其他民事责任。"
+                app:align="left"/>
+
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="3.您充分认识到黄金、白银等贵金属投资的风险，了解投资，面临的各种市场风险和政策风险，并了解用户应自主做出投资决策并独立承担投资风险。投资有风险，入市需谨慎。"
+                app:align="left"/>
+
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="4.鲸鱼APP提供的所有数据与信息，力求但不保证数据的准确性，仅供用户参考使用，用户应在投资决策前做出理性判断，并自行承担投资风险。"
+                app:align="left"/>
+
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="5.用户对利用该账号和密码所进行的一切活动负全部责任。因黑客行为或用户的账号保管疏忽导致账号密码遭他人非法使用,我司不承担任何责任。"
+                app:align="left"/>
+
+
+            <com.example.shichang393.ruiyin.widget.view.AlignTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="6.法律法规规定的其它有关免责规定。"
+                app:align="left"/>
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/mianze_logo"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

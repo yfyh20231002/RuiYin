@@ -26,6 +26,10 @@ dependencies {
     compile project(':ViewPagerIndicator')
     compile project(':IMKit')
     compile files('libs/java_websocket.jar')
+    compile files('libs/mina-core-2.0.0.jar')
+    compile files('libs/slf4j-api-1.5.11.jar')
+    compile files('libs/slf4j-simple-1.5.2.jar')
+    compile project(':MPChartLib')
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
@@ -40,12 +44,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile 'fm.jiecao:jiecaovideoplayer:5.7'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile files('libs/mina-core-2.0.0.jar')
-    compile files('libs/slf4j-api-1.5.11.jar')
-    compile files('libs/slf4j-simple-1.5.2.jar')
     compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
     compile 'com.alibaba:fastjson:1.2.35'
-    compile project(':MPChartLib')
     compile 'com.bigkoo:svprogresshud:1.0.6'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
 }

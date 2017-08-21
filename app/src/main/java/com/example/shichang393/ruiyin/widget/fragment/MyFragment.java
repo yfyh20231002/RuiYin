@@ -24,14 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.shichang393.ruiyin.ApiService.MineService;
 import com.example.shichang393.ruiyin.Bean.mine.NickNameBean;
 import com.example.shichang393.ruiyin.R;
 import com.example.shichang393.ruiyin.manager.SharedPreferencesMgr;
 import com.example.shichang393.ruiyin.utils.CommonUtil;
 import com.example.shichang393.ruiyin.utils.ConstanceValue;
+import com.example.shichang393.ruiyin.utils.ToastUtils;
 import com.example.shichang393.ruiyin.widget.activity.MainActivity;
+import com.example.shichang393.ruiyin.widget.activity.mine.AboutusActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.LoginActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.RegisterActivity;
 import com.example.shichang393.ruiyin.widget.activity.mine.UpNickNameActivity;
@@ -104,13 +105,15 @@ public class MyFragment extends Fragment {
     private static final int IMAGE_REQUEST_CODE = 100;
     private static final int SELECT_PIC_NOUGAT = 101;
     private static final int CAMERA_REQUEST_CODE = 104;
-    String path = Environment.getExternalStorageDirectory()+"/Android/data/com.example.shichang393.ruiyin/files/";
-    String cameraname="IMAGE_FILE_NAME.jpg";
-    String galleryname="IMAGE_GALLERY_NAME.jpg";
+    String path = Environment.getExternalStorageDirectory() + "/Android/data/com.example.shichang393.ruiyin/files/";
+    String cameraname = "IMAGE_FILE_NAME.jpg";
+    String galleryname = "IMAGE_GALLERY_NAME.jpg";
     File mCameraFile = new File(path, cameraname);//照相机的File对象
     File mGalleryFile = new File(path, galleryname);//相册的File对象
     Bitmap photo;
     String picPath;
+    String zhanghao;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -132,6 +135,7 @@ public class MyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Iconurl = SharedPreferencesMgr.getUserIcon();
         name = SharedPreferencesMgr.getUsername();
+        zhanghao = SharedPreferencesMgr.getZhanghao();
         if (!TextUtils.isEmpty(Iconurl)) {
             with(mContext).load(ConstanceValue.baseImage + "/" + Iconurl).into(imagMyTouxiang);
         }
@@ -199,8 +203,10 @@ public class MyFragment extends Fragment {
             case R.id.btn_my_haoping:
                 break;
             case R.id.btn_my_share:
+
                 break;
             case R.id.btn_my_aboutus:
+                startActivity(new Intent(mContext, AboutusActivity.class));
                 break;
         }
     }
@@ -230,17 +236,16 @@ public class MyFragment extends Fragment {
         photoDialog.show(activity.getFragmentManager(), "");
     }
 
-
     //拍照
     private void takePhoto() {
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//7.0及以上
             Uri uriForFile = FileProvider.getUriForFile(mContext, "com.example.shichang393.ruiyin", mCameraFile);
-            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
+//            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
             intentFromCapture.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
             intentFromCapture.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
         } else {
-            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCameraFile));
+//            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCameraFile));
         }
         startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
     }
@@ -265,14 +270,19 @@ public class MyFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case CAMERA_REQUEST_CODE: {//照相后返回
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Uri inputUri = FileProvider.getUriForFile(mContext, "com.example.shichang393.ruiyin", mCameraFile);//通过FileProvider创建一个content类型的Uri
-                    jiexi(inputUri,cameraname);
+                    try {
+                        photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(inputUri));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    jiexi(cameraname);
                 } else {
-                    Uri inputUri = Uri.fromFile(mCameraFile);
-                    jiexi(inputUri,cameraname);
+                    photo = (Bitmap) data.getExtras().get("data");
+                    jiexi(cameraname);
                 }
                 break;
             }
@@ -280,24 +290,34 @@ public class MyFragment extends Fragment {
                 if (data != null) {
                     // 得到图片的全路径
                     Uri uri = data.getData();
-                    jiexi(uri,galleryname);
+                    try {
+                        photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    jiexi(galleryname);
                 }
                 break;
             }
             case SELECT_PIC_NOUGAT://版本>= 7.0
                 Uri dataUri = FileProvider.getUriForFile
                         (mContext, "com.example.shichang393.ruiyin", mGalleryFile);
-                jiexi(dataUri,galleryname);
+                try {
+                    photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(dataUri));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                jiexi(galleryname);
                 break;
 
         }
     }
 
-    private void jiexi(Uri uri,String name) {
-        try {
-            photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    private void jiexi(String name) {
+
+        if (photo == null) {
+            ToastUtils.showToast(mContext, "失败");
+            return;
         }
         FileOutputStream fileOutputStream = null;
         try {
@@ -317,28 +337,28 @@ public class MyFragment extends Fragment {
             this.photo.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             // 相片的完整路径
             this.picPath = file.getPath();
-            String zhanghao = SharedPreferencesMgr.getZhanghao();
-            update(zhanghao, name, picPath);
+
+            update(name, picPath);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private  void update(String phone,String fileName,String path){
+    private void update(String fileName, String path) {
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.baseImage);
         MineService mineService = retrofit.create(MineService.class);
         MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("image/*");
-        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("file", fileName, RequestBody.create(MEDIA_TYPE_MARKDOWN, new File(path))).addFormDataPart("userPhone", phone).build();
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("file", fileName, RequestBody.create(MEDIA_TYPE_MARKDOWN, new File(path))).addFormDataPart("userPhone", zhanghao).build();
         Call<NickNameBean> loginBeanCall = mineService.updateHeadImg(body);
         loginBeanCall.enqueue(new Callback<NickNameBean>() {
             @Override
             public void onResponse(Call<NickNameBean> call, Response<NickNameBean> response) {
                 NickNameBean body1 = response.body();
-                if (body1!=null){
+                if (body1 != null) {
                     String yonghutouxiang = body1.getUsers().getYonghutouxiang();
-                    if (!TextUtils.isEmpty(yonghutouxiang)){
+                    if (!TextUtils.isEmpty(yonghutouxiang)) {
                         SharedPreferencesMgr.saveUserIcon(yonghutouxiang);
-                        Glide.with(activity).load(ConstanceValue.baseImage+"/"+yonghutouxiang).into(imagMyTouxiang);
+                        imagMyTouxiang.setImageBitmap(photo);
                     }
                 }
             }

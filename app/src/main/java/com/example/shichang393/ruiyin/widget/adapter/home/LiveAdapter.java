@@ -65,7 +65,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ViewHolder> {
             Date date1 = dateFormat.parse(parse1);
             Date date2 = dateFormat.parse(parse2);
             if (date.after(date1) && date.before(date2)) {
-                holder.liveState.setText("直播中");
+                holder.liveState.setText("  直播中");
                 holder.liveState.setBackgroundResource(R.mipmap.live_li_bg);
                 // 使用代码设置drawableleft
                 Drawable drawable = context.getResources().getDrawable(
@@ -75,7 +75,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ViewHolder> {
                         drawable.getMinimumHeight());
                 holder.liveState.setCompoundDrawables(drawable, null, null, null);
             } else {
-                holder.liveState.setText("休息中");
+                holder.liveState.setText("  休息中");
                 holder.liveState.setBackgroundResource(R.mipmap.live_xx_bg);
                 // 使用代码设置drawableleft
                 Drawable drawable = context.getResources().getDrawable(
