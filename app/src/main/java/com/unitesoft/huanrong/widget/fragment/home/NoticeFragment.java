@@ -17,6 +17,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.NoticeView;
 import com.unitesoft.huanrong.widget.activity.home.NoticeActivity;
 import com.unitesoft.huanrong.widget.adapter.home.NoticeAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public class NoticeFragment extends Fragment implements NoticeView {
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
     NoticeAdapter adapter;
+
+    private LoadDialog loadDialog;
     public NoticeFragment() {
         // Required empty public constructor
     }
@@ -50,6 +53,8 @@ public class NoticeFragment extends Fragment implements NoticeView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new NoticePresenter(this);
         presenter.setModel();
         presenter.getData(49,1,1000);
@@ -58,6 +63,7 @@ public class NoticeFragment extends Fragment implements NoticeView {
 
     @Override
     public void success(final List<NoticeBean> list) {
+        loadDialog.dismiss();
         if (adapter==null){
             adapter=new NoticeAdapter(list,getActivity());
         }else {
@@ -78,6 +84,7 @@ public class NoticeFragment extends Fragment implements NoticeView {
 
     @Override
     public void failed(String errormessage) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(), errormessage);
     }
 

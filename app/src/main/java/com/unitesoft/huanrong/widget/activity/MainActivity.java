@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,13 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.unitesoft.huanrong.widget.activity.BaseActivity;
 import com.unitesoft.huanrong.Bean.TokenBean;
 import com.unitesoft.huanrong.R;
+import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 import com.unitesoft.huanrong.presenter.TokenPresenter;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.TokenView;
 import com.unitesoft.huanrong.widget.activity.home.CallDialog;
+import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.fragment.HomeFragment;
 import com.unitesoft.huanrong.widget.fragment.LiveFragment;
 import com.unitesoft.huanrong.widget.fragment.MarkCenterFragment;
@@ -86,6 +88,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     boolean isChange=false;
     // 标识是否退出
     private boolean isExit = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,10 +119,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initRongIM() {
-        presenter = new TokenPresenter(this);
-        presenter.getToken("18338699733","zhangsan","");
-//        String token = "qtccfUjmRpgMnSPBnZOD7mKQ0bZ8bvt+BvddLdqnXtk1B2SajtIMs8HS2Q5tSufIo7ofUeU37lJ78tCYRZXJ4Pz5iH5GTIII";
-//        connect(token);
+        String userid= SharedPreferencesMgr.getuserid();
+        String username=SharedPreferencesMgr.getUsername();
+        if (TextUtils.isEmpty(userid)&&TextUtils.isEmpty(username)){
+            LoginActivity.startIntent(MainActivity.this);
+        }else {
+            presenter = new TokenPresenter(this);
+            presenter.getToken(userid, username, "");
+        }
     }
 
     private void connect(String token) {

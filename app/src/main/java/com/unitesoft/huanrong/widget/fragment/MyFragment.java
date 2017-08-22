@@ -35,9 +35,11 @@ import com.unitesoft.huanrong.widget.activity.MainActivity;
 import com.unitesoft.huanrong.widget.activity.mine.AboutusActivity;
 import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.activity.mine.RegisterActivity;
+import com.unitesoft.huanrong.widget.activity.mine.RemindActivity;
 import com.unitesoft.huanrong.widget.activity.mine.UpNickNameActivity;
-import com.unitesoft.huanrong.widget.view.HintDialog;
-import com.unitesoft.huanrong.widget.view.PhotoDialog;
+import com.unitesoft.huanrong.widget.fragment.dialog.HintDialog;
+import com.unitesoft.huanrong.widget.fragment.dialog.PhotoDialog;
+import com.unitesoft.huanrong.widget.fragment.dialog.ShareDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -191,6 +193,7 @@ public class MyFragment extends Fragment {
                 exit();
                 break;
             case R.id.btn_my_tixing:
+                startActivity(new Intent(mContext, RemindActivity.class));
                 break;
             case R.id.checkbtn_set_on:
                 checkbtnSetOn.setVisibility(View.GONE);
@@ -203,7 +206,8 @@ public class MyFragment extends Fragment {
             case R.id.btn_my_haoping:
                 break;
             case R.id.btn_my_share:
-
+                ShareDialog shareDialog=new ShareDialog();
+                shareDialog.show(getChildFragmentManager(),"");
                 break;
             case R.id.btn_my_aboutus:
                 startActivity(new Intent(mContext, AboutusActivity.class));

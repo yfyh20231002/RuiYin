@@ -44,8 +44,9 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.InteractionView;
 import com.unitesoft.huanrong.widget.activity.live.ChatMenuDialog;
 import com.unitesoft.huanrong.widget.adapter.live.InteractionAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 import com.unitesoft.huanrong.widget.view.ChatListView;
-import com.unitesoft.huanrong.widget.view.StrategyDialog;
+import com.unitesoft.huanrong.widget.fragment.dialog.StrategyDialog;
 import com.unitesoft.huanrong.widget.view.sweetdialog.SweetAlertDialog;
 import com.google.gson.Gson;
 
@@ -73,7 +74,7 @@ import retrofit2.Retrofit;
  * A simple {@link Fragment} subclass.
  * 互动
  */
-public class InteractionFragment extends BaseFragment implements InteractionView, OnChatRefreshListener, OnLiveRoomChatTalkListener,OnLayoutChangeListener,AdapterView.OnItemLongClickListener{
+public class InteractionFragment extends BaseFragment implements InteractionView, OnChatRefreshListener, OnLiveRoomChatTalkListener, OnLayoutChangeListener, AdapterView.OnItemLongClickListener {
 
 
     @InjectView(R.id.listview)
@@ -91,7 +92,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
 
-    private int listViewHeight=0;
+    private int listViewHeight = 0;
 
     // 直播室id
     String liveid;
@@ -110,7 +111,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 //    private ChatListener chatListener;
     private InteractionPresenter presenter;
     private InteractionAdapter adapter;
-    private  List<ChatPBean.DataBean.ChatBean> list = new ArrayList<>();
+    private List<ChatPBean.DataBean.ChatBean> list = new ArrayList<>();
     View view;
     int page = 1;
     int count = 10;
@@ -122,24 +123,25 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     private int leibie = 0;
     String tyonghutouxiang = "";
     String relation = "";
-//    用户类型
+    //    用户类型
     int leixing;
-//    建仓品种，建仓价格，建仓方向，目标点位，止损点位，加仓价格
+    //    建仓品种，建仓价格，建仓方向，目标点位，止损点位，加仓价格
     private String pinzhong;
     private String price;
     private String direction;
     private String mubiao;
     private String zhisun;
-    private String jiacang="";
+    private String jiacang = "";
     private String baodan;
 
 
     private Context mContext;
+    private LoadDialog loadDialog;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -181,24 +183,27 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             initDialog();
             liveid = SharedPreferencesMgr.getZhiboshiid();
             userid = SharedPreferencesMgr.getuserid();
-            usericon=SharedPreferencesMgr.getUserIcon();
+            usericon = SharedPreferencesMgr.getUserIcon();
             leixing = SharedPreferencesMgr.getZhanghaoleixing();
-            if (isFenxishi(leixing)){
+            if (isFenxishi(leixing)) {
                 aniuLayout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 aniuLayout.setVisibility(View.GONE);
             }
             accountType = String.valueOf(leixing);
             startConnectSv(userid, liveid, accountType);
+            loadDialog=new LoadDialog();
+            loadDialog.show(getChildFragmentManager(),"");
             presenter = new InteractionPresenter(this);
             presenter.postChatData(userid, liveid, leixing, leibie, page, count);
             dismissDialog();
             isPrepared = false;
         }
     }
-//判断是否是分析师，是的话就显示发布策略按钮，否则不显示
-    private boolean isFenxishi(int permission){
-        if (2==permission||3==permission||4==permission||5==permission|6==permission) {
+
+    //判断是否是分析师，是的话就显示发布策略按钮，否则不显示
+    private boolean isFenxishi(int permission) {
+        if (2 == permission || 3 == permission || 4 == permission || 5 == permission | 6 == permission) {
             return true;
         }
         return false;
@@ -240,12 +245,13 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 
     @Override
     public void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat) {
+        loadDialog.dismiss();
         list.clear();
         list.addAll(chat);
         if (adapter == null) {
             adapter = new InteractionAdapter(list, activity, this);
             listview.setAdapter(adapter);
-            listViewHeight=listview.getHeight();
+            listViewHeight = listview.getHeight();
             listview.setSelection(listview.getBottom());
             listview.setOnRefreshListener(this);
             listview.addOnLayoutChangeListener(this);
@@ -258,21 +264,22 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 
     @Override
     public void onSendSuccess() {
-            Retrofit retrofit = CommonUtil.retrofit("http://192.168.1.22:8080/");
-            LiveService liveService = retrofit.create(LiveService.class);
-            String messageid=SharedPreferencesMgr.getMessageid();
-            Call<ResponseBody> responseBodyCall = liveService.postInsertCaozuo(new InsertCaoZuoPostBean(pinzhong, price, direction, mubiao, zhisun, userid, baodan, messageid, "", usericon));
-            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        loadDialog.dismiss();
+        Retrofit retrofit = CommonUtil.retrofit("http://192.168.1.22:8080/");
+        LiveService liveService = retrofit.create(LiveService.class);
+        String messageid = SharedPreferencesMgr.getMessageid();
+        Call<ResponseBody> responseBodyCall = liveService.postInsertCaozuo(new InsertCaoZuoPostBean(pinzhong, price, direction, mubiao, zhisun, userid, baodan, messageid, "", usericon));
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                }
+            }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                }
-            });
+            }
+        });
 
 
     }
@@ -280,6 +287,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 
     @Override
     public void onChatFailed(String msg) {
+        loadDialog.dismiss();
         if (list.size() == 0) {
             ToastUtils.showToast(activity, msg);
         }
@@ -517,7 +525,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         position = position - 1;
         // 自己是普通用户或者对方是分析师 不弹出菜单
         if (isGeneral(SharedPreferencesMgr.getZhanghaoleixing())
-                || (!isGeneral(list.get(position).getFzhanghaoleixing()) && !TextUtils.equals(list.get(position).getFyonghuid(),SharedPreferencesMgr.getuserid()))) {
+                || (!isGeneral(list.get(position).getFzhanghaoleixing()) && !TextUtils.equals(list.get(position).getFyonghuid(), SharedPreferencesMgr.getuserid()))) {
             return false;
         }
         String messageid = list.get(position).getMessageid();
@@ -525,7 +533,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         intent.putExtra("messageType", list.get(position).getXiaoxileibie());
         intent.putExtra("userName", list.get(position).getFyonghunicheng());
         intent.putExtra("userId", list.get(position).getFyonghuid());
-        intent.putExtra("usericon",list.get(position).getFyonghutouxiang());
+        intent.putExtra("usericon", list.get(position).getFyonghutouxiang());
         intent.putExtra("chatContent", list.get(position).getShuohuaneirong());
         intent.putExtra("chatSticky", list.get(position).getYishenhe());
         intent.putExtra("chatReply", TextUtils.isEmpty(list.get(position).getYihuifu()) ? "0" : list.get(position).getYihuifu());
@@ -547,15 +555,16 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         }
         return true;
     }
+
     @Subscribe
-    public void onMessageEvent(OnAdviseEvent onAdviseEvent){
-        pinzhong=onAdviseEvent.getTypes();
-        price=onAdviseEvent.getJianCang();
-        direction=onAdviseEvent.getRound();
-        mubiao=onAdviseEvent.getMuBiao();
-        zhisun=onAdviseEvent.getZhiSun();
-        jiacang=onAdviseEvent.getJianCangUpdate();
-        baodan=onAdviseEvent.getBaodan();
+    public void onMessageEvent(OnAdviseEvent onAdviseEvent) {
+        pinzhong = onAdviseEvent.getTypes();
+        price = onAdviseEvent.getJianCang();
+        direction = onAdviseEvent.getRound();
+        mubiao = onAdviseEvent.getMuBiao();
+        zhisun = onAdviseEvent.getZhiSun();
+        jiacang = onAdviseEvent.getJianCangUpdate();
+        baodan = onAdviseEvent.getBaodan();
         StringBuffer stringBuffer = new StringBuffer();
         if (1 == onAdviseEvent.getSendType()) {
             stringBuffer.append(onAdviseEvent.getTypes());
@@ -569,7 +578,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             stringBuffer.append("，建议将止损价格设置为");
             stringBuffer.append(onAdviseEvent.getZhiSun());
             stringBuffer.append("。本操作建议为分析师个人意见，仅供参考。");
-            leibie=2;
+            leibie = 2;
         } else {
             stringBuffer.append(onAdviseEvent.getTypes());
             stringBuffer.append("跟踪建议：");
@@ -584,7 +593,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             stringBuffer.append("，建议将止损价格设置为");
             stringBuffer.append(onAdviseEvent.getZhiSun());
             stringBuffer.append("。本操作建议为分析师个人意见，仅供参考。");
-            leibie=4;
+            leibie = 4;
         }
         sendDefaultMessage(stringBuffer.toString());
     }
@@ -598,7 +607,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         }
         // 回复
         else if (onCheckEvent.getClick() == 1) {
-            onClickTalkTo(onCheckEvent.getMessageId(), onCheckEvent.getUserName(), onCheckEvent.getUserId(),onCheckEvent.getUserIcon(),onCheckEvent.getChatContent(), 2);
+            onClickTalkTo(onCheckEvent.getMessageId(), onCheckEvent.getUserName(), onCheckEvent.getUserId(), onCheckEvent.getUserIcon(), onCheckEvent.getChatContent(), 2);
         }
         // 删除
         else if (onCheckEvent.getClick() == 2) {
@@ -618,8 +627,8 @@ public class InteractionFragment extends BaseFragment implements InteractionView
                 break;
 //            发布策略按钮
             case R.id.tv_strategy:
-                StrategyDialog dialog=new StrategyDialog();
-                dialog.show(getChildFragmentManager(),"");
+                StrategyDialog dialog = new StrategyDialog();
+                dialog.show(getChildFragmentManager(), "");
                 break;
         }
     }

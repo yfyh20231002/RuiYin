@@ -18,6 +18,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.activity.home.NewsActivity;
 import com.unitesoft.huanrong.widget.adapter.RemindAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import butterknife.InjectView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 提醒
  */
 public class RemindFragment extends Fragment implements FlashView {
 
@@ -33,6 +35,8 @@ public class RemindFragment extends Fragment implements FlashView {
     RemindAdapter adapter;
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
+
+    private LoadDialog loadDialog;
 
 
     @Override
@@ -46,6 +50,8 @@ public class RemindFragment extends Fragment implements FlashView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new FlashPresenter(this);
         presenter.setModel();
         presenter.getData("市场播报#政经要闻");
@@ -59,6 +65,7 @@ public class RemindFragment extends Fragment implements FlashView {
 
     @Override
     public void success(final List<FlashBean.DataBean.DangtianshujuBean> list) {
+        loadDialog.dismiss();
         if (adapter==null){
             adapter=new RemindAdapter(list);
         }else {
@@ -80,6 +87,7 @@ public class RemindFragment extends Fragment implements FlashView {
 
     @Override
     public void failed(String errormessage) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(),errormessage);
     }
 }

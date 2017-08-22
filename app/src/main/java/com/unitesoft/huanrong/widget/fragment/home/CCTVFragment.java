@@ -19,6 +19,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.CCTView;
 import com.unitesoft.huanrong.widget.activity.home.PlayCCTVActivity;
 import com.unitesoft.huanrong.widget.adapter.home.CCTVAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import butterknife.InjectView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 央视
  */
 public class CCTVFragment extends Fragment implements CCTView {
 
@@ -36,6 +38,9 @@ public class CCTVFragment extends Fragment implements CCTView {
     RecyclerView recyclerview;
     CCTVPresenter presenter;
     CCTVAdapter adapter;
+
+    private LoadDialog loadDialog;
+
     public CCTVFragment() {
         // Required empty public constructor
     }
@@ -62,6 +67,8 @@ public class CCTVFragment extends Fragment implements CCTView {
     }
 
     private void initdata() {
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new CCTVPresenter(this);
         presenter.setModel(new CCTVModel());
         presenter.getData("鲸鱼APP视频");
@@ -69,6 +76,7 @@ public class CCTVFragment extends Fragment implements CCTView {
 
     @Override
     public void success(final List<CCTVBean.DataBean> data) {
+        loadDialog.dismiss();
         if (adapter == null) {
             adapter = new CCTVAdapter(data);
         } else {
@@ -91,6 +99,7 @@ public class CCTVFragment extends Fragment implements CCTView {
 
     @Override
     public void failed(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(), message);
     }
     @Override

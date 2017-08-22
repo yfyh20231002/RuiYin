@@ -32,6 +32,7 @@ import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.adapter.ChanelAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.HomeLiveAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.IptMsgAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 import com.unitesoft.huanrong.widget.view.NoScrollViewPager;
 import com.unitesoft.huanrong.widget.view.SpaceItemDecoration;
 import com.youth.banner.Banner;
@@ -79,11 +80,12 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     LivePresenter livePresenter;
     HomeLiveAdapter liveAdapter;
     Context mContext;
+    private LoadDialog loadDialog;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -123,7 +125,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
         listview.postDelayed(new Runnable() {
             @Override
             public void run() {
-                vp.setTagHeight(listview.getMeasuredHeight() - tablayout.getMeasuredHeight() );
+                vp.setTagHeight(listview.getMeasuredHeight() - tablayout.getMeasuredHeight());
             }
         }, 1000);
 
@@ -152,6 +154,8 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
 
     private void initListview() {
+        loadDialog = new LoadDialog();
+        loadDialog.show(getChildFragmentManager(), "");
         presenter = new IptMsgPresenter(this);
         presenter.getData("29,32,33", 1, 3);
         listview.addHeaderView(header);
@@ -165,6 +169,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
     @Override
     public void success(final List<IptMsgBean> list) {
+        loadDialog.dismiss();
         if (adapter == null) {
             adapter = new IptMsgAdapter(list, getActivity());
         } else {
@@ -186,6 +191,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
     @Override
     public void faild(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(), message);
     }
 
@@ -208,9 +214,9 @@ public class Home extends Fragment implements IptMsgView, LiveView {
             public void onItemClick(View view, int positon) {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
                 SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
-                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
+                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
                     LoginActivity.startIntent(mContext);
-                }else {
+                } else {
                     StudioActivity.startIntent(mContext);
                 }
             }

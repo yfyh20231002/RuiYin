@@ -16,7 +16,7 @@ import com.unitesoft.huanrong.event.OnAdviseEvent;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.listener.live.CancleCallback;
 import com.unitesoft.huanrong.utils.ToastUtils;
-import com.unitesoft.huanrong.widget.view.PinZhongDialog;
+import com.unitesoft.huanrong.widget.fragment.dialog.PinZhongDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -56,7 +56,7 @@ public class SharedPreferencesMgr {
     public static String  getZhiboshiid(){
         if(sPrefs ==null)
             return ConstanceValue.DefaultLiveId;
-      return   sPrefs.getString("zhiboshiid",ConstanceValue.DefaultLiveId);
+      return   sPrefs.getString("zhiboshiid","");
     }
 
     /**

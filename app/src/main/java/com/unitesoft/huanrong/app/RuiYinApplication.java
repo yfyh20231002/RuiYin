@@ -1,6 +1,8 @@
 package com.unitesoft.huanrong.app;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 
@@ -17,5 +19,11 @@ public class RuiYinApplication extends Application {
         super.onCreate();
         SharedPreferencesMgr.init(this,"ruiyin");
         RongIM.init(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

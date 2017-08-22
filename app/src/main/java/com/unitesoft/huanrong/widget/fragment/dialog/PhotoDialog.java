@@ -1,4 +1,4 @@
-package com.unitesoft.huanrong.widget.view;
+package com.unitesoft.huanrong.widget.fragment.dialog;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -57,7 +57,7 @@ public class PhotoDialog extends DialogFragment {
         getDialog().getWindow().setGravity(Gravity.BOTTOM);
         // 设置背景透明
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        // 去掉标题 死恶心死恶心的
+        // 去掉标题
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         // set cancel on touch outside
         getDialog().setCanceledOnTouchOutside(onTouchOutside);

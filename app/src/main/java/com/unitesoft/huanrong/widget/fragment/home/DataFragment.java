@@ -17,6 +17,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.IptMsgView;
 import com.unitesoft.huanrong.widget.activity.home.IptMsgActivity;
 import com.unitesoft.huanrong.widget.adapter.home.DataAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import butterknife.InjectView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 数据
  */
 public class DataFragment extends Fragment implements IptMsgView {
 
@@ -34,6 +36,8 @@ public class DataFragment extends Fragment implements IptMsgView {
 
     DataAdapter adapter;
     IptMsgPresenter presenter;
+
+    private LoadDialog loadDialog;
     public DataFragment() {
         // Required empty public constructor
     }
@@ -60,12 +64,15 @@ public class DataFragment extends Fragment implements IptMsgView {
     }
 
     private void initData() {
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new IptMsgPresenter(this);
         presenter.getData("29", 1, 100);
     }
 
     @Override
     public void success(final List<IptMsgBean> list) {
+        loadDialog.dismiss();
         if (adapter == null) {
             adapter = new DataAdapter(list);
         } else {
@@ -84,6 +91,7 @@ public class DataFragment extends Fragment implements IptMsgView {
 
     @Override
     public void faild(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(),message);
     }
     @Override

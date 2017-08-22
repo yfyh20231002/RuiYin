@@ -17,6 +17,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.IptMsgView;
 import com.unitesoft.huanrong.widget.activity.home.IptMsgActivity;
 import com.unitesoft.huanrong.widget.adapter.home.InternalAdpater;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import butterknife.InjectView;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 狙击非农
  */
 public class FeiNongFragment extends Fragment implements IptMsgView {
 
@@ -33,6 +35,8 @@ public class FeiNongFragment extends Fragment implements IptMsgView {
     RecyclerView recyclerview;
     IptMsgPresenter presenter;
     InternalAdpater adpater;
+
+    private LoadDialog loadDialog;
     public FeiNongFragment() {
         // Required empty public constructor
     }
@@ -59,12 +63,15 @@ public class FeiNongFragment extends Fragment implements IptMsgView {
     }
 
     private void initData() {
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new IptMsgPresenter(this);
         presenter.getData("32", 1, 100);
     }
 
     @Override
     public void success(final List<IptMsgBean> list) {
+        loadDialog.dismiss();
         if (adpater==null){
             adpater=new InternalAdpater(list,R.mipmap.feinong_img);
         }else {
@@ -81,6 +88,7 @@ public class FeiNongFragment extends Fragment implements IptMsgView {
 
     @Override
     public void faild(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(),message);
     }
     @Override

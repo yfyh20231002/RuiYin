@@ -1,4 +1,4 @@
-package com.unitesoft.huanrong.widget.view;
+package com.unitesoft.huanrong.widget.fragment.dialog;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -16,6 +16,7 @@ import com.unitesoft.huanrong.presenter.FlashPresenter;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.adapter.home.FinanceNewsAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public class FinanceDataFragment extends Fragment implements FlashView {
     RecyclerView recyclerview;
     FinanceNewsAdapter newsAdapter;
 
+    private LoadDialog loadDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class FinanceDataFragment extends Fragment implements FlashView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new FlashPresenter(this);
         presenter.setModel();
         presenter.getData("经济数据");
@@ -61,6 +66,7 @@ public class FinanceDataFragment extends Fragment implements FlashView {
 
     @Override
     public void success(List<FlashBean.DataBean.DangtianshujuBean> list) {
+        loadDialog.dismiss();
         if (newsAdapter == null) {
             newsAdapter = new FinanceNewsAdapter(list);
         } else {
@@ -71,6 +77,7 @@ public class FinanceDataFragment extends Fragment implements FlashView {
 
     @Override
     public void failed(String errormessage) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(), errormessage);
     }
 

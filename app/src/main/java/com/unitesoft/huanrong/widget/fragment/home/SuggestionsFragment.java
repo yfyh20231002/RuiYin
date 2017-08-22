@@ -1,22 +1,26 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.unitesoft.huanrong.Bean.SuggestionBean;
 import com.unitesoft.huanrong.R;
+import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 import com.unitesoft.huanrong.presenter.SuggestionPresenter;
-import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.SuggestionView;
+import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.adapter.home.SuggestionAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.List;
 
@@ -34,6 +38,14 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
     RecyclerView recyclerview;
     SuggestionPresenter presenter;
     SuggestionAdapter adapter;
+    private LoadDialog loadDialog;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,8 +59,15 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new SuggestionPresenter(this);
-        presenter.postData(ConstanceValue.DefaultUserId);
+        String userid = SharedPreferencesMgr.getuserid();
+        if (TextUtils.isEmpty(userid)){
+            LoginActivity.startIntent(mContext);
+        }else {
+            loadDialog = new LoadDialog();
+            loadDialog.show(getChildFragmentManager(), "");
+            presenter = new SuggestionPresenter(this);
+            presenter.postData(userid);
+        }
         initview();
     }
 
@@ -64,6 +83,7 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
 
     @Override
     public void success(List<SuggestionBean.DataBean.LIVEROOMSSTICKBean> list) {
+        loadDialog.dismiss();
         if (adapter == null) {
             adapter = new SuggestionAdapter(list);
         } else {
@@ -74,6 +94,7 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
 
     @Override
     public void failed(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(), message);
     }
 }

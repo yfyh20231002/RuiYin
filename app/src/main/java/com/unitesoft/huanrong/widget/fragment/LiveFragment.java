@@ -21,6 +21,7 @@ import com.unitesoft.huanrong.view.LiveView;
 import com.unitesoft.huanrong.widget.activity.live.StudioActivity;
 import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.adapter.home.LiveAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class LiveFragment extends Fragment implements LiveView {
     LivePresenter presenter;
     LiveAdapter adapter;
     Context mContext;
+
+    private LoadDialog loadDialog;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,12 +70,15 @@ public class LiveFragment extends Fragment implements LiveView {
     }
 
     private void initdata() {
+        loadDialog=new LoadDialog();
+        loadDialog.show(getChildFragmentManager(),"");
         presenter = new LivePresenter(this);
         presenter.postData();
     }
 
     @Override
     public void livesuccess(final List<LiveBean.DataBean.LiveRoomsBaseInfoBean> list) {
+        loadDialog.dismiss();
         if (adapter == null) {
             adapter = new LiveAdapter(list,getActivity());
         } else {
@@ -95,6 +101,7 @@ public class LiveFragment extends Fragment implements LiveView {
 
     @Override
     public void livefailed(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(getActivity(),message);
     }
 
