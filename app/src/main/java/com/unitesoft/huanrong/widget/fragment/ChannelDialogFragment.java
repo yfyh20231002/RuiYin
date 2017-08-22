@@ -2,7 +2,6 @@ package com.unitesoft.huanrong.widget.fragment;
 
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -46,14 +45,6 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
     ChoiceTitleAdapter adapter;
     private ItemTouchHelper mHelper;
     private OnChannelListener mOnChannelListener;
-
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
-    }
 
     public void setOnChannelListener(OnChannelListener onChannelListener) {
         mOnChannelListener = onChannelListener;
@@ -110,7 +101,7 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
         mDatas.add(new Channel(Channel.TYPE_OTHER, "点击添加更多"));
         mDatas.addAll(unselsectlist);
         adapter = new ChoiceTitleAdapter(mDatas, this);
-        GridLayoutManager manager = new GridLayoutManager(mContext, 4);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 4);
         recyclerview.setLayoutManager(manager);
         recyclerview.setAdapter(adapter);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

@@ -3,6 +3,7 @@ package com.unitesoft.huanrong.widget.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,7 +33,6 @@ import com.unitesoft.huanrong.widget.adapter.ChanelAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.HomeLiveAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.IptMsgAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 import com.unitesoft.huanrong.widget.view.NoScrollViewPager;
 import com.unitesoft.huanrong.widget.view.SpaceItemDecoration;
 import com.youth.banner.Banner;
@@ -49,7 +49,7 @@ import static com.unitesoft.huanrong.R.id.recyclerview;
  * Created by Mr.zhang on 2017/7/4.
  */
 
-public class Home extends BaseFragment implements IptMsgView, LiveView {
+public class Home extends Fragment implements IptMsgView, LiveView {
     @InjectView(R.id.listview)
     ListView listview;
 
@@ -81,9 +81,7 @@ public class Home extends BaseFragment implements IptMsgView, LiveView {
     HomeLiveAdapter liveAdapter;
     Context mContext;
     private LoadDialog loadDialog;
-    private  View view;
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -93,30 +91,22 @@ public class Home extends BaseFragment implements IptMsgView, LiveView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.home, container, false);
-            isPrepared = true;
-            ButterKnife.inject(this, view);
-            lazyLoad();
-        }
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.home, container, false);
+        ButterKnife.inject(this, view);
         return view;
     }
 
     @Override
-    protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         layoutInflater = LayoutInflater.from(mContext);
         initHeader();
         initFooter();
         initListview();
         initrecyclerview();
     }
+
 
     private void initHeader() {
         header = layoutInflater.inflate(R.layout.home_head, null);
@@ -237,6 +227,4 @@ public class Home extends BaseFragment implements IptMsgView, LiveView {
     public void livefailed(String message) {
         ToastUtils.showToast(mContext, message);
     }
-
-
 }

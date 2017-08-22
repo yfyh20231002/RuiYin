@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment {
                 showHome();
                 break;
             case "开户":
-                KaiHuActivity.startIntent(mContext);
+                KaiHuActivity.startIntent(getActivity());
                 break;
             case "直播":
                 onBaseTabListener.showLiveRoom();

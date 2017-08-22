@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +17,6 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.adapter.home.FinanceNewsAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 
 import java.util.List;
@@ -29,44 +28,25 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 市场播报
  */
-public class MarketCenterBroadcastFragment extends BaseFragment implements FlashView {
+public class MarketCenterBroadcastFragment extends Fragment implements FlashView {
     FlashPresenter presenter;
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
     FinanceNewsAdapter newsAdapter;
     private LoadDialog loadDialog;
-    private  View view;
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_marketcenterbroadcast, container, false);
-            isPrepared = true;
-            ButterKnife.inject(this, view);
-            lazyLoad();
-        }
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_marketcenterbroadcast, container, false);
+        ButterKnife.inject(this, view);
         return view;
     }
 
     @Override
-    protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         loadDialog=new LoadDialog();
         loadDialog.show(getChildFragmentManager(),"");
         presenter = new FlashPresenter(this);
@@ -76,8 +56,8 @@ public class MarketCenterBroadcastFragment extends BaseFragment implements Flash
     }
 
     private void initview() {
-        LinearLayoutManager manager=new LinearLayoutManager(mContext);
-        DividerItemDecoration decoration=new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL_LIST);
+        LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        DividerItemDecoration decoration=new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL_LIST);
         recyclerview.setLayoutManager(manager);
         recyclerview.addItemDecoration(decoration);
     }
@@ -96,7 +76,7 @@ public class MarketCenterBroadcastFragment extends BaseFragment implements Flash
     @Override
     public void failed(String errormessage) {
         loadDialog.dismiss();
-        ToastUtils.showToast(mContext, errormessage);
+        ToastUtils.showToast(getActivity(), errormessage);
     }
 
     @Override
@@ -104,6 +84,4 @@ public class MarketCenterBroadcastFragment extends BaseFragment implements Flash
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
-
 }

@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ import com.unitesoft.huanrong.view.IptMsgView;
 import com.unitesoft.huanrong.widget.activity.home.IptMsgActivity;
 import com.unitesoft.huanrong.widget.adapter.home.DataAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 数据
  */
-public class DataFragment extends BaseFragment implements IptMsgView {
+public class DataFragment extends Fragment implements IptMsgView {
 
 
     @InjectView(R.id.recyclerview)
@@ -39,44 +38,28 @@ public class DataFragment extends BaseFragment implements IptMsgView {
     IptMsgPresenter presenter;
 
     private LoadDialog loadDialog;
-    private  View view;
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
-
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
+    public DataFragment() {
+        // Required empty public constructor
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_data, container, false);
-            isPrepared = true;
-            ButterKnife.inject(this, view);
-            lazyLoad();
-        }
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_data, container, false);
+        ButterKnife.inject(this, view);
         return view;
     }
 
-
     @Override
-    protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initview();
         initData();
     }
     private void initview() {
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(manager);
     }
 
@@ -101,7 +84,7 @@ public class DataFragment extends BaseFragment implements IptMsgView {
             public void onItemClick(View view, int position) {
                 String path=list.get(position).getImage();
                 if (path.equals("/UploadFiles/Images/20170626093013_548.pdf")){return;}
-                IptMsgActivity.startIntent(mContext, path);
+                IptMsgActivity.startIntent(getActivity(), path);
             }
         });
     }
@@ -109,12 +92,11 @@ public class DataFragment extends BaseFragment implements IptMsgView {
     @Override
     public void faild(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(mContext,message);
+        ToastUtils.showToast(getActivity(),message);
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
 }

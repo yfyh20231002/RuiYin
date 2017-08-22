@@ -1,7 +1,6 @@
 package com.unitesoft.huanrong.widget.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,14 +35,6 @@ public class TradingFragment extends Fragment {
     View line;
     @InjectView(R.id.kaihu)
     LinearLayout kaihu;
-    
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,15 +71,15 @@ public class TradingFragment extends Fragment {
         switch (view.getId()) {
             case R.id.apk:
                 // 应用未安装就去下载
-                if (CommonUtil.checkApkExist(mContext, "com.happyinsource.shanxi.prd.sp")) {
-                    Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("com.happyinsource.shanxi.prd.sp");
+                if (CommonUtil.checkApkExist(getActivity(), "com.happyinsource.shanxi.prd.sp")) {
+                    Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage("com.happyinsource.shanxi.prd.sp");
                     startActivity(intent);
                 } else {
                     downLoadApk("http://d9.muzisoft.com/1606/com.happyinsource.shanxi.prd.sp.apk?force=1");
                 }
                 break;
             case R.id.kaihu:
-                KaiHuWebview.startIntent(mContext);
+                KaiHuWebview.startIntent(getActivity());
                 break;
         }
     }

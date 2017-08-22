@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ import com.unitesoft.huanrong.view.IptMsgView;
 import com.unitesoft.huanrong.widget.activity.home.IptMsgActivity;
 import com.unitesoft.huanrong.widget.adapter.home.InternalAdpater;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 狙击非农
  */
-public class FeiNongFragment extends BaseFragment implements IptMsgView {
+public class FeiNongFragment extends Fragment implements IptMsgView {
 
 
     @InjectView(R.id.recyclerview)
@@ -38,42 +37,28 @@ public class FeiNongFragment extends BaseFragment implements IptMsgView {
     InternalAdpater adpater;
 
     private LoadDialog loadDialog;
-    private  View view;
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
-
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
+    public FeiNongFragment() {
+        // Required empty public constructor
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_feinong, container, false);
-            isPrepared = true;
-            ButterKnife.inject(this, view);
-            lazyLoad();
-        }
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_feinong, container, false);
+        ButterKnife.inject(this, view);
         return view;
     }
+
     @Override
-    protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initview();
         initData();
     }
     private void initview() {
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(manager);
     }
 
@@ -96,7 +81,7 @@ public class FeiNongFragment extends BaseFragment implements IptMsgView {
         adpater.setOnItemClickListener(new InternalAdpater.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                IptMsgActivity.startIntent(mContext,list.get(position).getImage());
+                IptMsgActivity.startIntent(getActivity(),list.get(position).getImage());
             }
         });
     }
@@ -104,13 +89,11 @@ public class FeiNongFragment extends BaseFragment implements IptMsgView {
     @Override
     public void faild(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(mContext,message);
+        ToastUtils.showToast(getActivity(),message);
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
-
 }

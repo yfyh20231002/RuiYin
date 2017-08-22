@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.activity.home.NewsActivity;
 import com.unitesoft.huanrong.widget.adapter.home.FlashAdapter;
-import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,48 +29,29 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 首页里面的财经快讯
  */
-public class FlashFragment extends BaseFragment implements FlashView {
+public class FlashFragment extends Fragment implements FlashView {
     FlashPresenter presenter;
     List<FlashBean.DataBean.DangtianshujuBean> flist = new ArrayList<>();
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
     FlashAdapter flashAdapter;
-    private Context mContext;
-    private  View view;
-    // 标志位，标志已经初始化完成。
-    private boolean isPrepared;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_flash, container, false);
-            isPrepared = true;
-            ButterKnife.inject(this, view);
-            lazyLoad();
-        }
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_flash, container, false);
+        ButterKnife.inject(this, view);
         return view;
     }
 
     @Override
-    protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         presenter = new FlashPresenter(this);
         presenter.setModel();
         presenter.getData("市场播报#政经要闻");
-        recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -82,7 +62,7 @@ public class FlashFragment extends BaseFragment implements FlashView {
 
     private void flash() {
         if (flashAdapter == null) {
-            flashAdapter = new FlashAdapter(flist, mContext);
+            flashAdapter = new FlashAdapter(flist, getActivity());
         } else {
             flashAdapter.notifyDataSetChanged();
         }
@@ -92,7 +72,7 @@ public class FlashFragment extends BaseFragment implements FlashView {
             public void onItemClick(View view, int position) {
                 if ("政经要闻".equals(flist.get(position).getClassname())) {
                     if (!TextUtils.isEmpty(flist.get(position).getNewsreferurl())) {
-                        NewsActivity.startIntent(mContext, flist.get(position).getNewsreferurl());
+                        NewsActivity.startIntent(getActivity(), flist.get(position).getNewsreferurl());
                     }
                 }
             }
@@ -101,7 +81,7 @@ public class FlashFragment extends BaseFragment implements FlashView {
 
     @Override
     public void failed(String errormessage) {
-        ToastUtils.showToast(mContext, errormessage);
+        ToastUtils.showToast(getActivity(), errormessage);
     }
 
     @Override
@@ -109,6 +89,4 @@ public class FlashFragment extends BaseFragment implements FlashView {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
-
 }

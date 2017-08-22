@@ -1,7 +1,6 @@
 package com.unitesoft.huanrong.widget.fragment.live;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,15 +37,7 @@ public class StrategyFragment extends BaseFragment implements StrategyView {
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
     LinearLayoutManager manager;
-    private View view;
-
-    private Context mContext;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext=context;
-    }
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,7 +66,7 @@ public class StrategyFragment extends BaseFragment implements StrategyView {
     }
 
     private void initview() {
-         manager= new LinearLayoutManager(mContext);
+         manager= new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(manager);
     }
 
@@ -98,7 +89,7 @@ public class StrategyFragment extends BaseFragment implements StrategyView {
 
     @Override
     public void failed(String msg) {
-        ToastUtils.showToast(mContext, msg);
+        ToastUtils.showToast(getActivity(), msg);
     }
 
 

@@ -71,9 +71,6 @@ public class SuggestionsFragment extends BaseFragment implements SuggestionView 
 
     @Override
     protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
-            return;
-        }
         String userid = SharedPreferencesMgr.getuserid();
         if (TextUtils.isEmpty(userid)) {
             LoginActivity.startIntent(mContext,false);
@@ -87,7 +84,7 @@ public class SuggestionsFragment extends BaseFragment implements SuggestionView 
     }
 
     private void initview() {
-        recyclerview.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
@@ -110,7 +107,7 @@ public class SuggestionsFragment extends BaseFragment implements SuggestionView 
     @Override
     public void failed(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(mContext, message);
+        ToastUtils.showToast(getActivity(), message);
     }
 
 
