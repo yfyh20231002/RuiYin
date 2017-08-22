@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +20,7 @@ import com.unitesoft.huanrong.view.CCTView;
 import com.unitesoft.huanrong.widget.activity.home.PlayCCTVActivity;
 import com.unitesoft.huanrong.widget.adapter.home.CCTVAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 央视
  */
-public class CCTVFragment extends Fragment implements CCTView {
+public class CCTVFragment extends BaseFragment implements CCTView {
 
 
     @InjectView(R.id.recyclerview)
@@ -41,28 +42,43 @@ public class CCTVFragment extends Fragment implements CCTView {
 
     private LoadDialog loadDialog;
 
-    public CCTVFragment() {
-        // Required empty public constructor
-    }
+    private  View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
+    private Context mContext;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cctv, container, false);
-        ButterKnife.inject(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_cctv, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
         initview();
         initdata();
     }
     private void initview() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(manager);
     }
 
@@ -92,7 +108,7 @@ public class CCTVFragment extends Fragment implements CCTView {
                     urls.add(data.get(i).getVideoUrl());
                     images.add(ConstanceValue.iptmsgurl+data.get(i).getVideoPicture());
                 }
-                PlayCCTVActivity.startIntent(getActivity(),urls,images);
+                PlayCCTVActivity.startIntent(mContext,urls,images);
             }
         });
     }
@@ -100,11 +116,13 @@ public class CCTVFragment extends Fragment implements CCTView {
     @Override
     public void failed(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(), message);
+        ToastUtils.showToast(mContext, message);
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+
 }

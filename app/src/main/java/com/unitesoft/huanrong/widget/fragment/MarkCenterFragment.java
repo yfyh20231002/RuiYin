@@ -111,6 +111,13 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
     ListDataSave dataSave;
 
     List<ZiXuanBean> listBean = new ArrayList<>();
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
 
     @Override
@@ -118,9 +125,9 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hq, container,false);
         linear_button = (LinearLayout) view.findViewById(R.id.linear_button);
-        mRequestQueue =  Volley.newRequestQueue(MarkCenterFragment.this.getActivity());
+        mRequestQueue =  Volley.newRequestQueue(mContext);
         listView = (ListView) view.findViewById(R.id.hq_listview);
-        dataSave = new ListDataSave(getActivity(), "zixuan");
+        dataSave = new ListDataSave(mContext, "zixuan");
         zixuan_btn = (Button) view.findViewById(R.id.zixuan_btn);
 
         zixuan_btn.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +176,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                                               }
 
                                               zixuan_pingtai = removeDuplicate(list);
-                                              Toast.makeText(getActivity(), dataSave.getDataList("javaBean").toString(), Toast.LENGTH_SHORT).show();
+                                              Toast.makeText(mContext, dataSave.getDataList("javaBean").toString(), Toast.LENGTH_SHORT).show();
                                               Log.e("zixuan",listBean.toString());
                                               connectServer();
                                           }
@@ -178,7 +185,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         String[] mItems = getResources().getStringArray(R.array.leixingArray);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, mItems);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(mContext, R.layout.spinner_item, mItems);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         //绑定 Adapter到控件
         spinner .setAdapter(adapter);
@@ -224,7 +231,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                 int i ;
                 for ( i = 0;i<userBeanList.size();i++){
                     final int id = userBeanList.get(i).getId();
-                    Button button = new Button(getActivity());
+                    Button button = new Button(mContext);
                     button.setId(id);
                     button.setText(userBeanList.get(i).getShortname());
                     button.setTextColor(getResources().getColor(R.color.button_text));
@@ -287,7 +294,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 //                    bean_pinzhongs.add(bean_pinzhong);
                 }
 
-//                mAdapter = new Hq_ListAdapter(bean_pinzhongs,getActivity());
+//                mAdapter = new Hq_ListAdapter(bean_pinzhongs,mContext);
 //                listView.setAdapter(mAdapter);
 
                 for (int i=0;i<pinzhonglist.size();i++) {
@@ -487,7 +494,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                             list.set(8,jsonObject.getString("isUp"));
 
                             list_shuju.set(j, (ArrayList) list);
-                            mAdapter = new Hq_ListAdapter(pinzhonglist,bean_pinpingtais,short_name,list_shuju,spinner_num,getActivity());
+                            mAdapter = new Hq_ListAdapter(pinzhonglist,bean_pinpingtais,short_name,list_shuju,spinner_num,mContext);
                             listView.setAdapter(mAdapter);
                         }
                     }
@@ -584,7 +591,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                         Bundle bundle = new Bundle();
                         bundle.putString("pingtai",pinzhongList.get(position));
                         bundle.putString("pinzhong",zixuanpinzhong.get(position));
-                        Intent intent = new Intent(getActivity(),K_line.class);
+                        Intent intent = new Intent(mContext,K_line.class);
                         intent.putExtras(bundle);
                         closeConnect();
                         startActivity(intent);
@@ -657,7 +664,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                     ziXuanBean.setMb("1");
                     ziXuanBean.setIsUp(shujulist.get(position).get(8).toString());
                     listBean.add(ziXuanBean);
-                    dataSave = new ListDataSave(getActivity(), "zixuan");
+                    dataSave = new ListDataSave(mContext, "zixuan");
                     dataSave.setDataList("javaBean", listBean);
 //                    mDao.addDate(pinzhong,pingtai,shujulist.get(position).get(5).toString(),shujulist.get(position).get(6).toString(),shujulist.get(position).get(0).toString(),
 //                            shujulist.get(position).get(3).toString(),shujulist.get(position).get(2).toString(),
@@ -680,7 +687,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                         listBean.remove(position);
                     }
 
-                    dataSave = new ListDataSave(getActivity(), "zixuan");
+                    dataSave = new ListDataSave(mContext, "zixuan");
                     dataSave.setDataList("javaBean", listBean);
                     notifyDataSetChanged();
                 }

@@ -3,7 +3,6 @@ package com.unitesoft.huanrong.widget.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,6 +32,7 @@ import com.unitesoft.huanrong.widget.adapter.ChanelAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.HomeLiveAdapter;
 import com.unitesoft.huanrong.widget.adapter.home.IptMsgAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 import com.unitesoft.huanrong.widget.view.NoScrollViewPager;
 import com.unitesoft.huanrong.widget.view.SpaceItemDecoration;
 import com.youth.banner.Banner;
@@ -49,7 +49,7 @@ import static com.unitesoft.huanrong.R.id.recyclerview;
  * Created by Mr.zhang on 2017/7/4.
  */
 
-public class Home extends Fragment implements IptMsgView, LiveView {
+public class Home extends BaseFragment implements IptMsgView, LiveView {
     @InjectView(R.id.listview)
     ListView listview;
 
@@ -81,7 +81,9 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     HomeLiveAdapter liveAdapter;
     Context mContext;
     private LoadDialog loadDialog;
-
+    private  View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -91,27 +93,35 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.home, container, false);
-        ButterKnife.inject(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.home, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        layoutInflater = LayoutInflater.from(getActivity());
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
+        layoutInflater = LayoutInflater.from(mContext);
         initHeader();
         initFooter();
         initListview();
         initrecyclerview();
     }
 
-
     private void initHeader() {
         header = layoutInflater.inflate(R.layout.home_head, null);
         banner = (Banner) header.findViewById(R.id.banner);
-        BannerMode.getData(banner, getActivity());
+        BannerMode.getData(banner, mContext);
     }
 
     private void initFooter() {
@@ -120,7 +130,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
         tablayout = (TabLayout) footer.findViewById(R.id.tablayout);
         vp = (NoScrollViewPager) footer.findViewById(R.id.vp);
 //        ViewGroup.LayoutParams layoutParams = vp.getLayoutParams();
-//        layoutParams.height = getActivity().getResources().getDisplayMetrics().heightPixels / 2;
+//        layoutParams.height = mContext.getResources().getDisplayMetrics().heightPixels / 2;
 //        vp.setLayoutParams(layoutParams);
         listview.postDelayed(new Runnable() {
             @Override
@@ -129,7 +139,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
             }
         }, 1000);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new SpaceItemDecoration(CommonUtil.dip2px(11)));
 
@@ -171,7 +181,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     public void success(final List<IptMsgBean> list) {
         loadDialog.dismiss();
         if (adapter == null) {
-            adapter = new IptMsgAdapter(list, getActivity());
+            adapter = new IptMsgAdapter(list, mContext);
         } else {
             adapter.notifyDataSetChanged();
         }
@@ -184,7 +194,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
                 if (path.equals("/UploadFiles/Images/20170626093013_548.pdf")) {
                     return;
                 }
-                IptMsgActivity.startIntent(getActivity(), path);
+                IptMsgActivity.startIntent(mContext, path);
             }
         });
     }
@@ -192,7 +202,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     @Override
     public void faild(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(), message);
+        ToastUtils.showToast(mContext, message);
     }
 
     @Override
@@ -215,7 +225,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
                 SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,false);
                 } else {
                     StudioActivity.startIntent(mContext);
                 }
@@ -225,6 +235,8 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
     @Override
     public void livefailed(String message) {
-        ToastUtils.showToast(getActivity(), message);
+        ToastUtils.showToast(mContext, message);
     }
+
+
 }

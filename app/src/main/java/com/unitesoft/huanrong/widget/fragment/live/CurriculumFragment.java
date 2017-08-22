@@ -1,6 +1,7 @@
 package com.unitesoft.huanrong.widget.fragment.live;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -36,14 +37,21 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView {
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
 
-    CurriculumPresenter presenter;
-    CurriculumAdapter adapter;
-    int selectid;
+    private CurriculumPresenter presenter;
+    private CurriculumAdapter adapter;
+    private int selectid;
 
     String[] names = {"星期一", "星期二", "星期三", "星期四", "星期五",};
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
-    View view;
+    private View view;
+    Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,8 +109,8 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView {
     }
 
     private void initRecyclerview() {
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerview.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        recyclerview.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerview.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
     }
 
     @Override
@@ -124,7 +132,7 @@ public class CurriculumFragment extends BaseFragment implements CurriculumView {
 
     @Override
     public void failed(String msg) {
-        ToastUtils.showToast(getActivity(), msg);
+        ToastUtils.showToast(mContext, msg);
     }
 
 

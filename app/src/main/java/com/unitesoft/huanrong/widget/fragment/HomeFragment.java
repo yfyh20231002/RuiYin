@@ -17,7 +17,6 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.unitesoft.huanrong.widget.fragment.ChannelDialogFragment;
 import com.unitesoft.huanrong.Bean.Channel;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.listener.OnChannelListener;
@@ -253,7 +252,7 @@ public class HomeFragment extends Fragment {
                 showHome();
                 break;
             case "开户":
-                KaiHuActivity.startIntent(getActivity());
+                KaiHuActivity.startIntent(mContext);
                 break;
             case "直播":
                 onBaseTabListener.showLiveRoom();
@@ -291,7 +290,7 @@ public class HomeFragment extends Fragment {
             case "天涯海阁":
                 SharedPreferencesMgr.setZhiboshiid("FE7C1D82811A4E7DB4BA84D77E141F0A");
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,false);
                 }else {
                     StudioActivity.startIntent(mContext);
                 }
@@ -299,7 +298,7 @@ public class HomeFragment extends Fragment {
             case "谈股论金":
                 SharedPreferencesMgr.setZhiboshiid("DB9F8E38D4624A3997F2AAD34AEFCD0D");
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,false);
                 }else {
                     StudioActivity.startIntent(mContext);
                 }

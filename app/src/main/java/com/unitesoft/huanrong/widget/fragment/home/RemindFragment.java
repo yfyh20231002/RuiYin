@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +19,7 @@ import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.activity.home.NewsActivity;
 import com.unitesoft.huanrong.widget.adapter.RemindAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 提醒
  */
-public class RemindFragment extends Fragment implements FlashView {
+public class RemindFragment extends BaseFragment implements FlashView {
 
     FlashPresenter presenter;
     RemindAdapter adapter;
@@ -37,25 +38,43 @@ public class RemindFragment extends Fragment implements FlashView {
     RecyclerView recyclerview;
 
     private LoadDialog loadDialog;
+    private Context mContext;
+    private  View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_remind, container, false);
-        ButterKnife.inject(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_remind, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
         loadDialog=new LoadDialog();
         loadDialog.show(getChildFragmentManager(),"");
         presenter = new FlashPresenter(this);
         presenter.setModel();
         presenter.getData("市场播报#政经要闻");
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
     }
     @Override
     public void onDestroyView() {
@@ -78,7 +97,7 @@ public class RemindFragment extends Fragment implements FlashView {
                 String name=list.get(position).getClassname();
                 if ("政经要闻".equals(name)) {
                     if (!TextUtils.isEmpty(list.get(position).getNewsreferurl())) {
-                        NewsActivity.startIntent(getActivity(), list.get(position).getNewsreferurl());
+                        NewsActivity.startIntent(mContext, list.get(position).getNewsreferurl());
                     }
                 }
             }
@@ -88,6 +107,8 @@ public class RemindFragment extends Fragment implements FlashView {
     @Override
     public void failed(String errormessage) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(),errormessage);
+        ToastUtils.showToast(mContext,errormessage);
     }
+
+
 }

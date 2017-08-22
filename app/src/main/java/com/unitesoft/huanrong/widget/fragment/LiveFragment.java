@@ -39,9 +39,10 @@ public class LiveFragment extends Fragment implements LiveView {
     RecyclerView recyclerview;
     LivePresenter presenter;
     LiveAdapter adapter;
-    Context mContext;
+
 
     private LoadDialog loadDialog;
+    private Context mContext;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,7 +66,7 @@ public class LiveFragment extends Fragment implements LiveView {
     }
 
     private void initview() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(manager);
     }
 
@@ -80,7 +81,7 @@ public class LiveFragment extends Fragment implements LiveView {
     public void livesuccess(final List<LiveBean.DataBean.LiveRoomsBaseInfoBean> list) {
         loadDialog.dismiss();
         if (adapter == null) {
-            adapter = new LiveAdapter(list,getActivity());
+            adapter = new LiveAdapter(list,mContext);
         } else {
             adapter.notifyDataSetChanged();
         }
@@ -91,7 +92,7 @@ public class LiveFragment extends Fragment implements LiveView {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
                 SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,false);
                 }else {
                     StudioActivity.startIntent(mContext);
                 }
@@ -102,7 +103,7 @@ public class LiveFragment extends Fragment implements LiveView {
     @Override
     public void livefailed(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(),message);
+        ToastUtils.showToast(mContext,message);
     }
 
     @Override

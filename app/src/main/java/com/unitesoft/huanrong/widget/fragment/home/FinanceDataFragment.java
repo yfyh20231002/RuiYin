@@ -1,8 +1,8 @@
 package com.unitesoft.huanrong.widget.fragment.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +17,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.FlashView;
 import com.unitesoft.huanrong.widget.adapter.home.FinanceNewsAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 
 import java.util.List;
@@ -28,26 +29,45 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 经济数据
  */
-public class FinanceDataFragment extends Fragment implements FlashView {
+public class FinanceDataFragment extends BaseFragment implements FlashView {
     FlashPresenter presenter;
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
     FinanceNewsAdapter newsAdapter;
 
     private LoadDialog loadDialog;
+    private  View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_financedata, container, false);
-        ButterKnife.inject(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_financedata, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
         loadDialog=new LoadDialog();
         loadDialog.show(getChildFragmentManager(),"");
         presenter = new FlashPresenter(this);
@@ -57,8 +77,8 @@ public class FinanceDataFragment extends Fragment implements FlashView {
     }
 
     private void initview() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        DividerItemDecoration decoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST);
         recyclerview.setLayoutManager(manager);
         recyclerview.addItemDecoration(decoration);
     }
@@ -78,7 +98,7 @@ public class FinanceDataFragment extends Fragment implements FlashView {
     @Override
     public void failed(String errormessage) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(), errormessage);
+        ToastUtils.showToast(mContext, errormessage);
     }
 
     @Override
@@ -86,4 +106,6 @@ public class FinanceDataFragment extends Fragment implements FlashView {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+
 }

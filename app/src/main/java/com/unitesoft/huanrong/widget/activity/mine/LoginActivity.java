@@ -41,11 +41,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     Button btnLoginZhuce;
     LoginPresenter loginPresenter;
     private SweetAlertDialog sweetAlertDialog;
+
+    private boolean change;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+        change=getIntent().getBooleanExtra("ischange",false);
     }
 
     @OnClick({R.id.btn_login_exit, R.id.btn_login_denglu, R.id.btn_login_rem, R.id.btn_login_zhuce})
@@ -63,17 +66,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 break;
 //            忘记密码
             case R.id.btn_login_rem:
-                com.unitesoft.huanrong.widget.activity.mine.RegisterActivity.startIntent(LoginActivity.this, 0);
+              RegisterActivity.startIntent(LoginActivity.this, 0);
                 break;
 //            注册
             case R.id.btn_login_zhuce:
-                com.unitesoft.huanrong.widget.activity.mine.RegisterActivity.startIntent(LoginActivity.this, 1);
+               RegisterActivity.startIntent(LoginActivity.this, 1);
                 break;
         }
     }
 
-    public static void startIntent(Context mContext) {
-        mContext.startActivity(new Intent(mContext, LoginActivity.class));
+    public static void startIntent(Context mContext,boolean ischange) {
+        Intent intent=new Intent();
+        intent.putExtra("ischange",ischange);
+        intent.setClass(mContext, LoginActivity.class);
+        mContext.startActivity(intent);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 public void dialogClose() {
                     dismissProgress();
                     Intent intent=new Intent();
-                    intent.putExtra("change",true);
+                    intent.putExtra("change",change);
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -143,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                     public void dialogClose() {
                         dismissProgress();
                         Intent intent=new Intent();
-                        intent.putExtra("change",true);
+                        intent.putExtra("change",change);
                         intent.setClass(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();

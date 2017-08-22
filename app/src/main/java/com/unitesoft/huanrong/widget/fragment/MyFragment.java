@@ -162,12 +162,12 @@ public class MyFragment extends Fragment {
         String getuserid = SharedPreferencesMgr.getuserid();
         switch (view.getId()) {
             case R.id.bt_login:
-                LoginActivity.startIntent(mContext);
+                LoginActivity.startIntent(mContext,true);
                 break;
 //            更改昵称
             case R.id.btn_my_nicheng:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,true);
                 } else {
                     UpNickNameActivity.startIntent(mContext);
                 }
@@ -175,7 +175,7 @@ public class MyFragment extends Fragment {
 //            修改头像
             case R.id.btn_my_touxiang:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,true);
                 } else {
                     changeHeadImage();
                 }
@@ -183,7 +183,7 @@ public class MyFragment extends Fragment {
 //            修改密码
             case R.id.btn_my_mima:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext);
+                    LoginActivity.startIntent(mContext,true);
                 } else {
                     RegisterActivity.startIntent(mContext, 0);
                 }

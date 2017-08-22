@@ -1,6 +1,7 @@
 package com.unitesoft.huanrong.widget.fragment.live;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -30,7 +31,15 @@ public class SynopsisFragment extends BaseFragment implements SynopsisView{
     SynopsisPresenter presenter;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
-    View view;
+    private View view;
+
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,12 +74,12 @@ public class SynopsisFragment extends BaseFragment implements SynopsisView{
 
     @Override
     public void success(String imageurl) {
-        Glide.with(getActivity()).load(imageurl).into(image);
+        Glide.with(mContext).load(imageurl).into(image);
     }
 
     @Override
     public void failed(String msg) {
-        ToastUtils.showToast(getActivity(),msg);
+        ToastUtils.showToast(mContext,msg);
     }
 
 

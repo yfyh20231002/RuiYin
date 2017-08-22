@@ -3,7 +3,6 @@ package com.unitesoft.huanrong.widget.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +20,7 @@ import com.unitesoft.huanrong.view.SuggestionView;
 import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.adapter.home.SuggestionAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 操作建议
  */
-public class SuggestionsFragment extends Fragment implements SuggestionView {
+public class SuggestionsFragment extends BaseFragment implements SuggestionView {
 
 
     @InjectView(R.id.recyclerview)
@@ -41,28 +41,43 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
     private LoadDialog loadDialog;
     private Context mContext;
 
+
+    private View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mContext=context;
+        this.mContext = context;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_suggestions, container, false);
-        ButterKnife.inject(this, view);
+
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_suggestions, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
         String userid = SharedPreferencesMgr.getuserid();
-        if (TextUtils.isEmpty(userid)){
-            LoginActivity.startIntent(mContext);
-        }else {
+        if (TextUtils.isEmpty(userid)) {
+            LoginActivity.startIntent(mContext,false);
+        } else {
             loadDialog = new LoadDialog();
             loadDialog.show(getChildFragmentManager(), "");
             presenter = new SuggestionPresenter(this);
@@ -72,7 +87,7 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
     }
 
     private void initview() {
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerview.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
     @Override
@@ -95,6 +110,8 @@ public class SuggestionsFragment extends Fragment implements SuggestionView {
     @Override
     public void failed(String message) {
         loadDialog.dismiss();
-        ToastUtils.showToast(getActivity(), message);
+        ToastUtils.showToast(mContext, message);
     }
+
+
 }

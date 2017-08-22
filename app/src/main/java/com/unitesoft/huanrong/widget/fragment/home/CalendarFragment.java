@@ -2,7 +2,6 @@ package com.unitesoft.huanrong.widget.fragment.home;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.utils.ConstanceValue;
+import com.unitesoft.huanrong.widget.fragment.live.BaseFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,29 +22,37 @@ import butterknife.InjectView;
  * A simple {@link Fragment} subclass.
  * 日历
  */
-public class CalendarFragment extends Fragment {
+public class CalendarFragment extends BaseFragment {
 
 
     @InjectView(R.id.webview)
     WebView webview;
 
-    public CalendarFragment() {
-        // Required empty public constructor
-    }
-
+    private  View view;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        ButterKnife.inject(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_calendar, container, false);
+            isPrepared = true;
+            ButterKnife.inject(this, view);
+            lazyLoad();
+        }
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void lazyLoad() {
+        if(!isPrepared || !isVisible) {
+            return;
+        }
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setUseWideViewPort(true);//设置此属性，可任意比例缩放
@@ -65,4 +73,6 @@ public class CalendarFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+
 }

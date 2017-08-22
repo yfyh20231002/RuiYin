@@ -169,7 +169,6 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         if (parent != null) {
             parent.removeView(view);
         }
-        ButterKnife.inject(this, view);
         return view;
     }
 

@@ -98,7 +98,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         isChange=getIntent().getBooleanExtra("change",false);
         setDefaultFragment();
         setViewListener();
-        initRongIM();
     }
 
 
@@ -118,52 +117,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         my.setOnClickListener(this);
     }
 
-    private void initRongIM() {
-        String userid= SharedPreferencesMgr.getuserid();
-        String username=SharedPreferencesMgr.getUsername();
-        if (TextUtils.isEmpty(userid)&&TextUtils.isEmpty(username)){
-            LoginActivity.startIntent(MainActivity.this);
-        }else {
-            presenter = new TokenPresenter(this);
-            presenter.getToken(userid, username, "");
-        }
-    }
-
-    private void connect(String token) {
-
-        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
-
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-
-                /**
-                 * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
-                 *                  2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
-                 */
-                @Override
-                public void onTokenIncorrect() {
-                    Log.d("LoginActivity", "--onTokenIncorrect");
-                }
-
-                /**
-                 * 连接融云成功
-                 * @param userid 当前 token 对应的用户 id
-                 */
-                @Override
-                public void onSuccess(String userid) {
-                    Log.d("LoginActivity", "--onSuccess" + userid);
-                }
-
-                /**
-                 * 连接融云失败
-                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
-                 */
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    Log.d("LoginActivity", "--onError" + errorCode);
-                }
-            });
-        }
-    }
 
     @Override
     protected int getLayoutId() {
@@ -432,19 +385,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intentActivity(CallDialog.class);
                 break;
             case R.id.infomation:
-                // 首先需要构造使用客服者的用户信息
-                CSCustomServiceInfo.Builder csBuilder = new CSCustomServiceInfo.Builder();
-                CSCustomServiceInfo csInfo = csBuilder.nickName("融云").build();
 
-/**
- * 启动客户服聊天界面。
- *
- * @param context           应用上下文。
- * @param customerServiceId 要与之聊天的客服 Id。
- * @param title             聊天的标题，如果传入空值，则默认显示与之聊天的客服名称。
- * @param customServiceInfo 当前使用客服者的用户信息。{@link io.rong.imlib.model.CSCustomServiceInfo}
- */
-                RongIM.getInstance().startCustomerServiceChat(MainActivity.this, "KEFU149924387858873", "在线客服", csInfo);
+                initRongIM();
+
                 break;
             default:
                 break;
@@ -454,11 +397,74 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void success(TokenBean bean) {
         connect(bean.getToken());
+
+        // 首先需要构造使用客服者的用户信息
+        CSCustomServiceInfo.Builder csBuilder = new CSCustomServiceInfo.Builder();
+        CSCustomServiceInfo csInfo = csBuilder.nickName("融云").build();
+
+/**
+ * 启动客户服聊天界面。
+ *
+ * @param context           应用上下文。
+ * @param customerServiceId 要与之聊天的客服 Id。
+ * @param title             聊天的标题，如果传入空值，则默认显示与之聊天的客服名称。
+ * @param customServiceInfo 当前使用客服者的用户信息。{@link io.rong.imlib.model.CSCustomServiceInfo}
+ */
+        RongIM.getInstance().startCustomerServiceChat(MainActivity.this, "KEFU149924387858873", "在线客服", csInfo);
     }
 
     @Override
     public void failde(String message) {
         ToastUtils.showToast(MainActivity.this,message);
 
+    }
+
+
+
+    private void initRongIM() {
+        String userid= SharedPreferencesMgr.getuserid();
+        String username=SharedPreferencesMgr.getUsername();
+        if (TextUtils.isEmpty(userid)&&TextUtils.isEmpty(username)){
+            LoginActivity.startIntent(MainActivity.this,false);
+        }else {
+            presenter = new TokenPresenter(this);
+            presenter.getToken(userid, username, "");
+        }
+    }
+
+    private void connect(String token) {
+
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
+
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                /**
+                 * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+                 *                  2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    Log.d("LoginActivity", "--onTokenIncorrect");
+                }
+
+                /**
+                 * 连接融云成功
+                 * @param userid 当前 token 对应的用户 id
+                 */
+                @Override
+                public void onSuccess(String userid) {
+                    Log.d("LoginActivity", "--onSuccess" + userid);
+                }
+
+                /**
+                 * 连接融云失败
+                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
+                 */
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    Log.d("LoginActivity", "--onError" + errorCode);
+                }
+            });
+        }
     }
 }
