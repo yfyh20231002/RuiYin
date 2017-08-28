@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,7 +40,7 @@ import io.rong.imlib.model.CSCustomServiceInfo;
 
 import static io.rong.imkit.utils.SystemUtils.getCurProcessName;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, HomeFragment.OnBaseTabListener,TokenView {
+public class MainActivity extends BaseActivity implements View.OnClickListener, HomeFragment.OnBaseTabListener, TokenView {
 
     @InjectView(R.id.fl_content)
     FrameLayout flContent;
@@ -78,6 +80,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ImageView call;
     @InjectView(R.id.infomation)
     ImageView infomation;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     private HomeFragment homeFragment;
     private LiveFragment liveFragment;
@@ -85,27 +89,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TradingFragment tradingFragment;
     private MyFragment myFragment;
     TokenPresenter presenter;
-    boolean isChange=false;
+    boolean isChange = false;
     // 标识是否退出
     private boolean isExit = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolBarTitle("斗金");
         ButterKnife.inject(this);
-        isChange=getIntent().getBooleanExtra("change",false);
+        isChange = getIntent().getBooleanExtra("change", false);
         setDefaultFragment();
         setViewListener();
     }
 
 
     public void setDefaultFragment() {
-        if (isChange){
+        if (isChange) {
             showMy();
-        }else {
-           showHome();
+        } else {
+            showHome();
         }
     }
 
@@ -134,7 +137,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-
     //隐藏所有Fragment
     public void hideAllFragment(FragmentTransaction transaction) {
         if (homeFragment != null) {
@@ -153,13 +155,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             transaction.hide(myFragment);
         }
     }
+
     /**
      * aty与fra发生关联时调用。防止frg重叠
      *
      * @param fragment
      */
     @Override
-    public void onAttachFragment(android.support.v4.app.Fragment fragment) {
+    public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         if (null == homeFragment && fragment instanceof HomeFragment) {
             homeFragment = (HomeFragment) fragment;
@@ -173,6 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             myFragment = (MyFragment) fragment;
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -243,7 +247,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void exit() {
         if (!isExit) {
             isExit = true;
-            ToastUtils.showToast(MainActivity.this,"再按一次退出程序");
+            ToastUtils.showToast(MainActivity.this, "再按一次退出程序");
             // 利用handler延迟发送更改状态信息
             mHandler.sendEmptyMessageDelayed(0, 2000);
         } else {
@@ -259,6 +263,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showHome() {
+        toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (homeFragment == null) {
@@ -284,6 +289,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showMarketCenter() {
+        toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (markCenterFragment == null) {
@@ -308,6 +314,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showLiveRoom() {
+        toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (liveFragment == null) {
@@ -332,6 +339,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showTrading() {
+        toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (tradingFragment == null) {
@@ -356,6 +364,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void showMy() {
+        toolbar.setVisibility(View.GONE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if (myFragment == null) {
@@ -385,9 +394,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intentActivity(CallDialog.class);
                 break;
             case R.id.infomation:
-
                 initRongIM();
-
                 break;
             default:
                 break;
@@ -408,25 +415,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
  * @param context           应用上下文。
  * @param customerServiceId 要与之聊天的客服 Id。
  * @param title             聊天的标题，如果传入空值，则默认显示与之聊天的客服名称。
- * @param customServiceInfo 当前使用客服者的用户信息。{@link io.rong.imlib.model.CSCustomServiceInfo}
+ * @param customServiceInfo 当前使用客服者的用户信息。{@link CSCustomServiceInfo}
  */
         RongIM.getInstance().startCustomerServiceChat(MainActivity.this, "KEFU149924387858873", "在线客服", csInfo);
     }
 
     @Override
     public void failde(String message) {
-        ToastUtils.showToast(MainActivity.this,message);
+        ToastUtils.showToast(MainActivity.this, message);
 
     }
 
 
-
     private void initRongIM() {
-        String userid= SharedPreferencesMgr.getuserid();
-        String username=SharedPreferencesMgr.getUsername();
-        if (TextUtils.isEmpty(userid)&&TextUtils.isEmpty(username)){
-            LoginActivity.startIntent(MainActivity.this,false);
-        }else {
+        String userid = SharedPreferencesMgr.getuserid();
+        String username = SharedPreferencesMgr.getUsername();
+        if (TextUtils.isEmpty(userid) && TextUtils.isEmpty(username)) {
+            LoginActivity.startIntent(MainActivity.this, false);
+        } else {
             presenter = new TokenPresenter(this);
             presenter.getToken(userid, username, "");
         }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.unitesoft.huanrong.Bean.Channel;
@@ -53,8 +53,8 @@ public class HomeFragment extends Fragment {
 
     @InjectView(R.id.icon_category)
     ImageView iconCategory;
-    @InjectView(R.id.tab)
-    TabLayout tab;
+    @InjectView(R.id.xTab)
+    XTabLayout xTab;
     //品种
     public List<Channel> mSelectedDatas = new ArrayList<>();
     public List<Channel> mUnSelectedDatas = new ArrayList<>();
@@ -86,6 +86,7 @@ public class HomeFragment extends Fragment {
     SuggestionsFragment suggestion;
     Context mContext;
 
+
     public interface OnBaseTabListener {
 
         void showHome();
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     public void onAttach(Activity activity) {
@@ -114,6 +115,8 @@ public class HomeFragment extends Fragment {
             throw new ClassCastException(activity.toString() + "必须实现onBaseTabListener接口");
         }
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,12 +130,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         /**
          * 第一个tablayout的事件
          */
         oneTabEvent();
-        tab.getTabAt(0).select();
+        xTab.getTabAt(0).select();
         iconCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,9 +160,9 @@ public class HomeFragment extends Fragment {
                 dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        tab.removeAllTabs();
+                        xTab.removeAllTabs();
                         for (int i = 0; i < mSelectedDatas.size(); i++) {
-                            tab.addTab(tab.newTab().setText(mSelectedDatas.get(i).Title));
+                            xTab.addTab(xTab.newTab().setText(mSelectedDatas.get(i).Title));
                         }
                         //保存选中和未选中的channel
                         SharedPreferencesMgr.setString(ConstanceValue.TITLE_SELECTED, mGson.toJson(mSelectedDatas));
@@ -170,6 +172,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
     private void listMove(List datas, int starPos, int endPos) {
         Object o = datas.get(starPos);
@@ -182,27 +185,28 @@ public class HomeFragment extends Fragment {
 
     private void oneTabEvent() {
         getTitleData();
-        tab.post(new Runnable() {
+        xTab.post(new Runnable() {
             @Override
             public void run() {
                 //设置最小宽度，使其可以在滑动一部分距离
-                ViewGroup slidingTabStrip = (ViewGroup) tab.getChildAt(0);
+                ViewGroup slidingTabStrip = (ViewGroup) xTab.getChildAt(0);
                 slidingTabStrip.setMinimumWidth(iconCategory.getMeasuredWidth());
             }
         });
-        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        xTab.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onTabSelected(XTabLayout.Tab tab) {
                 selectab(tab);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabUnselected(XTabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(XTabLayout.Tab tab) {
                 selectab(tab);
             }
         });
@@ -219,7 +223,7 @@ public class HomeFragment extends Fragment {
             for (int i = 0; i < titleStr.length; i++) {
                 String t = titleStr[i];
                 mSelectedDatas.add(new Channel(t));
-                tab.addTab(tab.newTab().setText(t));
+                xTab.addTab(xTab.newTab().setText(t));
             }
             for (int i = 0; i < unselectitle.length; i++) {
                 String t = unselectitle[i];
@@ -239,13 +243,13 @@ public class HomeFragment extends Fragment {
             mSelectedDatas.addAll(selecteData);
             mUnSelectedDatas.addAll(unselecteData);
             for (int i = 0; i < mSelectedDatas.size(); i++) {
-                tab.addTab(tab.newTab().setText(mSelectedDatas.get(i).Title));
+                xTab.addTab(xTab.newTab().setText(mSelectedDatas.get(i).Title));
             }
         }
     }
 
 
-    private void selectab(TabLayout.Tab tab) {
+    private void selectab(XTabLayout.Tab tab) {
         String name = (String) tab.getText();
         switch (name) {
             case "首页":
@@ -289,17 +293,17 @@ public class HomeFragment extends Fragment {
                 break;
             case "天涯海阁":
                 SharedPreferencesMgr.setZhiboshiid("FE7C1D82811A4E7DB4BA84D77E141F0A");
-                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
-                    LoginActivity.startIntent(mContext,false);
-                }else {
+                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
+                    LoginActivity.startIntent(mContext, false);
+                } else {
                     StudioActivity.startIntent(mContext);
                 }
                 break;
             case "谈股论金":
                 SharedPreferencesMgr.setZhiboshiid("DB9F8E38D4624A3997F2AAD34AEFCD0D");
-                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
-                    LoginActivity.startIntent(mContext,false);
-                }else {
+                if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
+                    LoginActivity.startIntent(mContext, false);
+                } else {
                     StudioActivity.startIntent(mContext);
                 }
                 break;
@@ -327,8 +331,6 @@ public class HomeFragment extends Fragment {
             default:
         }
     }
-
-
 
 
     private void showHome() {
@@ -451,6 +453,7 @@ public class HomeFragment extends Fragment {
         }
         transaction.commitAllowingStateLoss();
     }
+
     private void showSuggestion() {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         hideAllFragment(transaction);
@@ -462,6 +465,7 @@ public class HomeFragment extends Fragment {
         }
         transaction.commitAllowingStateLoss();
     }
+
     //隐藏所有Fragment
     public void hideAllFragment(FragmentTransaction transaction) {
         if (home != null) {

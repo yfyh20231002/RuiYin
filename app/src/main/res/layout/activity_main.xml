@@ -13,6 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></FrameLayout>
+    <View
+        android:background="@color/noticeline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
@@ -27,10 +31,11 @@
 
             <ImageView
                 android:id="@+id/ivIconHome"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 android:src="@drawable/homeblock"/>
 
             <TextView
@@ -51,9 +56,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:layout_marginTop="5dp"
                 android:id="@+id/ivIconMarkCenter"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/markcenter"/>
@@ -76,9 +82,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:layout_marginTop="5dp"
                 android:id="@+id/ivIconLive"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/live"/>
@@ -101,9 +108,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:layout_marginTop="5dp"
                 android:id="@+id/ivIconTrading"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerHorizontal="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/trading"/>
@@ -126,11 +134,12 @@
             android:layout_weight="1">
 
             <ImageView
+                android:layout_marginTop="5dp"
                 android:id="@+id/ivIconMy"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 android:src="@drawable/my"/>
 
             <TextView

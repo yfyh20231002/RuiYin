@@ -1,5 +1,6 @@
 package com.unitesoft.huanrong.widget.activity.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.unitesoft.huanrong.widget.activity.BaseActivity;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import io.rong.imkit.fragment.ConversationFragment;
 
 /**
@@ -27,7 +29,7 @@ public class ServiceActivity extends BaseActivity {
         setToolBarTitle("客服");
         ButterKnife.inject(this);
         call.setVisibility(View.GONE);
-        infomation.setVisibility(View.GONE);
+        infomation.setImageResource(R.mipmap.service_set_icon);
     }
 
     @Override
@@ -48,5 +50,10 @@ public class ServiceActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return super.onKeyDown(keyCode, event);
+    }
+
+    @OnClick(R.id.infomation)
+    public void onViewClicked() {
+        startActivity(new Intent(ServiceActivity.this,ServiceSetActivity.class));
     }
 }

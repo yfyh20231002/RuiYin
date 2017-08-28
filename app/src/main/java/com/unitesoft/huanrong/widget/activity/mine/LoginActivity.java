@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.unitesoft.huanrong.Bean.LoginBean;
@@ -40,15 +44,39 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @InjectView(R.id.btn_login_zhuce)
     Button btnLoginZhuce;
     LoginPresenter loginPresenter;
+    @InjectView(R.id.image_eye)
+    ImageView imageEye;
+
     private SweetAlertDialog sweetAlertDialog;
 
     private boolean change;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
-        change=getIntent().getBooleanExtra("ischange",false);
+        change = getIntent().getBooleanExtra("ischange", false);
+        loginEditPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (TextUtils.isEmpty(s)){
+                    imageEye.setVisibility(View.GONE);
+                }else {
+                    imageEye.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @OnClick({R.id.btn_login_exit, R.id.btn_login_denglu, R.id.btn_login_rem, R.id.btn_login_zhuce})
@@ -61,23 +89,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 //            登录
             case R.id.btn_login_denglu:
                 showProgress();
-                loginPresenter=new LoginPresenter(this);
+                loginPresenter = new LoginPresenter(this);
                 loginPresenter.login();
                 break;
 //            忘记密码
             case R.id.btn_login_rem:
-              RegisterActivity.startIntent(LoginActivity.this, 0);
+                RegisterActivity.startIntent(LoginActivity.this, 0);
                 break;
 //            注册
             case R.id.btn_login_zhuce:
-               RegisterActivity.startIntent(LoginActivity.this, 1);
+                RegisterActivity.startIntent(LoginActivity.this, 1);
                 break;
         }
     }
 
-    public static void startIntent(Context mContext,boolean ischange) {
-        Intent intent=new Intent();
-        intent.putExtra("ischange",ischange);
+    public static void startIntent(Context mContext, boolean ischange) {
+        Intent intent = new Intent();
+        intent.putExtra("ischange", ischange);
         intent.setClass(mContext, LoginActivity.class);
         mContext.startActivity(intent);
     }
@@ -99,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         int code = dataBean.getBusinesscode();
 //        103实盘用户  109游客  106 重置密码成功
-        if (103==code||100 == code || 106 == code){
+        if (103 == code || 100 == code || 106 == code) {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             sweetAlertDialog.setTitleText("登录成功");
             sweetAlertDialog.showConfirmButton(false);
@@ -107,16 +135,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 @Override
                 public void dialogClose() {
                     dismissProgress();
-                    Intent intent=new Intent();
-                    intent.putExtra("change",change);
+                    Intent intent = new Intent();
+                    intent.putExtra("change", change);
                     intent.setClass(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
             });
-        } else  if(109==code){
+        } else if (109 == code) {
             loginPresenter.visitorLogin();
-        }else if (104 == code) {
+        } else if (104 == code) {
             dismissProgress();
             ToastUtils.showToast(LoginActivity.this, "密码错误");
         } else if (102 == code) {
@@ -128,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void visitorloginsuccess(LoginBean.DataBean dataBean) {
         int businesscode = dataBean.getBusinesscode();
-        if (103==businesscode||100 == businesscode || 106 == businesscode) {
+        if (103 == businesscode || 100 == businesscode || 106 == businesscode) {
             LoginBean.DataBean.UsersBean usersBean = dataBean.getUsers();
             if (usersBean != null) {
                 SharedPreferencesMgr.setuserid(usersBean.getYonghuid());
@@ -148,22 +176,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                     @Override
                     public void dialogClose() {
                         dismissProgress();
-                        Intent intent=new Intent();
-                        intent.putExtra("change",change);
+                        Intent intent = new Intent();
+                        intent.putExtra("change", change);
                         intent.setClass(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
                 });
             }
-        }else if (104==businesscode){
+        } else if (104 == businesscode) {
             dismissProgress();
             ToastUtils.showToast(LoginActivity.this, "密码错误");
-        }else if (102 == businesscode) {
+        } else if (102 == businesscode) {
             dismissProgress();
             loginTextTishi.setVisibility(View.VISIBLE);
         }
     }
+
     /**
      * 是否是普通用户
      *
@@ -176,6 +205,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
         return true;
     }
+
     @Override
     public void loginfailed(String msg) {
         dismissProgress();
@@ -192,7 +222,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         sweetAlertDialog.setTitleText("登录中...");
         sweetAlertDialog.show();
     }
-   private  void dismissProgress() {
+
+    private void dismissProgress() {
         if (null != sweetAlertDialog && sweetAlertDialog.isShowing()) {
             sweetAlertDialog.dismiss();
         }

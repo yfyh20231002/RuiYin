@@ -7,10 +7,11 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="18dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="18dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -83,5 +84,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/white"/>
+      />
 </LinearLayout>

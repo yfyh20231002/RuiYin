@@ -58,13 +58,14 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
             holder.itemContent.setText(flist.get(position).getNewscontent());
             String path = flist.get(position).getNewsimageurl();
             if (TextUtils.isEmpty(path)) {
-                layoutParams.height = holder.itemContent.getMeasuredHeight();
-                holder.line2.setLayoutParams(layoutParams);
+//                layoutParams.height = holder.itemContent.getMeasuredHeight();
+                layoutParams.height = CommonUtil.dip2px(20);
             } else {
                 Glide.with(mContext)
                         .load(path)
                         .into(holder.itemImage);
-                layoutParams.height = holder.itemContent.getMeasuredHeight() + holder.itemImage.getMeasuredHeight();
+//                layoutParams.height = holder.itemContent.getMeasuredHeight() + holder.itemImage.getMeasuredHeight();
+                layoutParams.height = CommonUtil.dip2px(130);
             }
             holder.line2.setLayoutParams(layoutParams);
         }

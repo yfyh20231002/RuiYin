@@ -10,9 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.unitesoft.huanrong.widget.fragment.live.CurriculumFragment;
-import com.unitesoft.huanrong.widget.fragment.live.InteractionFragment;
-import com.unitesoft.huanrong.widget.fragment.live.StrategyFragment;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.widget.adapter.ChanelAdapter;
 
@@ -51,7 +48,7 @@ public class StudioFragment extends Fragment {
         list.add(new StrategyFragment());
 //        list.add(new NoteFragment());
         list.add(new CurriculumFragment());
-        list.add(new com.unitesoft.huanrong.widget.fragment.live.SynopsisFragment());
+        list.add(new SynopsisFragment());
         adapter=new ChanelAdapter(getChildFragmentManager(),list,strings);
         viewpager.setAdapter(adapter);
         viewpager.setOffscreenPageLimit(3);

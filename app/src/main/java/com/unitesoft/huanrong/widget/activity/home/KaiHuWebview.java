@@ -105,5 +105,7 @@ public class KaiHuWebview extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.reset(this);
+        webview.removeAllViews();
+        webview.destroy();
     }
 }

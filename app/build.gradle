@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.unitesoft.huanrong"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -56,4 +56,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.androidkun:XTabLayout:1.0.0'
 }

@@ -56,7 +56,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="18dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -183,8 +183,23 @@
                     android:text="我的提醒"
                     android:textColor="#1b1b1b"
                     android:textSize="15sp"/>
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/about_more"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:background="#ebebeb"/>
             <RelativeLayout
                 android:id="@+id/btn_my_shezhi"
                 android:layout_width="match_parent"
@@ -237,7 +252,11 @@
                     android:visibility="gone"
                     />
             </RelativeLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:background="#ebebeb"/>
             <LinearLayout
                 android:id="@+id/btn_my_haoping"
                 android:layout_width="match_parent"
@@ -259,8 +278,23 @@
                     android:text="给个好评"
                     android:textColor="#1b1b1b"
                     android:textSize="15sp"/>
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
+                <ImageView
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/about_more"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:background="#ebebeb"/>
             <LinearLayout
                 android:id="@+id/btn_my_share"
                 android:layout_width="match_parent"
@@ -283,8 +317,23 @@
                     android:text="分享APP"
                     android:textColor="#1b1b1b"
                     android:textSize="15sp"/>
-            </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
+                <ImageView
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/about_more"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:background="#ebebeb"/>
             <LinearLayout
                 android:id="@+id/btn_my_aboutus"
                 android:layout_width="match_parent"
@@ -306,7 +355,23 @@
                     android:text="关于我们"
                     android:textColor="#1b1b1b"
                     android:textSize="15sp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/about_more"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:background="#ebebeb"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

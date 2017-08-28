@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         app:tabGravity="fill"
         app:tabIndicatorColor="#4f98f6"
-        app:tabIndicatorHeight="4dp"
+        app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#EDA573"
+        android:background="#e5e5e5"
         app:tabTextColor="@color/tabtext"></android.support.design.widget.TabLayout>
 
     <android.support.v7.widget.RecyclerView

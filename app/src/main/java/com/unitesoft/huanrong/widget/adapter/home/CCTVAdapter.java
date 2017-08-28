@@ -41,7 +41,8 @@ public class CCTVAdapter extends RecyclerView.Adapter<CCTVAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         CCTVBean.DataBean dataBean = list.get(position);
         holder.cctvTitle.setText(dataBean.getVideoName());
-        holder.cctvTime.setText(dataBean.getCreateTime());
+        String createTime = dataBean.getCreateTime();
+        holder.cctvTime.setText(createTime.substring(0,11));
         holder.cctvCount.setText(dataBean.getVideoId() + "");
         if (listener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

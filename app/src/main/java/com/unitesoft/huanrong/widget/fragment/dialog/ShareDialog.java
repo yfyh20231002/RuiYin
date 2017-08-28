@@ -97,7 +97,7 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        弹窗位置
-        getDialog().getWindow().setGravity(Gravity.BOTTOM);
+        getDialog().getWindow().setGravity(Gravity.CENTER);
 //        设置背景色
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 //        去除标题
@@ -122,7 +122,7 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
         weiboShareAPI.registerApp();
 
 //        初始化qq
-        mTencent = Tencent.createInstance("", mContext);
+        mTencent = Tencent.createInstance("101424350", mContext);
     }
 
 
@@ -134,6 +134,11 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
         ButterKnife.reset(this);
     }
 
+    /**
+     * 分享的网址
+     * http://appinterface.yun066.com/addpages/doujin.html
+     *
+     */
     @OnClick({R.id.weixin, R.id.pengyouquan, R.id.weibo, R.id.qq, R.id.delete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -157,7 +162,8 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.doujin);
                 // 设置 Bitmap 类型的图片到视频对象里         设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
                 mediaObject.setThumbImage(bitmap);
-                mediaObject.actionUrl = "http://v.shouxu518.com/?time=" + System.currentTimeMillis();
+//                mediaObject.actionUrl = "http://v.shouxu518.com/?time=" + System.currentTimeMillis();
+                mediaObject.actionUrl = "http://appinterface.yun066.com/addpages/doujin.html";
                 mediaObject.defaultText = "";
                 weiboMessage.mediaObject = mediaObject;
 
@@ -193,7 +199,7 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
         }
         try {
             WXWebpageObject webpage = new WXWebpageObject();
-            webpage.webpageUrl = "http://v.shouxu518.com?time=" + System.currentTimeMillis();
+            webpage.webpageUrl ="http://appinterface.yun066.com/addpages/doujin.html";
             WXMediaMessage msg = new WXMediaMessage(webpage);
             msg.title = "斗金直播-让每一分钟更有价值";
             msg.description = "首旭财经秉承“诚信经营，规范服务”的宗旨，以遵守交易准则为重，以服务客户为本，注重互联网端的发展，联合业内资深金融研究所，打造了集官方网站＆PC直播＆手机APP于一体的首旭财经互联网服务平台，走出了一条风险低、见效快、回报稳、可持续的现代企业发展之路";
@@ -219,18 +225,15 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
      * QQ分享
      */
     private void shareToQZone() {
-        if (!mTencent.isReady()){
-            ToastUtils.showToast(mContext,"手机还没有安装QQ!");
-            return;
-        }
         Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
         params.putString(QQShare.SHARE_TO_QQ_TITLE, "斗金直播-让每一分钟更有价值");
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "首旭财经秉承“诚信经营，规范服务”的宗旨，以遵守交易准则为重，以服务客户为本，注重互联网端的发展，联合业内资深金融研究所，打造了集官方网站＆PC直播＆手机APP于一体的首旭财经互联网服务平台，走出了一条风险低、见效快、回报稳、可持续的现代企业发展之路");
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://v.shouxu518.com?time=" + System.currentTimeMillis());
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://avatar.csdn.net/B/0/1/1_new_one_object.jpg");
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, "http://appinterface.yun066.com/addpages/doujin.html");
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgsrc.baidu.com/forum/w%3D580/sign=8a4f16f2b4096b6381195e583c328733/168bd0edab64034ff8f913dba5c379310b551da3.jpg");
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "斗金直播");
-        params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
+//        加上这句话只能分享到QQ空间
+//        params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);
         mTencent.shareToQQ(activity, params, this);
     }
 

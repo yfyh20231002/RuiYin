@@ -3,10 +3,13 @@ package com.unitesoft.huanrong.widget.activity.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.unitesoft.huanrong.R;
+import com.unitesoft.huanrong.widget.activity.BaseActivity;
 import com.unitesoft.huanrong.widget.adapter.home.PlayAdapter;
 
 import java.io.Serializable;
@@ -17,21 +20,34 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
-public class PlayCCTVActivity extends AppCompatActivity {
+public class PlayCCTVActivity extends BaseActivity {
     List<String> urls = new ArrayList<String>();
     List<String> images = new ArrayList<String>();
     @InjectView(R.id.listview)
     ListView listview;
     PlayAdapter adapter;
+    @InjectView(R.id.call)
+    ImageView call;
+    @InjectView(R.id.infomation)
+    ImageView infomation;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playcctv);
+        setToolBarTitle("央视");
         ButterKnife.inject(this);
+        call.setVisibility(View.GONE);
+        infomation.setVisibility(View.GONE);
         initview();
         urls.addAll(getIntent().getStringArrayListExtra("urls"));
         images.addAll(getIntent().getStringArrayListExtra("images"));
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_playcctv;
     }
 
 
@@ -52,10 +68,10 @@ public class PlayCCTVActivity extends AppCompatActivity {
     private void initview() {
         if (adapter == null) {
             adapter = new PlayAdapter(urls, images, this);
+            listview.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
         }
-        listview.setAdapter(adapter);
     }
 
     public static void startIntent(Context context, List<String> urls, List<String> images) {

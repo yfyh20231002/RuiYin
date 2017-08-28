@@ -33,7 +33,7 @@
     <View
         android:id="@+id/line2"
         android:layout_width="1dp"
-        android:layout_height="wrap_content"
+        android:layout_height="130dp"
         android:layout_alignLeft="@id/point"
         android:layout_below="@id/point"
         android:layout_marginLeft="2dp"

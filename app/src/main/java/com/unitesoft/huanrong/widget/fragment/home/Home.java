@@ -160,6 +160,8 @@ public class Home extends Fragment implements IptMsgView, LiveView {
         presenter.getData("29,32,33", 1, 3);
         listview.addHeaderView(header);
         listview.addFooterView(footer);
+        listview.setHeaderDividersEnabled(false);
+        listview.setFooterDividersEnabled(false);
     }
 
     private void initrecyclerview() {
@@ -203,6 +205,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
     @Override
     public void livesuccess(final List<LiveBean.DataBean.LiveRoomsBaseInfoBean> list) {
+        loadDialog.dismiss();
         if (liveAdapter == null) {
             liveAdapter = new HomeLiveAdapter(list);
         } else {
@@ -225,6 +228,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
 
     @Override
     public void livefailed(String message) {
+        loadDialog.dismiss();
         ToastUtils.showToast(mContext, message);
     }
 }

@@ -206,8 +206,12 @@ public class MyFragment extends Fragment {
             case R.id.btn_my_haoping:
                 break;
             case R.id.btn_my_share:
-                ShareDialog shareDialog=new ShareDialog();
-                shareDialog.show(getChildFragmentManager(),"");
+                if (TextUtils.isEmpty(getuserid)) {
+                    LoginActivity.startIntent(mContext,true);
+                } else {
+                    ShareDialog shareDialog = new ShareDialog();
+                    shareDialog.show(getChildFragmentManager(), "");
+                }
                 break;
             case R.id.btn_my_aboutus:
                 startActivity(new Intent(mContext, AboutusActivity.class));
@@ -375,7 +379,7 @@ public class MyFragment extends Fragment {
     }
 
     private void exit() {
-        hintDialog.setContent("确定要离开吗？");
+        hintDialog.setContent("是否退出");
         hintDialog.setOnConfirmClickListener(new HintDialog.HintConfirmCallback() {
             @Override
             public void onClick() {

@@ -2,18 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="#efeef4"
               android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginBottom="15dp"
             android:background="@mipmap/live_img"
             android:paddingBottom="15dp"
             >
@@ -36,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="25dp">
+            android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/live_name"
@@ -70,24 +77,24 @@
             android:id="@+id/live_zhuti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:lines="1"
+            android:paddingLeft="10dp"
             android:textColor="@color/tabtext"
             android:textSize="11sp"/>
 
         <TextView
             android:id="@+id/live_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="14dp"
+            android:paddingLeft="10dp"
             android:text="时间：09:00--23:00"
             android:textColor="#626262"
-            android:textSize="10sp"
-            android:layout_marginTop="14dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="10sp"/>
     </LinearLayout>
 </LinearLayout>

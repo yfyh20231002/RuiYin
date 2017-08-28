@@ -23,11 +23,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.unitesoft.huanrong.ApiService.LiveService;
 import com.unitesoft.huanrong.Bean.ChatPBean;
 import com.unitesoft.huanrong.Bean.ReceiveBean;
@@ -45,10 +45,9 @@ import com.unitesoft.huanrong.view.InteractionView;
 import com.unitesoft.huanrong.widget.activity.live.ChatMenuDialog;
 import com.unitesoft.huanrong.widget.adapter.live.InteractionAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.view.ChatListView;
 import com.unitesoft.huanrong.widget.fragment.dialog.StrategyDialog;
+import com.unitesoft.huanrong.widget.view.ChatListView;
 import com.unitesoft.huanrong.widget.view.sweetdialog.SweetAlertDialog;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,7 +81,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     @InjectView(R.id.content)
     EditText content;
     @InjectView(R.id.send)
-    Button send;
+    TextView send;
     @InjectView(R.id.tv_speech)
     TextView tvSpeech;
     @InjectView(R.id.tv_strategy)
