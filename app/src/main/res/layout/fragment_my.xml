@@ -23,8 +23,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imag_my_touxiang"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="62dp"
                     android:src="@mipmap/my_head"/>
@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="11dp"
                     android:background="@null"
                     android:text="注册/登录"
                     android:textColor="#ffffff"
@@ -235,6 +235,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="7dp"
                     android:background="@color/white"
+                    android:visibility="gone"
                     android:src="@mipmap/set_on"/>
 
                 <ImageButton
@@ -249,7 +250,6 @@
                     android:layout_marginTop="7dp"
                     android:background="@color/white"
                     android:src="@mipmap/set_off"
-                    android:visibility="gone"
                     />
             </RelativeLayout>
             <View

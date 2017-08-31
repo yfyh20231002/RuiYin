@@ -3,7 +3,6 @@ package com.unitesoft.huanrong.widget.fragment.dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.listener.live.CancleCallback;
 import com.unitesoft.huanrong.widget.adapter.live.FaBuCeLueAdapter;
@@ -34,7 +34,7 @@ import butterknife.InjectView;
 public class StrategyDialog extends DialogFragment  implements CancleCallback{
 
     @InjectView(R.id.tablayout)
-    TabLayout tablayout;
+    XTabLayout tablayout;
     @InjectView(R.id.viewpager)
     ViewPager viewpager;
     private List<Fragment> list=new ArrayList<>();

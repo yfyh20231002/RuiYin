@@ -47,4 +47,10 @@ public class KaiHuActivity extends Activity {
         Intent intent = new Intent(context, KaiHuActivity.class);
         context.startActivity(intent);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.reset(this);
+    }
 }

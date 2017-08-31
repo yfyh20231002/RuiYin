@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:scrollbars="none"
         android:background="#3f414c">
+
         <LinearLayout
+            android:id="@+id/linear_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
             android:background="#3f414c"
-            android:id="@+id/linear_button"
+            android:orientation="horizontal"
             >
+
             <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-                android:background="#3f414c"
-            android:text="自选"
-            android:textSize="17sp"
-            android:textColor="#ffffff"
                 android:id="@+id/zixuan_btn"
-           />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#3f414c"
+                android:text="自选"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
+                />
 
         </LinearLayout>
 
@@ -32,35 +37,38 @@
         android:layout_height="40dp"
         android:background="#efeef4"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
             android:text="品种"
-            android:textSize="15sp"
             android:textColor="#8d8d94"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"/>
+            android:textSize="15sp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最新价"
-            android:textSize="15sp"
-            android:textColor="#8d8d94"
+            android:layout_marginLeft="115dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="115dp"/>
+            android:text="最新价"
+            android:textColor="#8d8d94"
+            android:textSize="15sp"/>
+
         <Spinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:id="@+id/spinner"
             android:layout_marginLeft="80dp"
+            android:layout_marginTop="5dp"
             ></Spinner>
     </LinearLayout>
 
-   <ListView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/hq_listview"
+    <ListView
+        android:id="@+id/hq_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-       ></ListView>
+        ></ListView>
 </LinearLayout>

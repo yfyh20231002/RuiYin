@@ -26,7 +26,6 @@ import com.unitesoft.huanrong.view.TokenView;
 import com.unitesoft.huanrong.widget.activity.home.CallDialog;
 import com.unitesoft.huanrong.widget.activity.mine.LoginActivity;
 import com.unitesoft.huanrong.widget.fragment.HomeFragment;
-import com.unitesoft.huanrong.widget.fragment.LiveFragment;
 import com.unitesoft.huanrong.widget.fragment.MarkCenterFragment;
 import com.unitesoft.huanrong.widget.fragment.MyFragment;
 import com.unitesoft.huanrong.widget.fragment.TradingFragment;
@@ -84,7 +83,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     Toolbar toolbar;
 
     private HomeFragment homeFragment;
-    private LiveFragment liveFragment;
     private MarkCenterFragment markCenterFragment;
     private TradingFragment tradingFragment;
     private MyFragment myFragment;
@@ -92,6 +90,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     boolean isChange = false;
     // 标识是否退出
     private boolean isExit = false;
+
+    private int biaoji=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,9 +145,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (markCenterFragment != null) {
             transaction.hide(markCenterFragment);
         }
-        if (liveFragment != null) {
-            transaction.hide(liveFragment);
-        }
         if (tradingFragment != null) {
             transaction.hide(tradingFragment);
         }
@@ -168,9 +165,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             homeFragment = (HomeFragment) fragment;
         } else if (null == markCenterFragment && fragment instanceof MarkCenterFragment) {
             markCenterFragment = (MarkCenterFragment) fragment;
-        } else if (null == liveFragment && fragment instanceof LiveFragment) {
-            liveFragment = (LiveFragment) fragment;
-        } else if (null == tradingFragment && fragment instanceof TradingFragment) {
+        }else if (null == tradingFragment && fragment instanceof TradingFragment) {
             tradingFragment = (TradingFragment) fragment;
         } else if (null == myFragment && fragment instanceof MyFragment) {
             myFragment = (MyFragment) fragment;
@@ -188,18 +183,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         switch (v.getId()) {
             case R.id.home:
+                biaoji=0;
                 showHome();
                 break;
             case R.id.markcenter:
+                biaoji=2;
                 showMarketCenter();
                 break;
             case R.id.trading:
+                biaoji=3;
                 showTrading();
                 break;
             case R.id.live:
-                showLiveRoom();
+                if (0==biaoji) {
+                    homeFragment.changeTab();
+                }else {
+                    showHome();
+                }
                 break;
             case R.id.my:
+                biaoji=5;
                 showMy();
                 break;
             default:
@@ -207,7 +210,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
 
     }
-
 
     /**
      * 监听返回键
@@ -288,6 +290,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    public void homeview() {
+        ivIconHome.setSelected(true);
+        tvTextHome.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconLive.setSelected(false);
+        tvTextLive.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+    }
+
+    @Override
     public void showMarketCenter() {
         toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -312,7 +328,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
     }
 
-    @Override
+    /*@Override
     public void showLiveRoom() {
         toolbar.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -325,6 +341,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+        ivIconHome.setSelected(false);
+        tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconLive.setSelected(true);
+        tvTextLive.setTextColor(getResources().getColor(R.color.selecttextcolor));
+        ivIconMarkCenter.setSelected(false);
+        tvTextMarkCenter.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconTrading.setSelected(false);
+        tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+        ivIconMy.setSelected(false);
+        tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
+    }*/
+
+    @Override
+    public void liveview() {
         ivIconHome.setSelected(false);
         tvTextHome.setTextColor(getResources().getColor(R.color.unselecttextcolor));
         ivIconLive.setSelected(true);

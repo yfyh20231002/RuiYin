@@ -6,6 +6,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -103,9 +104,13 @@ public class KaiHuWebview extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if (webview != null) {
+            webview.clearHistory();
+            ((ViewGroup) webview.getParent()).removeView(webview);
+            webview.destroy();
+            webview = null;
+        }
         super.onDestroy();
         ButterKnife.reset(this);
-        webview.removeAllViews();
-        webview.destroy();
     }
 }

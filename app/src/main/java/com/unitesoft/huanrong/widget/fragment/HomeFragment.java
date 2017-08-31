@@ -32,6 +32,7 @@ import com.unitesoft.huanrong.widget.fragment.home.DataFragment;
 import com.unitesoft.huanrong.widget.fragment.home.EIAFragment;
 import com.unitesoft.huanrong.widget.fragment.home.FeiNongFragment;
 import com.unitesoft.huanrong.widget.fragment.home.Home;
+import com.unitesoft.huanrong.widget.fragment.home.LiveFragment;
 import com.unitesoft.huanrong.widget.fragment.home.InternalFragment;
 import com.unitesoft.huanrong.widget.fragment.home.NoticeFragment;
 import com.unitesoft.huanrong.widget.fragment.home.RemindFragment;
@@ -64,6 +65,9 @@ public class HomeFragment extends Fragment {
 
     //首页
     Home home;
+
+    //    直播
+    LiveFragment homeLiveFragment;
     //日历
     CalendarFragment calendar;
     //公告
@@ -85,21 +89,28 @@ public class HomeFragment extends Fragment {
     //操作建议
     SuggestionsFragment suggestion;
     Context mContext;
+    private Activity activity;
+
+    private int h = 0;
 
 
     public interface OnBaseTabListener {
 
         void showHome();
 
+        void homeview();
+
         void showMarketCenter();
 
-        void showLiveRoom();
+        void liveview();
 
         void showTrading();
 
         void showMy();
 
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -109,6 +120,7 @@ public class HomeFragment extends Fragment {
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.activity=activity;
         try {
             onBaseTabListener = (OnBaseTabListener) activity;
         } catch (ClassCastException e) {
@@ -117,6 +129,13 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            xTab.getTabAt(0).select();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,6 +146,9 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    public void changeTab(){
+        xTab.getTabAt(2).select();
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -253,13 +275,16 @@ public class HomeFragment extends Fragment {
         String name = (String) tab.getText();
         switch (name) {
             case "首页":
+                onBaseTabListener.homeview();
                 showHome();
                 break;
             case "开户":
                 KaiHuActivity.startIntent(getActivity());
                 break;
             case "直播":
-                onBaseTabListener.showLiveRoom();
+//                onBaseTabListener.showLiveRoom();
+                onBaseTabListener.liveview();
+                showLive();
                 break;
             case "日历":
                 showCalendar();
@@ -296,7 +321,7 @@ public class HomeFragment extends Fragment {
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
                     LoginActivity.startIntent(mContext, false);
                 } else {
-                    StudioActivity.startIntent(mContext);
+                    StudioActivity.startIntent(mContext, "天涯海阁");
                 }
                 break;
             case "谈股论金":
@@ -304,7 +329,7 @@ public class HomeFragment extends Fragment {
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
                     LoginActivity.startIntent(mContext, false);
                 } else {
-                    StudioActivity.startIntent(mContext);
+                    StudioActivity.startIntent(mContext, "谈股论金");
                 }
                 break;
             case "狙击非农":
@@ -341,6 +366,19 @@ public class HomeFragment extends Fragment {
             transaction.add(R.id.home_content, home);
         } else {
             transaction.show(home);
+
+        }
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void showLive() {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        hideAllFragment(transaction);
+        if (homeLiveFragment == null) {
+            homeLiveFragment = new LiveFragment();
+            transaction.add(R.id.home_content, homeLiveFragment);
+        } else {
+            transaction.show(homeLiveFragment);
         }
         transaction.commitAllowingStateLoss();
     }
@@ -470,6 +508,9 @@ public class HomeFragment extends Fragment {
     public void hideAllFragment(FragmentTransaction transaction) {
         if (home != null) {
             transaction.hide(home);
+        }
+        if (homeLiveFragment != null) {
+            transaction.hide(homeLiveFragment);
         }
         if (calendar != null) {
             transaction.hide(calendar);

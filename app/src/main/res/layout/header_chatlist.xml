@@ -3,8 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:gravity="center"
-              android:paddingTop="5dp">
+              android:background="#e5e5e5"
+              android:gravity="center">
 
     <TextView
         android:id="@+id/tvRemind"

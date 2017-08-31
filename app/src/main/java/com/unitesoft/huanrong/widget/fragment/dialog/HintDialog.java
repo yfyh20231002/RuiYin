@@ -147,9 +147,7 @@ public class HintDialog extends DialogFragment {
      * @param hintView
      */
     private void initView(View hintView) {
-        tvTitle = (TextView) hintView.findViewById(R.id.tv_hint_dialog_title);
         tvContent = (TextView) hintView.findViewById(R.id.tv_hint_dialog_content);
-        tvTitle.setText(title);
         tvContent.setText(content);
         if (isSingleButton) {
             ViewStub vsSingleButton = (ViewStub) hintView.findViewById(R.id.vs_single_button);

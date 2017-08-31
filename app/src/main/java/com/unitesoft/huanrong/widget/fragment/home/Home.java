@@ -4,7 +4,6 @@ package com.unitesoft.huanrong.widget.fragment.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.unitesoft.huanrong.Bean.IptMsgBean;
 import com.unitesoft.huanrong.Bean.LiveBean;
 import com.unitesoft.huanrong.R;
@@ -65,7 +65,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
      * footer里面的view
      */
     RecyclerView recyclerView;
-    TabLayout tablayout;
+    XTabLayout tablayout;
     NoScrollViewPager vp;
 
 
@@ -117,7 +117,7 @@ public class Home extends Fragment implements IptMsgView, LiveView {
     private void initFooter() {
         footer = layoutInflater.inflate(R.layout.home_foot, null);
         recyclerView = (RecyclerView) footer.findViewById(recyclerview);
-        tablayout = (TabLayout) footer.findViewById(R.id.tablayout);
+        tablayout = (XTabLayout) footer.findViewById(R.id.tablayout);
         vp = (NoScrollViewPager) footer.findViewById(R.id.vp);
 //        ViewGroup.LayoutParams layoutParams = vp.getLayoutParams();
 //        layoutParams.height = mContext.getResources().getDisplayMetrics().heightPixels / 2;
@@ -216,11 +216,12 @@ public class Home extends Fragment implements IptMsgView, LiveView {
             @Override
             public void onItemClick(View view, int positon) {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
+                String title=list.get(positon).getZhiboshimingcheng();
                 SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())) {
                     LoginActivity.startIntent(mContext,false);
                 } else {
-                    StudioActivity.startIntent(mContext);
+                    StudioActivity.startIntent(mContext,title);
                 }
             }
         });

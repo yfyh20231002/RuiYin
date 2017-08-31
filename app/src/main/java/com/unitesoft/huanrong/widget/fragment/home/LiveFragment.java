@@ -1,5 +1,4 @@
-package com.unitesoft.huanrong.widget.fragment;
-
+package com.unitesoft.huanrong.widget.fragment.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,9 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * A simple {@link Fragment} subclass.
- * 直播
+ * Created by Mr.zhang on 2017/8/31.
  */
+
 public class LiveFragment extends Fragment implements LiveView {
 
 
@@ -89,11 +88,12 @@ public class LiveFragment extends Fragment implements LiveView {
             @Override
             public void onItemClick(View view, int positon) {
                 String zhiboshiid = list.get(positon).getZhiboshiid();
+                String title=list.get(positon).getZhiboshimingcheng();
                 SharedPreferencesMgr.setZhiboshiid(zhiboshiid);
                 if (TextUtils.isEmpty(SharedPreferencesMgr.getuserid())){
                     LoginActivity.startIntent(mContext,false);
                 }else {
-                    StudioActivity.startIntent(mContext);
+                    StudioActivity.startIntent(mContext,title);
                 }
             }
         });

@@ -21,38 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/aniu_layout"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_speech"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/circle"
-                android:text="正常发言"
-                android:textColor="#737371"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_strategy"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/circle"
-                android:text="发布策略"
-                android:textColor="#737371"
-                android:textSize="14sp"/>
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:background="@drawable/editshape"
                 android:padding="8dp"/>
 

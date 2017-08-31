@@ -20,7 +20,8 @@
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -45,8 +46,9 @@
                 android:layout_below="@+id/ivIconHome"
                 android:layout_centerHorizontal="true"
                 android:text="首页"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/unselecttextcolor"
-                android:textSize="11sp"/>
+                android:textSize="10sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,8 +73,9 @@
                 android:layout_below="@+id/ivIconMarkCenter"
                 android:layout_centerHorizontal="true"
                 android:text="行情"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/unselecttextcolor"
-                android:textSize="11sp"/>
+                android:textSize="10sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -97,8 +100,9 @@
                 android:layout_below="@+id/ivIconLive"
                 android:layout_centerHorizontal="true"
                 android:text="直播"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/unselecttextcolor"
-                android:textSize="11sp"/>
+                android:textSize="10sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -123,8 +127,9 @@
                 android:layout_below="@+id/ivIconTrading"
                 android:layout_centerHorizontal="true"
                 android:text="交易"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/unselecttextcolor"
-                android:textSize="11sp"/>
+                android:textSize="10sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -149,8 +154,9 @@
                 android:layout_below="@+id/ivIconMy"
                 android:layout_centerHorizontal="true"
                 android:text="我的"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/unselecttextcolor"
-                android:textSize="11sp"/>
+                android:textSize="10sp"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

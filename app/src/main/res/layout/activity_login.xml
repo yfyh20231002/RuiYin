@@ -35,6 +35,7 @@
             android:layout_marginLeft="17dp"
             android:background="@color/white"
             android:hint="请输入手机号"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textColor="#202121"
             android:textColorHint="#a1a0a0"
             android:textSize="15sp"
@@ -53,7 +54,7 @@
         android:layout_height="55dp"
         android:layout_marginLeft="31dp"
         android:layout_marginRight="31dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="5dp"
         android:background="@null"
         android:gravity="center_vertical">
 
@@ -73,6 +74,7 @@
             android:layout_toRightOf="@id/password"
             android:background="@color/white"
             android:hint="请输入密码"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:inputType="textPassword"
             android:textColor="#202121"
             android:textColorHint="#a1a0a0"

@@ -15,13 +15,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.unitesoft.huanrong.ApiService.LiveService;
-import com.unitesoft.huanrong.event.OnAdviseEvent;
 import com.unitesoft.huanrong.Bean.live.SelectGenZongPostBean;
 import com.unitesoft.huanrong.Bean.live.SelectGenzongBean;
 import com.unitesoft.huanrong.R;
+import com.unitesoft.huanrong.event.OnAdviseEvent;
 import com.unitesoft.huanrong.listener.live.CancleCallback;
 import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 import com.unitesoft.huanrong.utils.CommonUtil;
+import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.widget.adapter.live.GenzongAdapter;
 
@@ -134,16 +135,35 @@ public class GenzongFragment extends BaseFragment {
     }
 
     private void requestRetrofit() {
-        Retrofit retrofit = CommonUtil.retrofit("http://192.168.1.22:8080/");
+//        "http://192.168.1.22:8080/"
+        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.baseImage);
         LiveService liveService = retrofit.create(LiveService.class);
-        String userid = SharedPreferencesMgr.getuserid();
-        Call<ResponseBody> responseBodyCall = liveService.postSelectCaozuo(new SelectGenZongPostBean(userid));
+        String username = SharedPreferencesMgr.getUsername();
+        Call<ResponseBody> responseBodyCall = liveService.postSelectCaozuo(new SelectGenZongPostBean(username));
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     String result = response.body().string();
+                    if (TextUtils.isEmpty(result)) {
+                        ToastUtils.showToast(mContext, "暂无跟踪建议");
+                        return;
+                    }
                     JSONArray array = new JSONArray(result);
+                    /*"tradingid":"00F246765F2B48ACB0918B6453DAA4AF",
+                            "delflg":"0",
+                            "fenxishixingming":"李亚蓓",
+                            "variety":"柏油",
+                            "jiancangfangxiang":"做空",
+                            "openprice":"2388--2400",
+                            "stopprice":"2425",
+                            "surplusprice":"",
+                            "closeprice":"2320-2300",
+                            "createdate":1503372612000,
+                            "updatedate":null,
+                            "ifzhudan":0,
+                            "jianyileixing":0,
+                            "fenxishitouxiang":"/upload/kehuziliaoguanli/201601/1452567336927.png"*/
                     if (array.length() > 0) {
                         mlist.clear();
                         for (int i = 0; i < array.length(); i++) {
@@ -178,7 +198,7 @@ public class GenzongFragment extends BaseFragment {
     private void data(final List<SelectGenzongBean> list) {
         qianchong(0, list);
         count.clear();
-        for (int i = 0; i <list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             count.add(i + 1 + "");
         }
         if (adapter == null) {
@@ -200,11 +220,11 @@ public class GenzongFragment extends BaseFragment {
         tvPinzhong.setText(list.get(i).getVariety());
         tvJiancangwei.setText(list.get(i).getOpenprice());
         String s = list.get(i).getJiancangfangxiang();
-        if (TextUtils.equals("做多",s)){
+        if (TextUtils.equals("做多", s)) {
             tvDirection.setSelection(0);
-        }else if (TextUtils.equals("做空",s)){
+        } else if (TextUtils.equals("做空", s)) {
             tvDirection.setSelection(1);
-        }else if (TextUtils.equals("震荡",s)){
+        } else if (TextUtils.equals("震荡", s)) {
             tvDirection.setSelection(2);
         }
         tvMubiao.setText(list.get(i).getCloseprice());

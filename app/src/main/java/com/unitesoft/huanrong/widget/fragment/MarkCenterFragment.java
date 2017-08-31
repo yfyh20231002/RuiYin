@@ -50,6 +50,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.unitesoft.huanrong.utils.ToastUtils;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.future.ConnectFuture;
@@ -99,9 +100,8 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
     private ArrayList<String> short_name = new ArrayList<>();
     private ArrayList<String> bean_pinpingtais = new ArrayList<>();
     private List<ArrayList> list_shuju = new ArrayList<>();
-    private String spinner_num ="0";
+    private String spinner_num = "0";
     private Set<SwipeListLayout> sets = new HashSet<>();
-
 
 
     private List<String> zixuan_pingtai = new ArrayList<String>();
@@ -111,14 +111,20 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
     ListDataSave dataSave;
 
     List<ZiXuanBean> listBean = new ArrayList<>();
+    private Context mContext;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hq, container,false);
+        View view = inflater.inflate(R.layout.fragment_hq, container, false);
         linear_button = (LinearLayout) view.findViewById(R.id.linear_button);
-        mRequestQueue =  Volley.newRequestQueue(MarkCenterFragment.this.getActivity());
+        mRequestQueue = Volley.newRequestQueue(MarkCenterFragment.this.getActivity());
         listView = (ListView) view.findViewById(R.id.hq_listview);
         dataSave = new ListDataSave(getActivity(), "zixuan");
         zixuan_btn = (Button) view.findViewById(R.id.zixuan_btn);
@@ -134,7 +140,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                                               list_shuju.clear();
                                               pt_click = "";
                                               closeConnect();
-                                              for (int i=0;i<listBean.size();i++){
+                                              for (int i = 0; i < listBean.size(); i++) {
                                                   String pingtai = listBean.get(i).getZixuanpingtai();
                                                   list.add(pingtai);
                                                   String pinzhong = listBean.get(i).getZixuanpinzhong();
@@ -162,7 +168,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                                                   historylist.add(low);
                                                   historylist.add(isup);
                                                   historylist.add(shortname);
-                                                  Log.e("history",historylist.toString());
+                                                  Log.e("history", historylist.toString());
                                                   list_shuju.add(historylist);
                                                   short_name.add(shortname);
 
@@ -170,7 +176,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
                                               zixuan_pingtai = removeDuplicate(list);
                                               Toast.makeText(getActivity(), dataSave.getDataList("javaBean").toString(), Toast.LENGTH_SHORT).show();
-                                              Log.e("zixuan",listBean.toString());
+                                              Log.e("zixuan", listBean.toString());
                                               connectServer();
                                           }
                                       }
@@ -178,17 +184,18 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         String[] mItems = getResources().getStringArray(R.array.leixingArray);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, mItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, mItems);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         //绑定 Adapter到控件
-        spinner .setAdapter(adapter);
+        spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                Log.e("spinner", String.valueOf(pos)+"========"+id);
+                Log.e("spinner", String.valueOf(pos) + "========" + id);
                 spinner_num = String.valueOf(pos);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -198,6 +205,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         inintdata_pt();
         return view;
     }
+
     private void inintdata_pt() {
         /**
          *       接收平台信息
@@ -207,6 +215,10 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                if (TextUtils.isEmpty(s)){
+                    ToastUtils.showToast(mContext,"暂无平台数据");
+                    return;
+                }
                 JsonParser parser = new JsonParser();
                 //将JSON的String 转成一个JsonArray对象
                 JsonArray jsonArray = parser.parse(s).getAsJsonArray();
@@ -221,8 +233,8 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                     Bean bean = gson.fromJson(user, Bean.class);
                     userBeanList.add(bean);
                 }
-                int i ;
-                for ( i = 0;i<userBeanList.size();i++){
+                int i;
+                for (i = 0; i < userBeanList.size(); i++) {
                     final int id = userBeanList.get(i).getId();
                     Button button = new Button(getActivity());
                     button.setId(id);
@@ -240,7 +252,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                             short_name.clear();
                             list_shuju.clear();
                             closeConnect();
-                            pt_click =  userBeanList.get(v.getId()-1).getCode();
+                            pt_click = userBeanList.get(v.getId() - 1).getCode();
                             Log.e("tag", pt_click);
                             inintdata_pinzhong(pt_click);
 
@@ -266,7 +278,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         /**
          *       接收品种信息
          */
-        String url = "http://hangqing.yun066.com/home/GetTradedInstrument?type="+str;
+        String url = "http://hangqing.yun066.com/home/GetTradedInstrument?type=" + str;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -290,11 +302,11 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 //                mAdapter = new Hq_ListAdapter(bean_pinzhongs,getActivity());
 //                listView.setAdapter(mAdapter);
 
-                for (int i=0;i<pinzhonglist.size();i++) {
+                for (int i = 0; i < pinzhonglist.size(); i++) {
 
                     inintdata_history(str, pinzhonglist.get(i));
 
-                    Log.i("bb", "get请求成功" +pinzhonglist.get(i));
+                    Log.i("bb", "get请求成功" + pinzhonglist.get(i));
                 }
 //                connectServer();
             }
@@ -309,6 +321,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         request.setTag("volleyget");
         mRequestQueue.add(request);
     }
+
     private void inintdata_history(String pingtai, final String pinzhong) {
         /**
          *       接收历史数据
@@ -319,7 +332,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = "http://hangqing.yun066.com/home/Gethangqingls?type="+pingtai+"&code="+utfpinzhong+"&timespace=5"+"&num=1";
+        String url = "http://hangqing.yun066.com/home/Gethangqingls?type=" + pingtai + "&code=" + utfpinzhong + "&timespace=5" + "&num=1";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -353,7 +366,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                     historylist.add(zdf);
                     historylist.add(low);
                     historylist.add(isup);
-                    Log.e("history",historylist.toString());
+                    Log.e("history", historylist.toString());
                     list_shuju.add(historylist);
                     Log.i("bb", "get请求成功" + list_shuju.toString());
 
@@ -409,6 +422,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
             });
         }
     }
+
     /**
      * socket连接
      */
@@ -437,13 +451,14 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         clientSession = cf.getSession();
 
     }
+
     private void closeConnect() {
 
         if (null != clientSession && clientSession.isConnected()) {
             Log.d(TAG, "sever closed");
             clientSession.close(false);
             currentRequestString = null;
-            service=null;
+            service = null;
 
         }
     }
@@ -474,27 +489,28 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                     super.handleMessage(msg);
                     JSONObject jsonObject = (JSONObject) msg.obj;
                     List<String> list = new ArrayList();
-                    for (int j = 0;j<pinzhonglist.size();j++){
-                        if (pinzhonglist.get(j).equals(jsonObject.getString("code"))){
+                    for (int j = 0; j < pinzhonglist.size(); j++) {
+                        if (pinzhonglist.get(j).equals(jsonObject.getString("code"))) {
                             list = list_shuju.get(j);
-                            list.set(0,jsonObject.getString("open"));
-                            list.set(1,jsonObject.getString("high"));
-                            list.set(2,jsonObject.getString("last"));
-                            list.set(3,jsonObject.getString("lastClose"));
-                            list.set(5,jsonObject.getString("change"));
-                            list.set(6,jsonObject.getString("changeExtent"));
-                            list.set(7,jsonObject.getString("low"));
-                            list.set(8,jsonObject.getString("isUp"));
+                            list.set(0, jsonObject.getString("open"));
+                            list.set(1, jsonObject.getString("high"));
+                            list.set(2, jsonObject.getString("last"));
+                            list.set(3, jsonObject.getString("lastClose"));
+                            list.set(5, jsonObject.getString("change"));
+                            list.set(6, jsonObject.getString("changeExtent"));
+                            list.set(7, jsonObject.getString("low"));
+                            list.set(8, jsonObject.getString("isUp"));
 
                             list_shuju.set(j, (ArrayList) list);
-                            mAdapter = new Hq_ListAdapter(pinzhonglist,bean_pinpingtais,short_name,list_shuju,spinner_num,getActivity());
+                            mAdapter = new Hq_ListAdapter(pinzhonglist, bean_pinpingtais, short_name, list_shuju, spinner_num, getActivity());
                             listView.setAdapter(mAdapter);
                         }
                     }
 
                     Log.e("TAG", "handleMessage: " + jsonObject.toString());
                     final float last = Float.valueOf(jsonObject.getString("last"));
-                    Log.e("last","++++++"+last);}
+                    Log.e("last", "++++++" + last);
+                }
 
             };
 
@@ -511,15 +527,15 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         }
         JSONObject jsonObject = new JSONObject();
         Log.e("请求的数据0", jsonObject.toString());
-        Log.d("dd",pt_click+pinzhonglist);
-        if (pt_click.equals("")){
-            for (int i = 0;i<zixuan_pingtai.size();i++){
-                Log.d("dd",zixuan_pingtai.get(i)+pinzhonglist);
-                jsonObject.put(zixuan_pingtai.get(i),pinzhonglist);
+        Log.d("dd", pt_click + pinzhonglist);
+        if (pt_click.equals("")) {
+            for (int i = 0; i < zixuan_pingtai.size(); i++) {
+                Log.d("dd", zixuan_pingtai.get(i) + pinzhonglist);
+                jsonObject.put(zixuan_pingtai.get(i), pinzhonglist);
 
 
             }
-        }else {
+        } else {
             jsonObject.put(pt_click, pinzhonglist);
         }
         currentRequestString = JSON.toJSONString(jsonObject);
@@ -530,6 +546,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
         }
     }
+
     public class Hq_ListAdapter extends BaseAdapter {
         private List<String> pinzhongList;
         private LayoutInflater inflater;
@@ -539,20 +556,19 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         private List<String> zixuanpinzhong;
 
 
-
-
-        public Hq_ListAdapter(List<String> zixuanpinzhong,List<String> pinzhongList,List<String> shortname,List<ArrayList> shujulist,String spinner_num,Context context) {
+        public Hq_ListAdapter(List<String> zixuanpinzhong, List<String> pinzhongList, List<String> shortname, List<ArrayList> shujulist, String spinner_num, Context context) {
             this.pinzhongList = pinzhongList;
-            this.inflater=LayoutInflater.from(context);
+            this.inflater = LayoutInflater.from(context);
             this.shujulist = shujulist;
             this.spinner_num = spinner_num;
             this.shortname = shortname;
             this.zixuanpinzhong = zixuanpinzhong;
 
         }
+
         @Override
         public int getCount() {
-            return zixuanpinzhong ==null?0:zixuanpinzhong.size();
+            return zixuanpinzhong == null ? 0 : zixuanpinzhong.size();
         }
 
         @Override
@@ -570,8 +586,8 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             final ViewHolder viewHolder;
-            if (convertView == null){
-                convertView = inflater.inflate(R.layout.hq_list_item,null);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.hq_list_item, null);
                 viewHolder = new ViewHolder();
                 viewHolder.text_newprice = (TextView) convertView.findViewById(R.id.list_item_newprice);
                 viewHolder.text_pinzhong = (TextView) convertView.findViewById(R.id.list_item_pinzhong);
@@ -582,15 +598,15 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                     @Override
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("pingtai",pinzhongList.get(position));
-                        bundle.putString("pinzhong",zixuanpinzhong.get(position));
-                        Intent intent = new Intent(getActivity(),K_line.class);
+                        bundle.putString("pingtai", pinzhongList.get(position));
+                        bundle.putString("pinzhong", zixuanpinzhong.get(position));
+                        Intent intent = new Intent(getActivity(), K_line.class);
                         intent.putExtras(bundle);
                         closeConnect();
                         startActivity(intent);
                     }
                 });
-                viewHolder.sll_main = (SwipeListLayout)convertView
+                viewHolder.sll_main = (SwipeListLayout) convertView
                         .findViewById(R.id.sll_main);
                 viewHolder.tv_top = (TextView) convertView.findViewById(R.id.tv_top);
                 viewHolder.tv_delete = (TextView) convertView.findViewById(R.id.tv_delete);
@@ -603,15 +619,13 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 //                    viewHolder.tv_top.setVisibility(View.GONE);
 //                }
                 convertView.setTag(viewHolder);
-            }else {
+            } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            if (shujulist.get(position).get(8).equals("-1")){
+            if (shujulist.get(position).get(8).equals("-1")) {
                 viewHolder.text_newprice.setTextColor(Color.RED);
                 viewHolder.text_zhagdie.setTextColor(Color.RED);
-            }
-            else if(shujulist.get(position).get(8).equals("1"))
-            {
+            } else if (shujulist.get(position).get(8).equals("1")) {
 
                 viewHolder.text_newprice.setTextColor(Color.GREEN);
                 viewHolder.text_zhagdie.setTextColor(Color.GREEN);
@@ -619,17 +633,17 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
             viewHolder.text_pinzhong.setText(shortname.get(position));
             viewHolder.text_newprice.setText(shujulist.get(position).get(2).toString());
             int num = Integer.parseInt(spinner_num);
-            if (num ==0){
+            if (num == 0) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(5).toString());
-            }else if (num == 1){
+            } else if (num == 1) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(6).toString());
-            }else if (num == 2){
+            } else if (num == 2) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(0).toString());
-            }else if (num == 3){
+            } else if (num == 3) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(3).toString());
-            }else if (num == 5){
+            } else if (num == 5) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(1).toString());
-            }else if (num == 6){
+            } else if (num == 6) {
                 viewHolder.text_zhagdie.setText(shujulist.get(position).get(7).toString());
             }
 
@@ -674,9 +688,9 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                 public void onClick(View view) {
                     viewHolder.sll_main.setStatus(SwipeListLayout.Status.Close, true);
                     listBean = dataSave.getDataList("javaBean");
-                    if (listBean.size()==1){
+                    if (listBean.size() == 1) {
                         listBean.clear();
-                    }else{
+                    } else {
                         listBean.remove(position);
                     }
 
@@ -687,12 +701,12 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
             });
 
             listBean = dataSave.getDataList("javaBean");
-            for (int i=0;i<listBean.size();i++){
+            for (int i = 0; i < listBean.size(); i++) {
                 String code = listBean.get(i).getZixuanpinzhong();
-                if (pinzhonglist.get(position).equals(code)){
+                if (pinzhonglist.get(position).equals(code)) {
                     viewHolder.tv_top.setVisibility(View.GONE);
                     viewHolder.tv_delete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.tv_top.setVisibility(View.VISIBLE);
                     viewHolder.tv_delete.setVisibility(View.GONE);
                 }
@@ -700,33 +714,36 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
             return convertView;
         }
-        class ViewHolder{
-            private TextView text_pinzhong,text_newprice,text_zhagdie,tv_top,tv_delete;
+
+        class ViewHolder {
+            private TextView text_pinzhong, text_newprice, text_zhagdie, tv_top, tv_delete;
             SwipeListLayout sll_main;
             private LinearLayout lay;
         }
 
     }
-    public static String listToString(List<String> list){
-        if(list==null){
+
+    public static String listToString(List<String> list) {
+        if (list == null) {
             return null;
         }
         StringBuilder result = new StringBuilder();
         boolean first = true;
         //第一个前面不拼接","
-        for(String string :list) {
-            if(first) {
-                first=false;
-            }else{
+        for (String string : list) {
+            if (first) {
+                first = false;
+            } else {
                 result.append(",");
             }
             result.append(string);
         }
         return result.toString();
     }
+
     public static List removeDuplicate(List list) {
-        for ( int i = 0 ; i < list.size() - 1 ; i ++ ) {
-            for ( int j = list.size() - 1 ; j > i; j -- ) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).equals(list.get(i))) {
                     list.remove(j);
                 }

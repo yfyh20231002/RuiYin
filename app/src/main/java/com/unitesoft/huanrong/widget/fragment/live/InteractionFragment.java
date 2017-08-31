@@ -24,7 +24,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -40,12 +39,12 @@ import com.unitesoft.huanrong.listener.OnLiveRoomChatTalkListener;
 import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 import com.unitesoft.huanrong.presenter.InteractionPresenter;
 import com.unitesoft.huanrong.utils.CommonUtil;
+import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.InteractionView;
 import com.unitesoft.huanrong.widget.activity.live.ChatMenuDialog;
 import com.unitesoft.huanrong.widget.adapter.live.InteractionAdapter;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
-import com.unitesoft.huanrong.widget.fragment.dialog.StrategyDialog;
 import com.unitesoft.huanrong.widget.view.ChatListView;
 import com.unitesoft.huanrong.widget.view.sweetdialog.SweetAlertDialog;
 
@@ -82,12 +81,6 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     EditText content;
     @InjectView(R.id.send)
     TextView send;
-    @InjectView(R.id.tv_speech)
-    TextView tvSpeech;
-    @InjectView(R.id.tv_strategy)
-    TextView tvStrategy;
-    @InjectView(R.id.aniu_layout)
-    LinearLayout aniuLayout;
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
 
@@ -183,11 +176,6 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             userid = SharedPreferencesMgr.getuserid();
             usericon = SharedPreferencesMgr.getUserIcon();
             leixing = SharedPreferencesMgr.getZhanghaoleixing();
-            if (isFenxishi(leixing)) {
-                aniuLayout.setVisibility(View.VISIBLE);
-            } else {
-                aniuLayout.setVisibility(View.GONE);
-            }
             accountType = String.valueOf(leixing);
             startConnectSv(userid, liveid, accountType);
             loadDialog=new LoadDialog();
@@ -199,13 +187,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         }
     }
 
-    //判断是否是分析师，是的话就显示发布策略按钮，否则不显示
-    private boolean isFenxishi(int permission) {
-        if (2 == permission || 3 == permission || 4 == permission || 5 == permission | 6 == permission) {
-            return true;
-        }
-        return false;
-    }
+
 
     private void initDialog() {
         sweetAlertDialog = new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
@@ -263,7 +245,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
     @Override
     public void onSendSuccess() {
         loadDialog.dismiss();
-        Retrofit retrofit = CommonUtil.retrofit("http://192.168.1.22:8080/");
+        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
         LiveService liveService = retrofit.create(LiveService.class);
         String messageid = SharedPreferencesMgr.getMessageid();
         Call<ResponseBody> responseBodyCall = liveService.postInsertCaozuo(new InsertCaoZuoPostBean(pinzhong, price, direction, mubiao, zhisun, userid, baodan, messageid, "", usericon));
@@ -616,20 +598,6 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         }
     }
 
-
-    @OnClick({R.id.tv_speech, R.id.tv_strategy})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-//            正常发言按钮
-            case R.id.tv_speech:
-                break;
-//            发布策略按钮
-            case R.id.tv_strategy:
-                StrategyDialog dialog = new StrategyDialog();
-                dialog.show(getChildFragmentManager(), "");
-                break;
-        }
-    }
 
 
 }
