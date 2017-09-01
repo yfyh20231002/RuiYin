@@ -29,6 +29,7 @@ import butterknife.InjectView;
 
 /**
  * Created by Mr.zhang on 2017/8/31.
+ * 直播室
  */
 
 public class LiveFragment extends Fragment implements LiveView {

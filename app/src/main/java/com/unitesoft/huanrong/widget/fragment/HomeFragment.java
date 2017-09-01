@@ -129,13 +129,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            xTab.getTabAt(0).select();
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -146,8 +139,8 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void changeTab(){
-        xTab.getTabAt(2).select();
+    public void changeTab(int value){
+        xTab.getTabAt(value).select();
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

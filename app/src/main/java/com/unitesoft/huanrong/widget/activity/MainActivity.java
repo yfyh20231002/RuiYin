@@ -180,11 +180,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.home:
                 biaoji=0;
                 showHome();
+                homeFragment.changeTab(0);
                 break;
             case R.id.markcenter:
                 biaoji=2;
@@ -196,9 +196,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.live:
                 if (0==biaoji) {
-                    homeFragment.changeTab();
+                    homeFragment.changeTab(2);
                 }else {
                     showHome();
+                    homeFragment.changeTab(2);
                 }
                 break;
             case R.id.my:
