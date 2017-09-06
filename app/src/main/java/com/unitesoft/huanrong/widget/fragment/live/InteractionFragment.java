@@ -44,6 +44,7 @@ import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.view.InteractionView;
 import com.unitesoft.huanrong.widget.activity.live.ChatMenuDialog;
 import com.unitesoft.huanrong.widget.adapter.live.InteractionAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.HintDialog;
 import com.unitesoft.huanrong.widget.fragment.dialog.LoadDialog;
 import com.unitesoft.huanrong.widget.view.ChatListView;
 import com.unitesoft.huanrong.widget.view.sweetdialog.SweetAlertDialog;
@@ -129,6 +130,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
 
     private Context mContext;
     private LoadDialog loadDialog;
+    private HintDialog hintDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -271,6 +273,20 @@ public class InteractionFragment extends BaseFragment implements InteractionView
         if (list.size() == 0) {
             ToastUtils.showToast(activity, msg);
         }
+    }
+
+    @Override
+    public void tanchuang() {
+        hintDialog=new HintDialog();
+        hintDialog.setIsSingleButton(true);
+        hintDialog.setOnSingleClickListener(new HintDialog.HintSingleCallback() {
+            @Override
+            public void onClick() {
+                activity.finish();
+            }
+        });
+        hintDialog.setContent("直播室升级中，精彩敬请期待");
+        hintDialog.show(activity.getFragmentManager(),"");
     }
 
     /**

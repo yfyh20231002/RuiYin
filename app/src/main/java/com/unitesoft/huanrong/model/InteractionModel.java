@@ -45,23 +45,32 @@ public class InteractionModel {
      * @param liveId
      * @param leibie
      */
-    public final void chat(String userId,  String liveId,int permission, int leibie, int chatPage, int chatCount) {
+    public final void chat(String userId, String liveId, int permission, int leibie, int chatPage, int chatCount) {
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.bannerurl);
 //        Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
         LiveService liveService = retrofit.create(LiveService.class);
-        Call<ChatPBean> responseBodyCall = liveService.postChat(new ChatPostBean(userId,  liveId,permission, leibie, chatPage, chatCount));
+        Call<ChatPBean> responseBodyCall = liveService.postChat(new ChatPostBean(userId, liveId, permission, leibie, chatPage, chatCount));
         responseBodyCall.enqueue(new Callback<ChatPBean>() {
             @Override
             public void onResponse(Call<ChatPBean> call, Response<ChatPBean> response) {
                 ChatPBean body = response.body();
-                if (body==null){return;}
-                List<ChatPBean.DataBean.ChatBean> chat = body.getData().getChat();
-                if (chat==null){return;}
-                if (chat.size()==0){
-                    listener.onChatFailed("暂无聊天记录");
-                    listener.onChatSuccess(chat);
-                }else if (chat.size()>0){
-                    listener.onChatSuccess(chat);
+                if (body == null) {
+                    return;
+                }
+                int businesscode = body.getData().getBusinesscode();
+                if (305 == businesscode) {
+                    listener.tanchuang();
+                } else if (300 == businesscode) {
+                    List<ChatPBean.DataBean.ChatBean> chat = body.getData().getChat();
+                    if (chat == null) {
+                        return;
+                    }
+                    if (chat.size() == 0) {
+                        listener.onChatFailed("暂无聊天记录");
+                        listener.onChatSuccess(chat);
+                    } else if (chat.size() > 0) {
+                        listener.onChatSuccess(chat);
+                    }
                 }
             }
 
@@ -70,23 +79,22 @@ public class InteractionModel {
                 listener.onChatFailed("数据解析失败");
             }
         });
-
     }
 
 
-    public final void sendMessage(String userId, String liveId, String userIcon, String userName, int userMark, int permission, int leibie, String tyonghuid, String tyonghunicheng, String chatContent, String tyonghutouxiang, final String relation  ){
+    public final void sendMessage(String userId, String liveId, String userIcon, String userName, int userMark, int permission, int leibie, String tyonghuid, String tyonghunicheng, String chatContent, String tyonghutouxiang, final String relation) {
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.bannerurl);
         LiveService liveService = retrofit.create(LiveService.class);
-        Call<SendMessageBean> responseBodyCall = liveService.postSendMessage(new SendMessagePostBean("message",userId,CommonUtil.getUUID(),liveId,userIcon,userName,userMark,permission,leibie,tyonghuid,tyonghunicheng,chatContent,1 == permission ? 0 : 1,"1",tyonghutouxiang,relation));
+        Call<SendMessageBean> responseBodyCall = liveService.postSendMessage(new SendMessagePostBean("message", userId, CommonUtil.getUUID(), liveId, userIcon, userName, userMark, permission, leibie, tyonghuid, tyonghunicheng, chatContent, 1 == permission ? 0 : 1, "1", tyonghutouxiang, relation));
         responseBodyCall.enqueue(new Callback<SendMessageBean>() {
             @Override
             public void onResponse(Call<SendMessageBean> call, Response<SendMessageBean> response) {
                 SendMessageBean body = response.body();
-                if (body!=null){
+                if (body != null) {
                     String msg = body.getMsg();
                     HashMap<String, String> jsonObjmap = new HashMap<String, String>();
 
-                    JSONObject jsonObject= null;
+                    JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(msg);
                         Iterator it = jsonObject.keys();
@@ -95,7 +103,7 @@ public class InteractionModel {
                             String value = jsonObject.get(key) == null ? "" : jsonObject.get(key).toString();
                             jsonObjmap.put(key, value);
                         }
-                        String messageid=jsonObjmap.get("messageid");
+                        String messageid = jsonObjmap.get("messageid");
                         SharedPreferencesMgr.saveMessageid(messageid);
                         listener.onSendSuccess();
                     } catch (JSONException e) {
@@ -142,7 +150,7 @@ public class InteractionModel {
     public void deleteMessage(ChatPBean.DataBean.ChatBean chatBean) {
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
         LiveService liveService = retrofit.create(LiveService.class);
-        Call<ResponseBody> responseBodyCall = liveService.postDelete(new DeleteMessagePostBean(chatBean.getMessageid(),chatBean.getTozhiboshiid(),"1","shanchu",SharedPreferencesMgr.getuserid()));
+        Call<ResponseBody> responseBodyCall = liveService.postDelete(new DeleteMessagePostBean(chatBean.getMessageid(), chatBean.getTozhiboshiid(), "1", "shanchu", SharedPreferencesMgr.getuserid()));
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

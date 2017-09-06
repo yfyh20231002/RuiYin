@@ -59,6 +59,7 @@ import com.unitesoft.huanrong.markcenter.test.MyLineChart;
 import com.unitesoft.huanrong.markcenter.test.MyRightMarkerView;
 import com.unitesoft.huanrong.markcenter.test.MyXAxis;
 import com.unitesoft.huanrong.markcenter.test.MyYAxis;
+import com.unitesoft.huanrong.widget.activity.MainActivity;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.future.ConnectFuture;
@@ -94,12 +95,13 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
     private LineData lineData_munite;
     private CandleData candleData;
     private CombinedData combinedData;
-    private ArrayList<String> xVals=new ArrayList<>();
-    private ArrayList<String> xVals_munite=new ArrayList<>();
+    private ArrayList<String> xVals = new ArrayList<>();
+    private ArrayList<String> xVals_munite = new ArrayList<>();
     private List<CandleEntry> candleEntries = new ArrayList<>();
     private List<BarEntry> barEntries = new ArrayList<>();
-    private String pingtai,pinzhong;
+    private String pingtai, pinzhong, marktitle;
     private RequestQueue mRequestQueue;
+    private TextView tv_title;
 
 
     private int colorHomeBg;
@@ -157,7 +159,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
     private int k;
     private LinearLayout macd_lay, macd_lay2;
     private TextView macd_text, kdj_text, systemtime;
-    private TextView text_open, text_hight, text_low, text_close, text_newprice;
+    private TextView text_open, text_hight, text_low, text_close, text_newprice, tv_change, tv_changeExtent;
     List<Double> floatList = new ArrayList<>();
     List<Double> difList = new ArrayList<>();
     List<Double> deaList = new ArrayList<>();
@@ -289,7 +291,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = "http://hangqing.yun066.com/home/Gethangqingls?type="+pingtai+"&code="+utfpinzhong+"&timespace="+zhouqi+"&num=100";
+        String url = "http://hangqing.yun066.com/home/Gethangqingls?type=" + pingtai + "&code=" + utfpinzhong + "&timespace=" + zhouqi + "&num=100";
         StringRequest request = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -301,11 +303,11 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                     //通过反射 得到UserBean.class
                     NewBean bean_history = gson.fromJson(user, new TypeToken<NewBean>() {
                     }.getType());
-                      historylist.add(bean_history);
+                    historylist.add(bean_history);
 
                 }
                 datas = historylist;
-                 mChart.setVisibleXRangeMaximum(42);
+                mChart.setVisibleXRangeMaximum(42);
                 bar.setVisibleXRangeMaximum(42);
                 floatList.clear();
                 difList.clear();
@@ -333,43 +335,43 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
         mRequestQueue.add(request);
     }
 
-private void inintdata_munite() {
-    /**
-     *       接收历史数据
-     */
-    String utfpinzhong = null;
-    try {
-        utfpinzhong = URLEncoder.encode(pinzhong, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-    }
-    String url = "http://hangqing.yun066.com/home/Gethangqingfenshils?type="+pingtai+"&code="+utfpinzhong;
-    StringRequest request = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
-        @Override
-        public void onResponse(String s) {
-            JsonObject jsonObject = new JsonParser().parse(s).getAsJsonObject();
-            JsonArray jsonArray = jsonObject.getAsJsonArray(pinzhong);
-            Gson gson = new Gson();
-            List<NewBean> list = new ArrayList<>();
-            for (JsonElement user : jsonArray) {
-                //通过反射 得到UserBean.class
-                NewBean bean_history = gson.fromJson(user, new TypeToken<NewBean>() {
-                }.getType());
-                list.add(bean_history);
+    private void inintdata_munite() {
+        /**
+         *       接收历史数据
+         */
+        String utfpinzhong = null;
+        try {
+            utfpinzhong = URLEncoder.encode(pinzhong, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = "http://hangqing.yun066.com/home/Gethangqingfenshils?type=" + pingtai + "&code=" + utfpinzhong;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                JsonObject jsonObject = new JsonParser().parse(s).getAsJsonObject();
+                JsonArray jsonArray = jsonObject.getAsJsonArray(pinzhong);
+                Gson gson = new Gson();
+                List<NewBean> list = new ArrayList<>();
+                for (JsonElement user : jsonArray) {
+                    //通过反射 得到UserBean.class
+                    NewBean bean_history = gson.fromJson(user, new TypeToken<NewBean>() {
+                    }.getType());
+                    list.add(bean_history);
+                }
+                datas_munite = list;
             }
-             datas_munite = list;
-        }
 
-    }, new com.android.volley.Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError volleyError) {
-            Log.i("aa", "get请求失败" + volleyError.toString());
-        }
-    });
-    //设置取消取消http请求标签 Activity的生命周期中的onStiop()中调用
-    request.setTag("volleyget");
-    mRequestQueue.add(request);
-}
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.i("aa", "get请求失败" + volleyError.toString());
+            }
+        });
+        //设置取消取消http请求标签 Activity的生命周期中的onStiop()中调用
+        request.setTag("volleyget");
+        mRequestQueue.add(request);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,7 +384,8 @@ private void inintdata_munite() {
         Bundle bundle = intent.getExtras();
         pingtai = bundle.getString("pingtai");
         pinzhong = bundle.getString("pinzhong");
-        mRequestQueue =  Volley.newRequestQueue(this);
+        marktitle = bundle.getString("mark");
+        mRequestQueue = Volley.newRequestQueue(this);
 
         zhouqi = "1d";
         mChart = (CombinedChart) findViewById(R.id.chart);
@@ -405,11 +408,23 @@ private void inintdata_munite() {
          */
         systemtime = (TextView) findViewById(R.id.systemtime);
 
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                startActivity(new Intent(K_line.this, MainActivity.class));
+                closeConnect();
+            }
+        });
 
         text_open = (TextView) findViewById(R.id.text_open);
         text_hight = (TextView) findViewById(R.id.text_hight);
         text_low = (TextView) findViewById(R.id.text_low);
         text_close = (TextView) findViewById(R.id.text_zuoshou);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText(marktitle);
+        tv_change = (TextView) findViewById(R.id.change);
+        tv_changeExtent = (TextView) findViewById(R.id.changeExtent);
         text_newprice = (TextView) findViewById(R.id.text_new_price);
         btn_5fenshi = (Button) findViewById(R.id.btn_5fenxian);
         btn_5fenshi.setOnClickListener(this);
@@ -501,7 +516,8 @@ private void inintdata_munite() {
                     final String time = jsonObject.getString("time");
                     //获取当前最新值
                     final float last = Float.valueOf(jsonObject.getString("last"));
-
+                    tv_changeExtent.setText(jsonObject.getString("changeExtent"));
+                    tv_change.setText(jsonObject.getString("change"));
                     text_newprice.setText(jsonObject.getString("last"));
                     text_open.setText(jsonObject.getString("open"));
                     text_hight.setText(jsonObject.getString("high"));
@@ -927,8 +943,8 @@ private void inintdata_munite() {
             xVals = new ArrayList<>();
 
             for (int i = 0; i < stockBeans.size(); i++) {
-                Log.e("time",i+"====="+stockBeans.get(i).getT());
-               xVals.add(HModel.getStrTime(stockBeans.get(i).getT()));
+                Log.e("time", i + "=====" + stockBeans.get(i).getT());
+                xVals.add(HModel.getStrTime(stockBeans.get(i).getT()));
             }
 
             combinedData = new CombinedData(xVals);
@@ -1283,10 +1299,6 @@ private void inintdata_munite() {
         bar.setViewPortOffsets(transLeft, 15, transRight, barBottom);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     private void setMarkerView(List<NewBean> datas) {
         MyLeftMarkerView leftMarkerView = new MyLeftMarkerView(K_line.this, R.layout.mymarkerview);
@@ -1307,4 +1319,26 @@ private void inintdata_munite() {
     public void setShowLabels(SparseArray<String> labels) {
         xAxisLine.setXLabels(labels);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        closeConnect();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeConnect();
+    }
+
+    private void closeConnect() {
+
+        if (null != clientSession && clientSession.isConnected()) {
+            clientSession.close(false);
+            currentRequestString = null;
+            service = null;
+        }
+    }
+
 }

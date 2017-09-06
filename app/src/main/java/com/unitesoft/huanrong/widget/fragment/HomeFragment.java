@@ -4,6 +4,7 @@ package com.unitesoft.huanrong.widget.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.unitesoft.huanrong.Bean.Channel;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.listener.OnChannelListener;
 import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
+import com.unitesoft.huanrong.markcenter.k_line.K_line;
 import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.widget.activity.home.KaiHuActivity;
 import com.unitesoft.huanrong.widget.activity.live.StudioActivity;
@@ -32,8 +34,8 @@ import com.unitesoft.huanrong.widget.fragment.home.DataFragment;
 import com.unitesoft.huanrong.widget.fragment.home.EIAFragment;
 import com.unitesoft.huanrong.widget.fragment.home.FeiNongFragment;
 import com.unitesoft.huanrong.widget.fragment.home.Home;
-import com.unitesoft.huanrong.widget.fragment.home.LiveFragment;
 import com.unitesoft.huanrong.widget.fragment.home.InternalFragment;
+import com.unitesoft.huanrong.widget.fragment.home.LiveFragment;
 import com.unitesoft.huanrong.widget.fragment.home.NoticeFragment;
 import com.unitesoft.huanrong.widget.fragment.home.RemindFragment;
 import com.unitesoft.huanrong.widget.fragment.home.SuggestionsFragment;
@@ -266,6 +268,8 @@ public class HomeFragment extends Fragment {
 
     private void selectab(XTabLayout.Tab tab) {
         String name = (String) tab.getText();
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(mContext, K_line.class);
         switch (name) {
             case "首页":
                 onBaseTabListener.homeview();
@@ -334,17 +338,26 @@ public class HomeFragment extends Fragment {
             case "操作建议":
                 showSuggestion();
                 break;
-            case "现货黄金":
-                break;
             case "现货白银":
-                break;
-            case "美原油连续":
+                bundle.putString("pingtai", "MIC");
+                bundle.putString("pinzhong","AG60");
+                bundle.putString("mark", "现货白银60");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case "柏油":
-                break;
-            case "咖啡":
+                bundle.putString("pingtai", "MIC");
+                bundle.putString("pinzhong","APO100");
+                bundle.putString("mark", "柏油100");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case "现货铜":
+                bundle.putString("pingtai", "MIC");
+                bundle.putString("pinzhong","CU10");
+                bundle.putString("mark", "现货铜10");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             default:
         }

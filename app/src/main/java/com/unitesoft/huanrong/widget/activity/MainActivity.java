@@ -196,10 +196,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.live:
                 if (0==biaoji) {
-                    homeFragment.changeTab(2);
+                    homeFragment.changeTab(1);
                 }else {
                     showHome();
-                    homeFragment.changeTab(2);
+                    homeFragment.changeTab(1);
                 }
                 break;
             case R.id.my:

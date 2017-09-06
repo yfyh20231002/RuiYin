@@ -50,6 +50,7 @@ public interface LiveService {
      */
     @POST("appsv/liveRoomView/filterChatHistory.do")
 //    @POST("liveRoomView/filterChatHistory.do")
+//    ChatPBean
     Call<ChatPBean> postChat(@Body ChatPostBean chatPostBean);
 
     /**

@@ -20,7 +20,6 @@ import com.unitesoft.huanrong.widget.fragment.ChannelDialogFragment;
 import java.util.List;
 
 import static com.unitesoft.huanrong.Bean.Channel.TYPE_MY_CHANNEL;
-import static com.unitesoft.huanrong.Bean.Channel.TYPE_MY_CHANNEL;
 import static com.unitesoft.huanrong.Bean.Channel.TYPE_OTHER_CHANNEL;
 
 /**
@@ -299,7 +298,7 @@ public class ChoiceTitleAdapter extends BaseMultiItemQuickAdapter<Channel> {
             ImageView imgEdit = (ImageView) view.findViewById(R.id.ivDelete);
             if (imgEdit != null) {
                 boolean isVis = imgEdit.getTag() == null ? false : (boolean) imgEdit.getTag();
-                if (1==i){
+                if (1==i||2==i){
                     imgEdit.setVisibility(View.INVISIBLE);
                 }else {
                     imgEdit.setVisibility(isVis && isEdit ? View.VISIBLE : View.INVISIBLE);

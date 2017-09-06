@@ -31,8 +31,11 @@ public class ListDataSave {
      * @param datalist
      */
     public <T> void setDataList(String tag, List<T> datalist) {
-        if (null == datalist || datalist.size() <= 0)
+        if (null == datalist || datalist.size() <= 0) {
+            editor.clear();
+            editor.commit();
             return;
+        }
 
         Gson gson = new Gson();
         //转换成json数据，再保存
@@ -60,4 +63,5 @@ public class ListDataSave {
         return datalist;
 
     }
+
 }

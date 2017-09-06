@@ -2,8 +2,8 @@
 <resources>
     <string-array name="home_title">
         <item>首页</item>
-        <item>开户</item>
         <item>直播</item>
+        <item>开户</item>
         <item>日历</item>
         <item>数据</item>
         <item>央视</item>
@@ -29,11 +29,8 @@
         <item>狙击非农</item>
         <item>决战EIA</item>
         <item>操作建议</item>
-        <item>现货黄金</item>
         <item>现货白银</item>
-        <item>美原油连续</item>
         <item>柏油</item>
-        <item>咖啡</item>
         <item>现货铜</item>
     </string-array>
 
@@ -47,11 +44,8 @@
         <item>狙击非农</item>
         <item>决战EIA</item>
         <item>操作建议</item>
-        <item>现货黄金</item>
         <item>现货白银</item>
-        <item>美原油连续</item>
         <item>柏油</item>
-        <item>咖啡</item>
         <item>现货铜</item>
     </string-array>
 

@@ -14,4 +14,5 @@ public interface InteractionView {
     void onChatSuccess(List<ChatPBean.DataBean.ChatBean> chat);
     void onSendSuccess();
     void onChatFailed(String msg);
+    void tanchuang();
 }

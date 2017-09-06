@@ -37,6 +37,11 @@ public class InteractionPresenter implements OnInteractionListener {
     }
 
     @Override
+    public void tanchuang() {
+        view.tanchuang();
+    }
+
+    @Override
     public void onChatFailed(String msg) {
         view.onChatFailed(msg);
     }
