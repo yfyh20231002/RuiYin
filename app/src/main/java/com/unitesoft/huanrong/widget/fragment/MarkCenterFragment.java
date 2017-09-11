@@ -202,9 +202,8 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         );
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        String[] mItems = getResources().getStringArray(R.array.leixingArray);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.spinner_item, mItems);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(mContext, R.array.leixingArray,R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //绑定 Adapter到控件
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

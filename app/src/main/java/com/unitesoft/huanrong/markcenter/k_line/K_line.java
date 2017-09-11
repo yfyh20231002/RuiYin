@@ -195,7 +195,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 name.setText("KDJ(9,3,3)");
                 bar.notifyDataSetChanged();
                 bar.invalidate();
-
                 break;
 
             case R.id.btn_tominutes:
@@ -207,7 +206,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.VISIBLE);
                 mChart.setVisibility(View.GONE);
                 bar.setVisibility(View.GONE);
-//                macd_lay.setVisibility(View.GONE);
                 macd_lay2.setVisibility(View.GONE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -220,7 +218,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -233,7 +230,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -246,7 +242,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -259,7 +254,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -272,7 +266,6 @@ public class K_line extends BaseActivity implements OnDataCenterReceiveListener,
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
