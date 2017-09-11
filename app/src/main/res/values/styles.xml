@@ -117,4 +117,29 @@
         <item name="android:windowExitAnimation">@anim/dialog_bottom_pushout</item>
 
     </style>
+
+
+
+    <declare-styleable name="bcqCtv">
+        <attr name="upTextColor" format="reference|color" />
+        <attr name="constantTextColor" format="reference|color" />
+        <attr name="downTextColor" format="reference|color" />
+        <attr name="normalTextColor" format="reference|color" />
+        <attr name="upBackgroundDrawable" format="reference"></attr>
+        <attr name="normalBackgroundDrawable" format="reference"></attr>
+        <attr name="downBackgroundDrawable" format="reference"></attr>
+        <attr name="duration" format="integer"></attr>
+    </declare-styleable>
+
+    <style name="marketCenter"/>
+
+    <style name="marketCenter.item">
+        <item name="android:textColor">#242021</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
 </resources>

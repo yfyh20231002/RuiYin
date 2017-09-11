@@ -28,6 +28,7 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
     Context mContext;
     OnItemClickLitener listener;
 
+
     public FlashAdapter(List<FlashBean.DataBean.DangtianshujuBean> flist, Context mContext) {
         this.flist = flist;
         this.mContext = mContext;
@@ -46,26 +47,31 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
+        if (0==position){
+            holder.view.setVisibility(View.VISIBLE);
+        }else {
+            holder.view.setVisibility(View.GONE);
+        }
         long updatetime = flist.get(position).getUpdatetime();
         holder.time.setText(CommonUtil.LongToTime(updatetime));
         ViewGroup.LayoutParams layoutParams = holder.line2.getLayoutParams();
         if ("市场播报".equals(flist.get(position).getClassname())) {
             holder.itemImage.setVisibility(View.GONE);
             holder.itemContent.setText(flist.get(position).getNewscontent());
-            layoutParams.height=CommonUtil.dip2px(20);
+            layoutParams.height = CommonUtil.dip2px(20);
         } else {
             holder.itemImage.setVisibility(View.VISIBLE);
             holder.itemContent.setText(flist.get(position).getNewscontent());
             String path = flist.get(position).getNewsimageurl();
             if (TextUtils.isEmpty(path)) {
 //                layoutParams.height = holder.itemContent.getMeasuredHeight();
-                layoutParams.height = CommonUtil.dip2px(20);
+                layoutParams.height = CommonUtil.dip2px(35);
             } else {
                 Glide.with(mContext)
                         .load(path)
                         .into(holder.itemImage);
 //                layoutParams.height = holder.itemContent.getMeasuredHeight() + holder.itemImage.getMeasuredHeight();
-                layoutParams.height = CommonUtil.dip2px(130);
+                layoutParams.height = CommonUtil.dip2px(150);
             }
             holder.line2.setLayoutParams(layoutParams);
         }
@@ -86,6 +92,8 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
     }
 
     class Holder extends RecyclerView.ViewHolder {
+        @InjectView(R.id.view)
+        View view;
         @InjectView(R.id.time)
         TextView time;
         @InjectView(R.id.line2)

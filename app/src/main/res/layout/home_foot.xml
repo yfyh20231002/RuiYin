@@ -38,10 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:xTabTextColor="@color/tabtext"
-        app:xTabTextSize="12sp"
+        app:xTabTextSize="15sp"
         app:xTabIndicatorColor="@color/select"
         app:xTabIndicatorHeight="2dp"
-        app:xTabIndicatorWidth="50dp"/>
+        app:xTabIndicatorWidth="75dp"/>
 
     <View
         android:layout_width="match_parent"

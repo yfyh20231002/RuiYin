@@ -1,6 +1,5 @@
 package com.unitesoft.huanrong.markcenter.k_line;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,7 +59,7 @@ import com.unitesoft.huanrong.markcenter.test.MyLineChart;
 import com.unitesoft.huanrong.markcenter.test.MyRightMarkerView;
 import com.unitesoft.huanrong.markcenter.test.MyXAxis;
 import com.unitesoft.huanrong.markcenter.test.MyYAxis;
-import com.unitesoft.huanrong.widget.activity.MainActivity;
+import com.unitesoft.huanrong.widget.activity.BaseActivity;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.future.ConnectFuture;
@@ -83,7 +83,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class K_line extends Activity implements OnDataCenterReceiveListener, View.OnClickListener {
+public class K_line extends BaseActivity implements OnDataCenterReceiveListener, View.OnClickListener {
     private CombinedChart mChart;
     private CombinedChart bar;
     private MyLineChart lineChart;
@@ -101,7 +101,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
     private List<BarEntry> barEntries = new ArrayList<>();
     private String pingtai, pinzhong, marktitle;
     private RequestQueue mRequestQueue;
-    private TextView tv_title;
+    private ImageView jiantou;
 
 
     private int colorHomeBg;
@@ -157,8 +157,9 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
      * 分时图(k为1的时候画分时图的线)
      */
     private int k;
-    private LinearLayout macd_lay, macd_lay2;
-    private TextView macd_text, kdj_text, systemtime;
+    private LinearLayout  macd_lay2;
+    private TextView  systemtime;
+    private Button macd_text, kdj_text;
     private TextView text_open, text_hight, text_low, text_close, text_newprice, tv_change, tv_changeExtent;
     List<Double> floatList = new ArrayList<>();
     List<Double> difList = new ArrayList<>();
@@ -177,6 +178,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
 
     private SVProgressHUD mSVProgressHUD;
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -188,7 +190,6 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 bar.invalidate();
                 break;
             case R.id.kdj:
-
                 b = 1;
                 m = 0;
                 name.setText("KDJ(9,3,3)");
@@ -206,7 +207,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.VISIBLE);
                 mChart.setVisibility(View.GONE);
                 bar.setVisibility(View.GONE);
-                macd_lay.setVisibility(View.GONE);
+//                macd_lay.setVisibility(View.GONE);
                 macd_lay2.setVisibility(View.GONE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -219,7 +220,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-                macd_lay.setVisibility(View.VISIBLE);
+//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -232,7 +233,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-                macd_lay.setVisibility(View.VISIBLE);
+//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -245,7 +246,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-                macd_lay.setVisibility(View.VISIBLE);
+//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -258,7 +259,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-                macd_lay.setVisibility(View.VISIBLE);
+//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -271,7 +272,7 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 lineChart.setVisibility(View.GONE);
                 mChart.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.VISIBLE);
-                macd_lay.setVisibility(View.VISIBLE);
+//                macd_lay.setVisibility(View.VISIBLE);
                 macd_lay2.setVisibility(View.VISIBLE);
                 mSVProgressHUD.dismiss();
                 break;
@@ -376,7 +377,6 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combine);
         mSVProgressHUD = new SVProgressHUD(this);
         mSVProgressHUD.showWithStatus("加载中...");
         stringSparseArray = setXLabels();
@@ -385,13 +385,13 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
         pingtai = bundle.getString("pingtai");
         pinzhong = bundle.getString("pinzhong");
         marktitle = bundle.getString("mark");
+        setToolBarTitle(marktitle);
         mRequestQueue = Volley.newRequestQueue(this);
 
-        zhouqi = "1d";
+        zhouqi = "5";
         mChart = (CombinedChart) findViewById(R.id.chart);
         bar = (CombinedChart) findViewById(R.id.barChart);
         lineChart = (MyLineChart) findViewById(R.id.lineChart);
-        macd_lay = (LinearLayout) findViewById(R.id.macd_lay);
         macd_lay2 = (LinearLayout) findViewById(R.id.macd_lay2);
 
         bar_text = (TextView) findViewById(R.id.bar);
@@ -399,8 +399,8 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
         dea_text = (TextView) findViewById(R.id.dea);
         name = (TextView) findViewById(R.id.name);
 
-        macd_text = (TextView) findViewById(R.id.macd);
-        kdj_text = (TextView) findViewById(R.id.kdj);
+        macd_text = (Button) findViewById(R.id.macd);
+        kdj_text = (Button) findViewById(R.id.kdj);
         macd_text.setOnClickListener(this);
         kdj_text.setOnClickListener(this);
         /**
@@ -408,24 +408,14 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
          */
         systemtime = (TextView) findViewById(R.id.systemtime);
 
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                startActivity(new Intent(K_line.this, MainActivity.class));
-                closeConnect();
-            }
-        });
-
         text_open = (TextView) findViewById(R.id.text_open);
         text_hight = (TextView) findViewById(R.id.text_hight);
         text_low = (TextView) findViewById(R.id.text_low);
         text_close = (TextView) findViewById(R.id.text_zuoshou);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_title.setText(marktitle);
         tv_change = (TextView) findViewById(R.id.change);
         tv_changeExtent = (TextView) findViewById(R.id.changeExtent);
         text_newprice = (TextView) findViewById(R.id.text_new_price);
+        jiantou= (ImageView) findViewById(R.id.jiantou);
         btn_5fenshi = (Button) findViewById(R.id.btn_5fenxian);
         btn_5fenshi.setOnClickListener(this);
         btn_15fenshi = (Button) findViewById(R.id.btn_15fenxian);
@@ -443,6 +433,22 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
         initdata();
         inintdata_munite();
         mSVProgressHUD.dismiss();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_combine;
+    }
+
+    @Override
+    protected boolean isShowBacking() {
+        return true;
+    }
+
+    @Override
+    protected void onStop() {
+        closeConnect();
+        super.onStop();
     }
 
     public void connectServer() {
@@ -519,6 +525,17 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                     tv_changeExtent.setText(jsonObject.getString("changeExtent"));
                     tv_change.setText(jsonObject.getString("change"));
                     text_newprice.setText(jsonObject.getString("last"));
+                    if (TextUtils.equals("1", jsonObject.getString("isUp"))) {
+                        text_newprice.setTextColor(Color.parseColor("#ff0000"));
+                        tv_change.setTextColor(Color.parseColor("#ff0000"));
+                        tv_changeExtent.setTextColor(Color.parseColor("#ff0000"));
+                        jiantou.setImageResource(R.mipmap.mc_redjt);
+                    } else {
+                        text_newprice.setTextColor(Color.parseColor("#008000"));
+                        tv_change.setTextColor(Color.parseColor("#008000"));
+                        tv_changeExtent.setTextColor(Color.parseColor("#008000"));
+                        jiantou.setImageResource(R.mipmap.mc_greenjt);
+                    }
                     text_open.setText(jsonObject.getString("open"));
                     text_hight.setText(jsonObject.getString("high"));
                     text_low.setText(jsonObject.getString("low"));
@@ -755,9 +772,9 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 if (0 == b) {
                     int dex = index > deaList.size() - 1 ? deaList.size() - 1 : index;
                     float bar = HModel.getFloat((float) (2 * (difList.get(dex) - deaList.get(dex))));
-                    bar_text.setText("bar: " + bar);
-                    dif_text.setText("dif: " + HModel.getDouble(difList.get(dex)));
-                    dea_text.setText("dea: " + HModel.getDouble(deaList.get(dex)));
+                    bar_text.setText("BAR: " + bar);
+                    dif_text.setText("DIF: " + HModel.getDouble(difList.get(dex)));
+                    dea_text.setText("DEA: " + HModel.getDouble(deaList.get(dex)));
                     bar_text.setTextColor(colorMa5);
                     dif_text.setTextColor(colorMa10);
                     dea_text.setTextColor(colorMa20);
@@ -1089,9 +1106,9 @@ public class K_line extends Activity implements OnDataCenterReceiveListener, Vie
                 m = 1;
                 if (0 == b) {
                     float bar = HModel.getFloat((float) (2 * (difList.get(difList.size() - 1) - deaList.get(deaList.size() - 1))));
-                    bar_text.setText("bar: " + bar);
-                    dif_text.setText("dif: " + HModel.getDouble(difList.get(difList.size() - 1)));
-                    dea_text.setText("dea: " + HModel.getDouble(deaList.get(deaList.size() - 1)));
+                    bar_text.setText("BAR: " + bar);
+                    dif_text.setText("DIF: " + HModel.getDouble(difList.get(difList.size() - 1)));
+                    dea_text.setText("DEA: " + HModel.getDouble(deaList.get(deaList.size() - 1)));
                     bar_text.setTextColor(colorMa5);
                     dif_text.setTextColor(colorMa10);
                     dea_text.setTextColor(colorMa20);

@@ -107,6 +107,7 @@ public class MyFragment extends Fragment {
     private static final int IMAGE_REQUEST_CODE = 100;
     private static final int SELECT_PIC_NOUGAT = 101;
     private static final int CAMERA_REQUEST_CODE = 104;
+
     String path = Environment.getExternalStorageDirectory() + "/Android/data/com.unitesoft.huanrong/files/";
     String cameraname = "IMAGE_FILE_NAME.jpg";
     String galleryname = "IMAGE_GALLERY_NAME.jpg";
@@ -162,12 +163,12 @@ public class MyFragment extends Fragment {
         String getuserid = SharedPreferencesMgr.getuserid();
         switch (view.getId()) {
             case R.id.bt_login:
-                LoginActivity.startIntent(mContext,true);
+                LoginActivity.startIntent(mContext, true);
                 break;
 //            更改昵称
             case R.id.btn_my_nicheng:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext,true);
+                    LoginActivity.startIntent(mContext, true);
                 } else {
                     UpNickNameActivity.startIntent(mContext);
                 }
@@ -175,7 +176,7 @@ public class MyFragment extends Fragment {
 //            修改头像
             case R.id.btn_my_touxiang:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext,true);
+                    LoginActivity.startIntent(mContext, true);
                 } else {
                     changeHeadImage();
                 }
@@ -183,7 +184,7 @@ public class MyFragment extends Fragment {
 //            修改密码
             case R.id.btn_my_mima:
                 if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext,true);
+                    LoginActivity.startIntent(mContext, true);
                 } else {
                     RegisterActivity.startIntent(mContext, 0);
                 }
@@ -206,12 +207,8 @@ public class MyFragment extends Fragment {
             case R.id.btn_my_haoping:
                 break;
             case R.id.btn_my_share:
-                if (TextUtils.isEmpty(getuserid)) {
-                    LoginActivity.startIntent(mContext,true);
-                } else {
-                    ShareDialog shareDialog = new ShareDialog();
-                    shareDialog.show(getChildFragmentManager(), "");
-                }
+                ShareDialog shareDialog = new ShareDialog();
+                shareDialog.show(getChildFragmentManager(), "");
                 break;
             case R.id.btn_my_aboutus:
                 startActivity(new Intent(mContext, AboutusActivity.class));
