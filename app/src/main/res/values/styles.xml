@@ -101,6 +101,7 @@
         <item name="android:gravity">left</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textColor">#7f7f7f</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="BottomDialog" parent="android:style/Theme.Translucent">
@@ -139,7 +140,9 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
     </style>
 </resources>

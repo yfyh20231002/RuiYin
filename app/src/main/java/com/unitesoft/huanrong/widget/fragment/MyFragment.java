@@ -116,6 +116,7 @@ public class MyFragment extends Fragment {
     Bitmap photo;
     String picPath;
     String zhanghao;
+    private boolean isKai;
 
     @Override
     public void onAttach(Activity activity) {
@@ -157,7 +158,6 @@ public class MyFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
     @OnClick({R.id.bt_login, R.id.btn_my_nicheng, R.id.btn_my_touxiang, R.id.btn_my_mima, R.id.btn_my_zhanghao, R.id.btn_my_tixing, R.id.checkbtn_set_on, R.id.checkbtn_set_off, R.id.btn_my_haoping, R.id.btn_my_share, R.id.btn_my_aboutus})
     public void onViewClicked(View view) {
         String getuserid = SharedPreferencesMgr.getuserid();

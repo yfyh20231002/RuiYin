@@ -30,8 +30,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/mine_touxing"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"/>
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -87,15 +87,15 @@
                 android:layout_below="@id/mine_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="13dp"
-                android:background="@color/line"
+                android:background="#ebebeb"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mine_touxiang"
                 android:layout_alignRight="@id/mine_line"
                 android:layout_below="@id/mine_line"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
             <TextView
                 android:id="@+id/mine_name2"
                 android:textSize="14sp"
@@ -151,8 +151,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/other_touxing"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"/>
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -207,15 +207,14 @@
                 android:layout_below="@id/other_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="13dp"
-                android:background="@color/line"
+                android:background="#ebebeb"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/other_touxiang"
-                android:layout_alignLeft="@id/other_content"
                 android:layout_below="@id/other_line"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
             <TextView
                 android:id="@+id/other_name2"
                 android:textSize="14sp"

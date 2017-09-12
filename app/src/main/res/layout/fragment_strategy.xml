@@ -3,10 +3,11 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="#e5e5e5"
              tools:context="com.unitesoft.huanrong.widget.fragment.live.StrategyFragment">
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/recyclerview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

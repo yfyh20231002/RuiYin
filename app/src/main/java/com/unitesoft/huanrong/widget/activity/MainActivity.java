@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     // 标识是否退出
     private boolean isExit = false;
 
-    private int biaoji=0;
+    private int biaoji=6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +184,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.home:
                 biaoji=0;
                 showHome();
-                homeFragment.changeTab(0);
                 break;
             case R.id.markcenter:
                 biaoji=2;
@@ -195,12 +194,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 showTrading();
                 break;
             case R.id.live:
-                if (0==biaoji) {
-                    homeFragment.changeTab(1);
-                }else {
-                    showHome();
-                    homeFragment.changeTab(1);
-                }
+                biaoji=1;
+                showHome();
                 break;
             case R.id.my:
                 biaoji=5;
@@ -287,7 +282,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tvTextTrading.setTextColor(getResources().getColor(R.color.unselecttextcolor));
         ivIconMy.setSelected(false);
         tvTextMy.setTextColor(getResources().getColor(R.color.unselecttextcolor));
-
+        if (0==biaoji) {
+            homeFragment.changeTab(0);
+        }else if (1==biaoji){
+            homeFragment.changeTab(1);
+        }
     }
 
     @Override

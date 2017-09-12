@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -40,6 +39,7 @@ import com.google.gson.reflect.TypeToken;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.markcenter.DataChangeTextView;
 import com.unitesoft.huanrong.markcenter.ListDataSave;
+import com.unitesoft.huanrong.markcenter.McAdapter;
 import com.unitesoft.huanrong.markcenter.MyOnSlipStatusListener;
 import com.unitesoft.huanrong.markcenter.k_line.ChangeCharUtil;
 import com.unitesoft.huanrong.markcenter.k_line.K_line;
@@ -101,7 +101,6 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
     private ArrayList<String> short_name = new ArrayList<>();
     private ArrayList<String> bean_pinpingtais = new ArrayList<>();
     private List<ArrayList> list_shuju = new ArrayList<>();
-    private String spinner_num = "0";
     private Set<SwipeListLayout> sets = new HashSet<>();
 
 
@@ -117,6 +116,9 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
     private boolean isZixuan;
     private int count = 0;
+
+    private ListView items;
+    private String num="0";
 
     @Override
     public void onAttach(Context context) {
@@ -139,6 +141,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
         linear_button = (LinearLayout) view.findViewById(R.id.linear_button);
         mRequestQueue = Volley.newRequestQueue(mContext);
         listView = (ListView) view.findViewById(R.id.hq_listview);
+        items= (ListView) view.findViewById(R.id.items);
         kongbai = view.findViewById(R.id.view);
         dataSave = new ListDataSave(mContext, "zixuan");
         zixuan_btn = (Button) view.findViewById(R.id.zixuan_btn);
@@ -201,25 +204,33 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
                                       }
         );
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(mContext, R.array.leixingArray,R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //绑定 Adapter到控件
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        final TextView tv_spinner= (TextView) view.findViewById(R.id.tv_spinner);
+        final String[] stringArray = mContext.getResources().getStringArray(R.array.leixingArray);
+        McAdapter adapter=new McAdapter(stringArray,mContext);
+        items.setAdapter(adapter);
+        final boolean[] isVisible = {false};
+        tv_spinner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
-                Log.e("spinner", String.valueOf(pos) + "========" + id);
-                spinner_num = String.valueOf(pos);
-                if (mAdapter!=null){
-                    mAdapter.setspinnernum(spinner_num);
+            public void onClick(View v) {
+                if (isVisible[0]){
+                    isVisible[0] =false;
+                    items.setVisibility(View.GONE);
+                }else {
+                    isVisible[0] =true;
+                    items.setVisibility(View.VISIBLE);
                 }
             }
-
+        });
+        items.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tv_spinner.setText(stringArray[position]);
+                num=String.valueOf(position);
+                if (mAdapter!=null){
+                    mAdapter.setspinnernum(num);
+                }
+                items.setVisibility(View.GONE);
             }
         });
 
@@ -525,7 +536,7 @@ public class MarkCenterFragment extends Fragment implements OnDataCenterReceiveL
 
                         list_shuju.set(j, (ArrayList) list);
                         Log.e("TAG", "handleMessage: " + list_shuju.size());
-                        mAdapter = new Hq_ListAdapter(pinzhonglist, bean_pinpingtais, short_name, list_shuju, spinner_num, mContext);
+                        mAdapter = new Hq_ListAdapter(pinzhonglist, bean_pinpingtais, short_name, list_shuju, num, mContext);
                         listView.setAdapter(mAdapter);
                     }
                 }

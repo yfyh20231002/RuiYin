@@ -107,13 +107,21 @@
                             android:textColor="#b0b0af"
                             android:textSize="14sp"/>
 
-                        <Spinner
+                        <!--<Spinner
                             android:id="@+id/tv_direction"
                             style="@style/advise_right"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:entries="@array/advise_round"/>
+                            android:entries="@array/advise_round"/>-->
+                        <TextView
+                            android:id="@+id/tv_direction"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="做多"
+                            android:textColor="@color/tabtext"
+                            android:textSize="14sp"/>
                     </LinearLayout>
 
                     <LinearLayout

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Mr.zhang on 2017/7/18.
@@ -58,7 +58,7 @@ public class StrategyAdapter extends RecyclerView.Adapter<StrategyAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.touxing)
-        ImageView touxing;
+        CircleImageView touxing;
         @InjectView(R.id.name)
         TextView name;
         @InjectView(R.id.time)

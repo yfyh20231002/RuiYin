@@ -11,8 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
-import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 import com.unitesoft.huanrong.ApiService.LiveService;
 import com.unitesoft.huanrong.Bean.live.PinZhongPostBean;
 import com.unitesoft.huanrong.R;
@@ -21,6 +22,7 @@ import com.unitesoft.huanrong.utils.CommonUtil;
 import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.widget.adapter.live.PinZhongAdapter;
+import com.unitesoft.huanrong.widget.view.DividerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,14 +49,25 @@ import retrofit2.Retrofit;
 public class PinZhongDialog extends DialogFragment {
     @InjectView(R.id.recyclerview)
     RecyclerView recyclerview;
-    private List<String> mlist=new ArrayList<>();
+    @InjectView(R.id.cancle)
+    TextView cancle;
+    private List<String> mlist = new ArrayList<>();
     private Context mContext;
     private PinZhongAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        WindowManager.LayoutParams mLayoutParams = getDialog().getWindow().getAttributes();
+        mLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        mLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        getDialog().getWindow().setAttributes(mLayoutParams);
     }
 
     @Nullable
@@ -77,7 +91,7 @@ public class PinZhongDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = CommonUtil.retrofit(ConstanceValue.testurl);
         LiveService liveService = retrofit.create(LiveService.class);
-        String liveid= SharedPreferencesMgr.getZhiboshiid();
+        String liveid = SharedPreferencesMgr.getZhiboshiid();
         Call<ResponseBody> responseBodyCall = liveService.postPinZhong(new PinZhongPostBean(liveid));
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -89,9 +103,9 @@ public class PinZhongDialog extends DialogFragment {
                  */
                 try {
                     String result = response.body().string();
-                    if (result!=null){
-                        JSONArray array=new JSONArray(result);
-                        if (array.length()>0) {
+                    if (result != null) {
+                        JSONArray array = new JSONArray(result);
+                        if (array.length() > 0) {
                             for (int i = 0; i < array.length(); i++) {
                                 String string = array.getString(i);
                                 JSONObject object = new JSONObject(string);
@@ -99,8 +113,8 @@ public class PinZhongDialog extends DialogFragment {
                                 mlist.add(warehousetypename);
                             }
                             data(mlist);
-                        }else {
-                            ToastUtils.showToast(mContext,"暂无建仓品种");
+                        } else {
+                            ToastUtils.showToast(mContext, "暂无建仓品种");
                         }
                     }
                 } catch (IOException e) {
@@ -112,20 +126,20 @@ public class PinZhongDialog extends DialogFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                ToastUtils.showToast(mContext,"解析错误");
+                ToastUtils.showToast(mContext, "解析错误");
 
             }
         });
     }
 
     private void data(final List<String> list) {
-        LinearLayoutManager manager=new LinearLayoutManager(mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(manager);
         recyclerview.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST));
-        if (adapter==null){
-            adapter=new PinZhongAdapter(list);
+        if (adapter == null) {
+            adapter = new PinZhongAdapter(list);
             recyclerview.setAdapter(adapter);
-        }else {
+        } else {
             adapter.notifyDataSetChanged();
         }
         adapter.setItemClickLitener(new PinZhongAdapter.OnItemClickLitener() {
@@ -141,5 +155,10 @@ public class PinZhongDialog extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    @OnClick(R.id.cancle)
+    public void onViewClicked() {
+        dismiss();
     }
 }

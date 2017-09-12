@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_hint_dialog_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:gravity="center"
         android:padding="15dp"
         android:text="我是内容我是内容我是内容"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.unitesoft.huanrong.R;
@@ -23,14 +24,16 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 public class PlayAdapter extends BaseAdapter {
     List<String> urls;
     List<String> images;
+    List<String> titles;
     Activity activity;
     LayoutInflater inflater;
     ViewHolder holder;
-    boolean clicked;
 
-    public PlayAdapter(List<String> urls, List<String> images, Activity activity) {
+
+    public PlayAdapter(List<String> urls, List<String> images, List<String> titles, Activity activity) {
         this.urls = urls;
         this.images = images;
+        this.titles = titles;
         this.activity = activity;
         inflater = LayoutInflater.from(activity);
     }
@@ -60,18 +63,22 @@ public class PlayAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.videoPlayer.setUp(urls.get(position), JCVideoPlayer.SCREEN_LAYOUT_LIST,"");
+        holder.videoPlayer.setUp(urls.get(position), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
         Glide.with(convertView.getContext()).load(images.get(position)).into(holder.videoPlayer.thumbImageView);
+        holder.tvTitle.setText(titles.get(position));
         return convertView;
     }
+
 
 
     static class ViewHolder {
         @InjectView(R.id.video_player)
         JCVideoPlayerStandard videoPlayer;
-
+        @InjectView(R.id.tv_title)
+        TextView tvTitle;
         ViewHolder(View view) {
             ButterKnife.inject(this, view);
         }
     }
+
 }

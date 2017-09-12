@@ -23,6 +23,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 public class PlayCCTVActivity extends BaseActivity {
     List<String> urls = new ArrayList<String>();
     List<String> images = new ArrayList<String>();
+    List<String> titles = new ArrayList<String>();
     @InjectView(R.id.listview)
     ListView listview;
     PlayAdapter adapter;
@@ -43,6 +44,7 @@ public class PlayCCTVActivity extends BaseActivity {
         initview();
         urls.addAll(getIntent().getStringArrayListExtra("urls"));
         images.addAll(getIntent().getStringArrayListExtra("images"));
+        titles.addAll(getIntent().getStringArrayListExtra("titles"));
     }
 
     @Override
@@ -67,17 +69,18 @@ public class PlayCCTVActivity extends BaseActivity {
 
     private void initview() {
         if (adapter == null) {
-            adapter = new PlayAdapter(urls, images, this);
+            adapter = new PlayAdapter(urls, images,titles, this);
             listview.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
         }
     }
 
-    public static void startIntent(Context context, List<String> urls, List<String> images) {
+    public static void startIntent(Context context, List<String> urls, List<String> images, List<String> titles) {
         Intent intent = new Intent(context, PlayCCTVActivity.class);
         intent.putExtra("urls", (Serializable) urls);
         intent.putExtra("images", (Serializable) images);
+        intent.putExtra("titles", (Serializable) titles);
         context.startActivity(intent);
     }
 }

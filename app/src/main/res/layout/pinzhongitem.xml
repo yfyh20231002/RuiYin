@@ -11,6 +11,8 @@
         android:gravity="center"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="现货白银"
         android:textColor="#333333"
         android:textSize="15sp"/>

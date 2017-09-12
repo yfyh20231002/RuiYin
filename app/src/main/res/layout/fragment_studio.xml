@@ -6,17 +6,17 @@
               android:orientation="vertical"
               tools:context="com.unitesoft.huanrong.widget.fragment.live.StudioFragment">
 
-    <android.support.design.widget.TabLayout
+    <com.androidkun.xtablayout.XTabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#3f414c"
-        app:tabIndicatorColor="#4f98f6"
-        app:tabIndicatorHeight="4dp"
-        app:tabMode="fixed"
-        app:tabGravity="fill"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/white"/>
+        app:xTabIndicatorColor="#4f98f6"
+        app:xTabIndicatorHeight="4dp"
+        app:xTabIndicatorWidth="46dp"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/white"
+        app:xTabTextColor="@color/white"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

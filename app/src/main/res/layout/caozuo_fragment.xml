@@ -5,17 +5,17 @@
               android:orientation="vertical">
 
     <ScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,10 +25,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="建仓品种:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -38,6 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="咖啡"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -51,10 +51,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="建仓价格:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -65,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:gravity="center"
                     android:hint="请输入"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -74,26 +74,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="建仓方向:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
 
-                <Spinner
-                    android:id="@+id/spRound"
+                <TextView
+                    android:id="@+id/tv_direction"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:entries="@array/advise_round"
-                    style="@style/advise_right"/>
+                    android:gravity="center"
+                    android:text="做多"
+                    android:textColor="@color/tabtext"
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -104,10 +105,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="目标点位:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -118,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:gravity="center"
                     android:hint="请输入"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -131,10 +132,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="止损点位:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -146,6 +146,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请输入"
+                    android:gravity="center"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -159,10 +160,9 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:text="是否爆单:"
                     android:textColor="@color/tabtext"
                     android:textSize="14sp"/>
@@ -170,7 +170,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_weight="1"
+                    android:layout_marginLeft="20dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -188,7 +190,7 @@
                         android:id="@+id/btn_no"
                         android:layout_width="60dp"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="16dp"
                         android:background="@mipmap/live_btn_no"
                         android:gravity="center"
                         android:text="否"

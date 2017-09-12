@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="建仓品种"
+            android:text="建仓方向"
             android:textColor="#333333"
             android:textSize="15sp"
             android:paddingTop="15dp"
@@ -23,10 +23,44 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#d9d9d9"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <TextView
+            android:id="@+id/zuoduo"
+            android:text="做多"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"/>
+        <TextView
+            android:id="@+id/zuokong"
+            android:text="做空"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d9d9d9"/>
+        <TextView
+            android:id="@+id/zhendang"
+            android:text="震荡"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
     <TextView

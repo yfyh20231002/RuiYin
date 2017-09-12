@@ -38,6 +38,11 @@ public class CommonUtil {
         return (int) (dpValue * scale + 0.5f);
     }
 
+
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */

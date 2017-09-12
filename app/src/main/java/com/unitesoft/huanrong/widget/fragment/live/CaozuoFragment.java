@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.unitesoft.huanrong.event.OnAdviseEvent;
 import com.unitesoft.huanrong.R;
+import com.unitesoft.huanrong.event.OnAdviseEvent;
 import com.unitesoft.huanrong.listener.live.CancleCallback;
 import com.unitesoft.huanrong.utils.ToastUtils;
+import com.unitesoft.huanrong.widget.fragment.dialog.DirectionDialog;
 import com.unitesoft.huanrong.widget.fragment.dialog.PinZhongDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,8 +37,7 @@ public class CaozuoFragment extends BaseFragment {
     TextView tvPinzhong;
     @InjectView(R.id.et_price)
     EditText etPrice;
-    @InjectView(R.id.spRound)
-    Spinner spRound;
+
     @InjectView(R.id.et_mubiao)
     EditText etMubiao;
     @InjectView(R.id.et_zhisun)
@@ -49,10 +48,12 @@ public class CaozuoFragment extends BaseFragment {
     Button btnNo;
     @InjectView(R.id.btn_fabu)
     Button btnFabu;
+    @InjectView(R.id.tv_direction)
+    TextView tvDirection;
 
     private CancleCallback cancleCallback;
     private Context mContext;
-    private String baodan="0";
+    private String baodan = "0";
 
     private View view;
     // 标志位，标志已经初始化完成。
@@ -79,7 +80,7 @@ public class CaozuoFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (view==null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.caozuo_fragment, container, false);
             isPrepared = true;
             ButterKnife.inject(this, view);
@@ -89,17 +90,18 @@ public class CaozuoFragment extends BaseFragment {
         if (parent != null) {
             parent.removeView(view);
         }
+        ButterKnife.inject(this, view);
         return view;
     }
 
 
     @Override
     protected void lazyLoad() {
-        if(!isPrepared || !isVisible) {
+        if (!isPrepared || !isVisible) {
             return;
         }
-
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -107,12 +109,16 @@ public class CaozuoFragment extends BaseFragment {
         ButterKnife.reset(this);
     }
 
-    @OnClick({R.id.tv_pinzhong, R.id.bt_yes, R.id.btn_no, R.id.btn_fabu})
+    @OnClick({R.id.tv_pinzhong, R.id.tv_direction,R.id.bt_yes, R.id.btn_no, R.id.btn_fabu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_pinzhong:
                 PinZhongDialog pinZhongDialog = new PinZhongDialog();
                 pinZhongDialog.show(getChildFragmentManager(), "");
+                break;
+            case R.id.tv_direction:
+                DirectionDialog directionDialog=new DirectionDialog();
+                directionDialog.show(getChildFragmentManager(),"directionDialog");
                 break;
             case R.id.bt_yes:
                 baodan = "1";
@@ -131,19 +137,25 @@ public class CaozuoFragment extends BaseFragment {
     }
 
 
-
     private void fabu() {
-        EventBus.getDefault().post(new OnAdviseEvent(1, tvPinzhong.getText().toString(), etPrice.getText().toString(), spRound.getSelectedItem().toString(),
-                null, etMubiao.getText().toString(), etZhisun.getText().toString(),baodan));
+        EventBus.getDefault().post(new OnAdviseEvent(1, tvPinzhong.getText().toString(), etPrice.getText().toString(), tvDirection.getText().toString(),
+                null, etMubiao.getText().toString(), etZhisun.getText().toString(), baodan));
         cancleCallback.cancle();
 
     }
 
 
-
     @Subscribe
     public void onMessageEvent(String s) {
-        tvPinzhong.setText(s);
+        if (s.equals("做多")) {
+            tvDirection.setText(s);
+        } else if (s.equals("做空")) {
+            tvDirection.setText(s);
+        } else if (s.equals("震荡")) {
+            tvDirection.setText(s);
+        } else {
+            tvPinzhong.setText(s);
+        }
     }
 
 

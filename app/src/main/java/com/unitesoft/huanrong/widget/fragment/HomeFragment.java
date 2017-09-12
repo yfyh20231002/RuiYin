@@ -142,7 +142,9 @@ public class HomeFragment extends Fragment {
     }
 
     public void changeTab(int value){
-        xTab.getTabAt(value).select();
+        if (xTab!=null) {
+            xTab.getTabAt(value).select();
+        }
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

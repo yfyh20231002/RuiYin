@@ -63,7 +63,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e9e9eb"
+        android:background="#48494d"
         />
 
     <LinearLayout
@@ -172,14 +172,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e9e9eb"
+        android:background="#48494d"
         />
 
     <LinearLayout
         android:id="@+id/layout_title2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:background="@color/white"
         android:orientation="horizontal"
         >
 
@@ -198,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:text="5分线"
+            android:text="5分"
             android:textColor="#828895"/>
 
         <Button
@@ -207,7 +207,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:text="15分线"
+            android:text="15分"
             android:textColor="#828895"/>
 
         <Button
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:text="30分线"
+            android:text="30分"
             android:textColor="#828895"/>
 
         <Button
@@ -225,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:text="60分线"
+            android:text="60分"
             android:textColor="#828895"/>
 
         <Button
@@ -258,7 +258,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e9e9eb"
+        android:background="#48494d"
         />
 
     <com.github.mikephil.charting.charts.CombinedChart

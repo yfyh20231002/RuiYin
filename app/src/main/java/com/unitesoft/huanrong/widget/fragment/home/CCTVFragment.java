@@ -88,11 +88,13 @@ public class CCTVFragment extends Fragment implements CCTView {
             public void onItemClick(View view, int position) {
                 List<String> urls=new ArrayList<String>();
                 List<String> images=new ArrayList<String>();
+                List<String>  titles=new ArrayList<String>();
                 for (int i = 0; i < data.size(); i++) {
                     urls.add(data.get(i).getVideoUrl());
                     images.add(ConstanceValue.iptmsgurl+data.get(i).getVideoPicture());
+                    titles.add(data.get(i).getVideoName());
                 }
-                PlayCCTVActivity.startIntent(getActivity(),urls,images);
+                PlayCCTVActivity.startIntent(getActivity(),urls,images,titles);
             }
         });
     }

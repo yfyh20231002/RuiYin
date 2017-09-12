@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.unitesoft.huanrong.ApiService.LiveService;
@@ -25,8 +24,10 @@ import com.unitesoft.huanrong.utils.CommonUtil;
 import com.unitesoft.huanrong.utils.ConstanceValue;
 import com.unitesoft.huanrong.utils.ToastUtils;
 import com.unitesoft.huanrong.widget.adapter.live.GenzongAdapter;
+import com.unitesoft.huanrong.widget.fragment.dialog.DirectionDialog;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +55,7 @@ public class GenzongFragment extends BaseFragment {
     @InjectView(R.id.tv_pinzhong)
     TextView tvPinzhong;
     @InjectView(R.id.tv_direction)
-    Spinner tvDirection;
+    TextView tvDirection;
     @InjectView(R.id.tv_jiancangwei)
     TextView tvJiancangwei;
     @InjectView(R.id.tv_shijia)
@@ -91,6 +92,7 @@ public class GenzongFragment extends BaseFragment {
     private String baodan = "0";
     private List<SelectGenzongBean> mlist = new ArrayList<>();
     private List<String> count = new ArrayList<>();
+    private String s = "做多";
 
     public GenzongFragment(CancleCallback cancleCallback) {
         this.cancleCallback = cancleCallback;
@@ -101,6 +103,11 @@ public class GenzongFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Nullable
@@ -219,14 +226,8 @@ public class GenzongFragment extends BaseFragment {
     private void qianchong(int i, List<SelectGenzongBean> list) {
         tvPinzhong.setText(list.get(i).getVariety());
         tvJiancangwei.setText(list.get(i).getOpenprice());
-        String s = list.get(i).getJiancangfangxiang();
-        if (TextUtils.equals("做多", s)) {
-            tvDirection.setSelection(0);
-        } else if (TextUtils.equals("做空", s)) {
-            tvDirection.setSelection(1);
-        } else if (TextUtils.equals("震荡", s)) {
-            tvDirection.setSelection(2);
-        }
+        s = list.get(i).getJiancangfangxiang();
+        tvDirection.setText(s);
         tvMubiao.setText(list.get(i).getCloseprice());
         tvZhisun.setText(list.get(i).getStopprice());
         tvCount.setText("共" + list.size() + "条");
@@ -236,13 +237,18 @@ public class GenzongFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         ButterKnife.reset(this);
     }
 
 
-    @OnClick({R.id.bt_yes, R.id.btn_no, R.id.btn_fabu})
+    @OnClick({R.id.tv_direction,R.id.bt_yes, R.id.btn_no, R.id.btn_fabu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_direction:
+                DirectionDialog directionDialog=new DirectionDialog();
+                directionDialog.show(getChildFragmentManager(),"directionDialog");
+                break;
             case R.id.bt_yes:
                 baodan = "1";
                 break;
@@ -261,8 +267,19 @@ public class GenzongFragment extends BaseFragment {
             ToastUtils.showToast(mContext, "请将表单填写完整");
             return;
         }
-        EventBus.getDefault().post(new OnAdviseEvent(2, "", tvJiancangwei.getText().toString(), tvDirection.getSelectedItem().toString(), etJiacang.getText().toString(), etMubiao.getText().toString(), etZhisun.getText().toString(), baodan));
+        EventBus.getDefault().post(new OnAdviseEvent(2, "", tvJiancangwei.getText().toString(), tvDirection.getText().toString(), etJiacang.getText().toString(), etMubiao.getText().toString(), etZhisun.getText().toString(), baodan));
         cancleCallback.cancle();
+    }
+
+    @Subscribe
+    public void onMessageEvent(String s) {
+        if (s.equals("做多")) {
+            tvDirection.setText(s);
+        } else if (s.equals("做空")) {
+            tvDirection.setText(s);
+        } else if (s.equals("震荡")) {
+            tvDirection.setText(s);
+        }
     }
 
 }

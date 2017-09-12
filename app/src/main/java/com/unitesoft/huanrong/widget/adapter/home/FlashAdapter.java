@@ -47,18 +47,22 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
+        ViewGroup.LayoutParams layoutParams1 = holder.view.getLayoutParams();
         if (0==position){
             holder.view.setVisibility(View.VISIBLE);
+            layoutParams1.height=CommonUtil.dip2px(13);
         }else {
             holder.view.setVisibility(View.GONE);
+            layoutParams1.height=CommonUtil.dip2px(2);
         }
+        holder.view.setLayoutParams(layoutParams1);
         long updatetime = flist.get(position).getUpdatetime();
         holder.time.setText(CommonUtil.LongToTime(updatetime));
         ViewGroup.LayoutParams layoutParams = holder.line2.getLayoutParams();
         if ("市场播报".equals(flist.get(position).getClassname())) {
             holder.itemImage.setVisibility(View.GONE);
             holder.itemContent.setText(flist.get(position).getNewscontent());
-            layoutParams.height = CommonUtil.dip2px(20);
+            layoutParams.height = CommonUtil.dip2px(35);
         } else {
             holder.itemImage.setVisibility(View.VISIBLE);
             holder.itemContent.setText(flist.get(position).getNewscontent());
@@ -71,7 +75,7 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.Holder> {
                         .load(path)
                         .into(holder.itemImage);
 //                layoutParams.height = holder.itemContent.getMeasuredHeight() + holder.itemImage.getMeasuredHeight();
-                layoutParams.height = CommonUtil.dip2px(150);
+                layoutParams.height = CommonUtil.dip2px(160);
             }
             holder.line2.setLayoutParams(layoutParams);
         }

@@ -89,7 +89,7 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
         super.onResume();
         WindowManager.LayoutParams attributes = getDialog().getWindow().getAttributes();
         attributes.width= ViewGroup.LayoutParams.MATCH_PARENT;
-        attributes.height= ViewGroup.LayoutParams.WRAP_CONTENT;
+        attributes.height= ViewGroup.LayoutParams.MATCH_PARENT;
         getDialog().getWindow().setAttributes(attributes);
     }
 
@@ -99,7 +99,7 @@ public class ShareDialog extends DialogFragment implements IWXAPIEventHandler, I
 //        弹窗位置
         getDialog().getWindow().setGravity(Gravity.CENTER);
 //        设置背景色
-        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.drawable.screen_background_dark_transparent);
 //        去除标题
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 

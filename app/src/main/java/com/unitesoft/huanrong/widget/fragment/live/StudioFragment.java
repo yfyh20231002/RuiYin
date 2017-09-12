@@ -3,13 +3,13 @@ package com.unitesoft.huanrong.widget.fragment.live;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.unitesoft.huanrong.R;
 import com.unitesoft.huanrong.widget.adapter.ChanelAdapter;
 
@@ -26,7 +26,7 @@ import butterknife.InjectView;
 public class StudioFragment extends Fragment {
 
     @InjectView(R.id.tablayout)
-    TabLayout tablayout;
+    XTabLayout tablayout;
     @InjectView(R.id.viewpager)
     ViewPager viewpager;
     String[] strings=new String[]{"互动","策略","课程表","简介"};

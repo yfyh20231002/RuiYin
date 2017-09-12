@@ -421,6 +421,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    SharedPreferencesMgr.clearAll();
                     activity.finish();
                 }
             });

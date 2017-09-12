@@ -33,21 +33,25 @@
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="#efeef4"/>
-    <com.androidkun.xtablayout.XTabLayout
-        android:id="@+id/tablayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:xTabTextColor="@color/tabtext"
-        app:xTabTextSize="15sp"
-        app:xTabIndicatorColor="@color/select"
-        app:xTabIndicatorHeight="2dp"
-        app:xTabIndicatorWidth="75dp"/>
+        android:layout_height="wrap_content">
+        <com.androidkun.xtablayout.XTabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:xTabTextColor="@color/tabtext"
+            app:xTabTextSize="15sp"
+            app:xTabIndicatorColor="@color/select"
+            app:xTabIndicatorHeight="4dp"
+            app:xTabIndicatorWidth="75dp"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line"/>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/line"/>
+    </FrameLayout>
     <com.unitesoft.huanrong.widget.view.NoScrollViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"

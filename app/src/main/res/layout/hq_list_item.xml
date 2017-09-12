@@ -52,26 +52,23 @@
                 android:textSize="15sp"/>
 
             <com.unitesoft.huanrong.markcenter.DataChangeTextView
-                style="@style/marketCenter.item"
                 android:id="@+id/list_item_newprice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/list_item_pinzhong"
-                android:layout_alignBottom="@+id/list_item_pinzhong"
-                android:layout_centerHorizontal="true"
+                style="@style/marketCenter.item"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
                 android:text="281.36"
                 android:textColor="#1b1b1b"
                 android:textSize="15sp"
-                android:gravity="center"
-                android:singleLine="true"
-                bcqCtv:upTextColor="#ff0000"
-                bcqCtv:downTextColor="#008000"
                 bcqCtv:constantTextColor="@color/actionBarHalfTransparent_85"
+                bcqCtv:downBackgroundDrawable="@drawable/bg_marketcenter_down"
+                bcqCtv:downTextColor="#008000"
+                bcqCtv:duration="500"
+                bcqCtv:normalBackgroundDrawable="@null"
                 bcqCtv:normalTextColor="@color/white"
                 bcqCtv:upBackgroundDrawable="@drawable/bg_marketcenter_up"
-                bcqCtv:downBackgroundDrawable="@drawable/bg_marketcenter_down"
-                bcqCtv:normalBackgroundDrawable="@null"
-                bcqCtv:duration="500"/>
+                bcqCtv:upTextColor="#ff0000"/>
 
             <TextView
                 android:id="@+id/list_item_zhangdie"

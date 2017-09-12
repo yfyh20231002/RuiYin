@@ -24,8 +24,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/right_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentRight="true"/>
 
             <TextView
@@ -45,12 +45,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/right_name"
                 android:layout_below="@id/right_name"
-                android:layout_marginTop="8dp"/>
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"/>
         </RelativeLayout>
 
         <View
             android:layout_marginTop="13dp"
-            android:background="@color/line"
+            android:background="#ebebeb"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
         <com.unitesoft.huanrong.widget.view.AlignTextView
@@ -88,8 +89,8 @@
             android:layout_height="wrap_content">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/left_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_width="45dp"
+                android:layout_height="45dp"/>
             <TextView
                 android:id="@+id/left_name"
                 android:textSize="14sp"
@@ -103,13 +104,14 @@
                 android:id="@+id/left_time"
                 android:layout_alignLeft="@id/left_name"
                 android:layout_below="@id/left_name"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <View
             android:layout_marginTop="13dp"
-            android:background="@color/line"
+            android:background="#ebebeb"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
         <com.unitesoft.huanrong.widget.view.AlignTextView
