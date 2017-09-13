@@ -85,7 +85,7 @@ public class CallDialog extends Activity {
 
     public void doCallPhone() {
         Intent intent = new Intent(Intent.ACTION_CALL);
-        Uri parse = Uri.parse("tel:" + "10086");
+        Uri parse = Uri.parse("tel:" + "022-95185");
         intent.setData(parse);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             //    ActivityCompat#requestPermissions

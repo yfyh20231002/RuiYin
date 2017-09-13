@@ -26,6 +26,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+
 /**
  * Created by Mr.zhang on 2017/8/15.
  * 发布策略的弹窗
@@ -77,8 +78,10 @@ public class StrategyDialog extends DialogFragment  implements CancleCallback{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        caozuoFragment=new CaozuoFragment(this);
-        genzongFragment=new GenzongFragment(this);
+        caozuoFragment=new CaozuoFragment();
+        caozuoFragment.setCancleCallback(this);
+        genzongFragment=new GenzongFragment();
+        genzongFragment.setCancleCallback(this);
         list.add(caozuoFragment);
         list.add(genzongFragment);
         adapter=new FaBuCeLueAdapter(getChildFragmentManager(),list,mContext);

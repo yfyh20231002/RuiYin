@@ -94,10 +94,9 @@ public class GenzongFragment extends BaseFragment {
     private List<String> count = new ArrayList<>();
     private String s = "做多";
 
-    public GenzongFragment(CancleCallback cancleCallback) {
+    public void setCancleCallback(CancleCallback cancleCallback){
         this.cancleCallback = cancleCallback;
     }
-
 
     @Override
     public void onAttach(Context context) {

@@ -29,7 +29,6 @@ import butterknife.OnClick;
  * Created by Mr.zhang on 2017/8/15.
  * 操作建议
  */
-
 public class CaozuoFragment extends BaseFragment {
 
 
@@ -59,8 +58,10 @@ public class CaozuoFragment extends BaseFragment {
     // 标志位，标志已经初始化完成。
     private boolean isPrepared;
 
+    public CaozuoFragment() {
+    }
 
-    public CaozuoFragment(CancleCallback cancleCallback) {
+    public void setCancleCallback(CancleCallback cancleCallback){
         this.cancleCallback = cancleCallback;
     }
 
@@ -141,7 +142,6 @@ public class CaozuoFragment extends BaseFragment {
         EventBus.getDefault().post(new OnAdviseEvent(1, tvPinzhong.getText().toString(), etPrice.getText().toString(), tvDirection.getText().toString(),
                 null, etMubiao.getText().toString(), etZhisun.getText().toString(), baodan));
         cancleCallback.cancle();
-
     }
 
 

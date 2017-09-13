@@ -152,6 +152,13 @@
                 android:resource="@xml/provider_paths"
                 tools:replace="name,resource"/>
         </provider>
+        <!--友盟多渠道打包-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59b8a295a3251159e1000013"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"/>
 
     </application>
 
