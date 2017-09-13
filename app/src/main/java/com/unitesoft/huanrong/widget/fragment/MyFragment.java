@@ -62,6 +62,7 @@ import retrofit2.Retrofit;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 import static com.bumptech.glide.Glide.with;
+import static com.tencent.open.yyb.AppbarJsBridge.Result_OK;
 
 
 public class MyFragment extends Fragment {
@@ -158,6 +159,7 @@ public class MyFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
     @OnClick({R.id.bt_login, R.id.btn_my_nicheng, R.id.btn_my_touxiang, R.id.btn_my_mima, R.id.btn_my_zhanghao, R.id.btn_my_tixing, R.id.checkbtn_set_on, R.id.checkbtn_set_off, R.id.btn_my_haoping, R.id.btn_my_share, R.id.btn_my_aboutus})
     public void onViewClicked(View view) {
         String getuserid = SharedPreferencesMgr.getuserid();
@@ -275,46 +277,53 @@ public class MyFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case CAMERA_REQUEST_CODE: {//照相后返回
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Uri inputUri = FileProvider.getUriForFile(mContext, "com.unitesoft.huanrong", mCameraFile);//通过FileProvider创建一个content类型的Uri
-                    try {
-                        photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(inputUri));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+        if (resultCode==Result_OK) {
+            switch (requestCode) {
+                case CAMERA_REQUEST_CODE: {//照相后返回
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Uri inputUri = FileProvider.getUriForFile(mContext, "com.unitesoft.huanrong", mCameraFile);//通过FileProvider创建一个content类型的Uri
+                        try {
+                            photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(inputUri));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        jiexi(cameraname);
+                    } else {
+                        try {
+                            photo = (Bitmap) data.getExtras().get("data");
+                        }catch (Exception e){
+                          e.printStackTrace();
+                        }
+
+                        jiexi(cameraname);
                     }
-                    jiexi(cameraname);
-                } else {
-                    photo = (Bitmap) data.getExtras().get("data");
-                    jiexi(cameraname);
+                    break;
                 }
-                break;
-            }
-            case IMAGE_REQUEST_CODE: {//版本<7.0  图库后返回
-                if (data != null) {
-                    // 得到图片的全路径
-                    Uri uri = data.getData();
+                case IMAGE_REQUEST_CODE: {//版本<7.0  图库后返回
+                    if (data != null) {
+                        // 得到图片的全路径
+                        Uri uri = data.getData();
+                        try {
+                            photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        jiexi(galleryname);
+                    }
+                    break;
+                }
+                case SELECT_PIC_NOUGAT://版本>= 7.0
+                    Uri dataUri = FileProvider.getUriForFile
+                            (mContext, "com.unitesoft.huanrong", mGalleryFile);
                     try {
-                        photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri));
+                        photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(dataUri));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                     jiexi(galleryname);
-                }
-                break;
-            }
-            case SELECT_PIC_NOUGAT://版本>= 7.0
-                Uri dataUri = FileProvider.getUriForFile
-                        (mContext, "com.unitesoft.huanrong", mGalleryFile);
-                try {
-                    photo = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(dataUri));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                jiexi(galleryname);
-                break;
+                    break;
 
+            }
         }
     }
 
@@ -363,7 +372,9 @@ public class MyFragment extends Fragment {
                     String yonghutouxiang = body1.getUsers().getYonghutouxiang();
                     if (!TextUtils.isEmpty(yonghutouxiang)) {
                         SharedPreferencesMgr.saveUserIcon(yonghutouxiang);
-                        imagMyTouxiang.setImageBitmap(photo);
+                        if (photo!=null) {
+                            imagMyTouxiang.setImageBitmap(photo);
+                        }
                     }
                 }
             }
