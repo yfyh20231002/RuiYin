@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:background="@color/white"
               android:orientation="vertical"
-              tools:context="com.unitesoft.huanrong.widget.fragment.ChannelDialogFragment">
+              tools:context="com.tianjin.huanrong.widget.fragment.ChannelDialogFragment">
 
     <include layout="@layout/actionbar"/>
 

@@ -54,7 +54,7 @@
             android:background="#ebebeb"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <com.unitesoft.huanrong.widget.view.AlignTextView
+        <com.tianjin.huanrong.widget.view.AlignTextView
             android:id="@+id/right_content"
             android:textColor="@color/tabtext"
             android:textSize="14sp"
@@ -114,7 +114,7 @@
             android:background="#ebebeb"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <com.unitesoft.huanrong.widget.view.AlignTextView
+        <com.tianjin.huanrong.widget.view.AlignTextView
             android:id="@+id/left_content"
             android:textColor="@color/tabtext"
             android:textSize="14sp"

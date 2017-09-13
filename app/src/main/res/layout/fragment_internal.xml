@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="@color/white"
-              tools:context="com.unitesoft.huanrong.widget.fragment.home.InternalFragment">
+              tools:context="com.tianjin.huanrong.widget.fragment.home.InternalFragment">
 
 
     <android.support.v7.widget.RecyclerView

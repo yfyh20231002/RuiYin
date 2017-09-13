@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#efeef4"
     android:orientation="vertical"
-    tools:context="com.unitesoft.huanrong.widget.activity.home.ServiceSetActivity">
+    tools:context="com.tianjin.huanrong.widget.activity.home.ServiceSetActivity">
 
     <include layout="@layout/actionbar"/>
 

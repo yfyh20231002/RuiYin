@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.unitesoft.huanrong.markcenter.ziye.SwipeListLayout
+<com.tianjin.huanrong.markcenter.ziye.SwipeListLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bcqCtv="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sll_main"
@@ -51,7 +51,7 @@
                 android:textColor="#1b1b1b"
                 android:textSize="15sp"/>
 
-            <com.unitesoft.huanrong.markcenter.DataChangeTextView
+            <com.tianjin.huanrong.markcenter.DataChangeTextView
                 android:id="@+id/list_item_newprice"
                 style="@style/marketCenter.item"
                 android:layout_width="75dp"
@@ -85,4 +85,4 @@
                 android:textSize="15sp"/>
         </RelativeLayout>
     </LinearLayout>
-</com.unitesoft.huanrong.markcenter.ziye.SwipeListLayout>
+</com.tianjin.huanrong.markcenter.ziye.SwipeListLayout>

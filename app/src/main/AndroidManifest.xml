@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.unitesoft.huanrong">
+          package="com.tianjin.huanrong">
 
     <!-- com.unitesoft.huanrong -->
     <!-- com.example.shichang393.ruiyin -->
@@ -21,7 +21,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
-        android:name=".app.RuiYinApplication"
+        android:name="com.tianjin.huanrong.app.RuiYinApplication"
         android:allowBackup="true"
         android:icon="@mipmap/doujin"
         android:label="@string/doujin"
@@ -29,7 +29,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
         <activity
-            android:name=".widget.activity.LaunchActivity"
+            android:name="com.tianjin.huanrong.widget.activity.LaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme">
             <intent-filter>
@@ -38,43 +38,43 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".widget.activity.GuideActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.GuideActivity">
         </activity>
         <activity
-            android:name=".widget.activity.MainActivity"
+            android:name="com.tianjin.huanrong.widget.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".widget.activity.home.CallDialog"
+            android:name="com.tianjin.huanrong.widget.activity.home.CallDialog"
             android:theme="@style/customDialog"/>
-        <activity android:name=".widget.activity.home.NewsActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.NewsActivity">
         </activity>
-        <activity android:name=".widget.activity.home.NoticeActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.NoticeActivity">
         </activity>
-        <activity android:name=".widget.activity.home.LunBoActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.LunBoActivity">
         </activity>
-        <activity android:name=".widget.activity.home.IptMsgActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.IptMsgActivity">
         </activity>
         <activity
-            android:name=".widget.activity.home.PlayCCTVActivity"
+            android:name="com.tianjin.huanrong.widget.activity.home.PlayCCTVActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".widget.activity.home.KaiHuActivity"
+            android:name="com.tianjin.huanrong.widget.activity.home.KaiHuActivity"
             android:theme="@style/customDialog">
         </activity>
-        <activity android:name=".widget.activity.home.KaiHuWebview">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.KaiHuWebview">
         </activity>
         <activity
-            android:name=".widget.activity.live.ChatMenuDialog"
+            android:name="com.tianjin.huanrong.widget.activity.live.ChatMenuDialog"
             android:theme="@style/BottomDialog"/>
-        <activity android:name=".markcenter.k_line.K_line"/>
+        <activity android:name="com.tianjin.huanrong.markcenter.k_line.K_line"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.unitesoft.huanrong.FileProvider"
+            android:authorities="com.tianjin.huanrong.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
@@ -84,7 +84,7 @@
                 tools:replace="android:resource"/>
         </provider>
 
-        <activity android:name=".widget.activity.home.ServiceActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.ServiceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -96,21 +96,21 @@
                     android:scheme="rong"/>
             </intent-filter>
         </activity>
-        <activity android:name=".widget.activity.live.StudioActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.live.StudioActivity">
         </activity>
-        <activity android:name=".widget.activity.mine.LoginActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.LoginActivity">
         </activity>
-        <activity android:name=".widget.activity.mine.RegisterActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.RegisterActivity">
         </activity>
         <activity
-            android:name=".widget.activity.mine.ForgotpwdDialog"
+            android:name="com.tianjin.huanrong.widget.activity.mine.ForgotpwdDialog"
             android:theme="@style/customDialog">
         </activity>
-        <activity android:name=".widget.activity.mine.UpNickNameActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.UpNickNameActivity">
         </activity>
-        <activity android:name=".widget.activity.mine.AboutusActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.AboutusActivity">
         </activity>
-        <activity android:name=".widget.activity.mine.MianZeActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.MianZeActivity">
         </activity>
 
         <!-- QQ声明的Activity -->
@@ -131,9 +131,9 @@
                 <data android:scheme="tencent101424350"/>
             </intent-filter>
         </activity>
-        <activity android:name=".widget.activity.mine.RemindActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.mine.RemindActivity">
         </activity>
-        <activity android:name=".widget.activity.home.ServiceSetActivity">
+        <activity android:name="com.tianjin.huanrong.widget.activity.home.ServiceSetActivity">
         </activity>
         <!--bugly需要配置-->
         <activity
@@ -142,7 +142,7 @@
             android:theme="@android:style/Theme.Translucent"/>
 
         <provider
-            android:name=".utils.BuglyFileProvider"
+            android:name="com.tianjin.huanrong.utils.BuglyFileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true"

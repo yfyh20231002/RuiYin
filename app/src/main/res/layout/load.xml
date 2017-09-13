@@ -11,7 +11,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.unitesoft.huanrong.widget.view.GifView
+        <com.tianjin.huanrong.widget.view.GifView
             app:gif="@raw/load"
             android:layout_width="50dp"
             android:layout_height="50dp"/>
