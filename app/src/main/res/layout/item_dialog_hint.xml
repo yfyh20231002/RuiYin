@@ -17,7 +17,7 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:text="取消"
-        android:textColor="@android:color/holo_blue_dark"/>
+        android:textColor="#4f98f6"/>
 
     <View
         android:layout_width="1dp"
@@ -37,6 +37,6 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:text="确认"
-        android:textColor="@android:color/holo_blue_dark"/>
+        android:textColor="#4f98f6"/>
 
 </LinearLayout>

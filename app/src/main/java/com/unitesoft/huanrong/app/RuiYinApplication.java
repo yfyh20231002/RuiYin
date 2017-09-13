@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.tencent.bugly.Bugly;
 import com.unitesoft.huanrong.manager.SharedPreferencesMgr;
 
 import io.rong.imkit.RongIM;
@@ -18,6 +19,7 @@ public class RuiYinApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPreferencesMgr.init(this,"ruiyin");
+        Bugly.init(getApplicationContext(), "8e47c79be6", false);
         RongIM.init(this);
     }
 
