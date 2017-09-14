@@ -9,7 +9,7 @@
         android:duration="400"/>
 
 
-    <sweet:com.unitesoft.huanrong.widget.view.sweetdialog.Rotate3dAnimation
+    <sweet:com.tianjin.huanrong.widget.view.sweetdialog.Rotate3dAnimation
         sweet:rollType="x"
         sweet:fromDeg="100"
         sweet:toDeg="0"

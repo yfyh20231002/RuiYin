@@ -91,7 +91,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="com.unitesoft.huanrong"
+                    android:host="com.tianjin.huanrong"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong"/>
             </intent-filter>
