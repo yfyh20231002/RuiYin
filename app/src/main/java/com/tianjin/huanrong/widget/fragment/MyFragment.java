@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,6 @@ import retrofit2.Retrofit;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 import static com.bumptech.glide.Glide.with;
-import static com.tencent.open.yyb.AppbarJsBridge.Result_OK;
 
 
 public class MyFragment extends Fragment {
@@ -268,19 +268,18 @@ public class MyFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果大于等于7.0使用FileProvider
             Uri uriForFile = FileProvider.getUriForFile
                     (mContext, "com.tianjin.huanrong", mGalleryFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFile);
             intent.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
             startActivityForResult(intent, SELECT_PIC_NOUGAT);
         } else {
-            //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mGalleryFile));
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mGalleryFile));
             startActivityForResult(intent, IMAGE_REQUEST_CODE);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==Result_OK) {
             switch (requestCode) {
                 case CAMERA_REQUEST_CODE: {//照相后返回
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -326,7 +325,6 @@ public class MyFragment extends Fragment {
                     jiexi(galleryname);
                     break;
 
-            }
         }
     }
 
@@ -384,7 +382,7 @@ public class MyFragment extends Fragment {
 
             @Override
             public void onFailure(Call<NickNameBean> call, Throwable t) {
-
+                Log.e("TAG", "onFailure: "+t.toString());
             }
         });
     }
