@@ -42,6 +42,7 @@ import com.tianjin.huanrong.utils.CommonUtil;
 import com.tianjin.huanrong.utils.ConstanceValue;
 import com.tianjin.huanrong.utils.ToastUtils;
 import com.tianjin.huanrong.view.InteractionView;
+import com.tianjin.huanrong.widget.activity.MainActivity;
 import com.tianjin.huanrong.widget.activity.live.ChatMenuDialog;
 import com.tianjin.huanrong.widget.adapter.live.InteractionAdapter;
 import com.tianjin.huanrong.widget.fragment.dialog.HintDialog;
@@ -422,6 +423,7 @@ public class InteractionFragment extends BaseFragment implements InteractionView
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                     SharedPreferencesMgr.clearAll();
+                    activity.startActivity(new Intent(mContext, MainActivity.class));
                     activity.finish();
                 }
             });
