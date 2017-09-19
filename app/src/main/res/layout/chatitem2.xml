@@ -74,7 +74,7 @@
 
             </LinearLayout>
 
-            <com.tianjin.huanrong.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:id="@+id/mine_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>-->
-            <com.tianjin.huanrong.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:id="@+id/mine_content2"
                 android:textSize="14sp"
                 android:textColor="#777777"
@@ -194,7 +194,7 @@
                     android:textSize="11sp"/>
             </LinearLayout>
 
-            <com.tianjin.huanrong.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:id="@+id/other_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>-->
-            <com.tianjin.huanrong.widget.view.AlignTextView
+            <com.unitesoft.huanrong.widget.view.AlignTextView
                 android:id="@+id/other_content2"
                 android:textSize="14sp"
                 android:textColor="#777777"

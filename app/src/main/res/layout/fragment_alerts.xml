@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="@color/white"
-             tools:context="com.tianjin.huanrong.widget.fragment.home.AlertsFragment">
+             tools:context="com.unitesoft.huanrong.widget.fragment.home.AlertsFragment">
     <com.viewpagerindicator.TabPageIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"

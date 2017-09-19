@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
               android:orientation="vertical"
-             tools:context="com.tianjin.huanrong.widget.fragment.live.SynopsisFragment">
+             tools:context="com.unitesoft.huanrong.widget.fragment.live.SynopsisFragment">
 
     <ScrollView
         android:scrollbars="none"

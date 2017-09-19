@@ -67,7 +67,7 @@
             android:background="#ebebeb"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <com.tianjin.huanrong.widget.view.AlignTextView
+        <com.unitesoft.huanrong.widget.view.AlignTextView
             android:id="@+id/content"
             android:textSize="14sp"
             android:textColor="@color/tabtext"

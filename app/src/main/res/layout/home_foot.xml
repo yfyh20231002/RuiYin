@@ -52,8 +52,8 @@
             android:layout_gravity="bottom"
             android:background="@color/line"/>
     </FrameLayout>
-    <com.tianjin.huanrong.widget.view.NoScrollViewPager
+    <com.unitesoft.huanrong.widget.view.NoScrollViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.tianjin.huanrong.widget.view.NoScrollViewPager>
+        android:layout_height="match_parent"></com.unitesoft.huanrong.widget.view.NoScrollViewPager>
 </LinearLayout>
