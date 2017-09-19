@@ -194,7 +194,11 @@ public class MyFragment extends Fragment {
                 break;
 //            退出账号
             case R.id.btn_my_zhanghao:
-                exit();
+                if (TextUtils.isEmpty(getuserid)) {
+                    ToastUtils.showToast(mContext,"请先登录");
+                } else {
+                    exit();
+                }
                 break;
             case R.id.btn_my_tixing:
                 startActivity(new Intent(mContext, RemindActivity.class));
