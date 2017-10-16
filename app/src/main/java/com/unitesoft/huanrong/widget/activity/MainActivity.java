@@ -424,7 +424,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intentActivity(CallDialog.class);
                 break;
             case R.id.infomation:
-                initRongIM();
+//                initRongIM();
                 break;
             default:
                 break;
