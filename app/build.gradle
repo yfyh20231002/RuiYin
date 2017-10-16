@@ -7,8 +7,8 @@ android {
         applicationId "com.unitesoft.huanrong"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 19
-        versionName "1.1.9"
+        versionCode 20
+        versionName "1.10.0"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"] //默认名称
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
